@@ -12,7 +12,7 @@
 source("scripts/00_preamble.R")
 
 ## Create output folder
-#dir.create("output")
+dir.create("output")
 
 
 #################################################################################
@@ -23,29 +23,14 @@ source("scripts/00_preamble.R")
 ##  GeoJSON download
 ##-------------------------------------------------------------------------------
 
-## For data from url (can skip in future)
+### Data from Digital Scholarship Lab @ the Univ. of Richmond: https://dsl.richmond.edu/panorama/redlining/#loc=4/40.886/-105.499&text=downloads
+## Can skip to Line 32 in future after saving this data locally
 u <- "https://dsl.richmond.edu/panorama/redlining/static/fullDownload.geojson"  # get url
-downloader::download(url = u, destfile = "tables/holc_json.GeoJSON")  # download
+downloader::download(url = u, destfile = "tables/holc_json.GeoJSON")  # save locally in tables folder
 
 ## For once data is saved locally
-#holc_json <- rgdal::readOGR("tables/holc_json.GeoJSON")  #import
+holc_json <- rgdal::readOGR("tables/holc_json.GeoJSON")  #import
 summary(holc_json)
-
-
-##-----------------------------------------------------------------
-## Shapefile download
-##-----------------------------------------------------------------
-# zip_file <- "holc.zip"
-# download.file(
-#   url = "https://dsl.richmond.edu/panorama/redlining/static/fullshpfile.zip",
-#   destfile = zip_file
-# )
-# 
-# # look at list of files in zipped filed
-# unzip(zip_file, list = TRUE)
-# 
-# # Initial unzipping of original file
-# unzip(zip_file, exdir = "tables", overwrite = TRUE)
 
 
 ##-------------------------------------------------------------------------------
@@ -54,17 +39,19 @@ summary(holc_json)
 
 df <- holc_json %>%
   as_tibble() %>%
-  #rename(desc = ncol(.)) %>%
+  # create unique state-city-neighborhood ID
   mutate(unique_id = paste(state, city, holc_id, sep = "_")) %>%
   select(-neighborhood_id) %>%
   print()
 
 
 ##-------------------------------------------------------------------------------
-##  Load Prepared files
+##  Load Prepared file
 ##-------------------------------------------------------------------------------
 
 holc_cities <- read_csv("tables/holc_cities.csv") %>%
+  # add column to include only cities w/ detailed Area Description Sheets
+  #mutate(include = ifelse(ads_type %in% c("early37", "late37", "x3940"), 1, 0)) %>%
   print()
 
 # state
@@ -76,30 +63,7 @@ holc_cities <- read_csv("tables/holc_cities.csv") %>%
 # region:      region of country city is in
 # yr_sheet:    date on HOLC area description sheet
 # ads_type:    type of sheet: early 1937, late 1937, 1939-40, paragraph, none, or unique
-# include:     cities w/ 1940 tract coverage > 50% and desc. sheet. data for over > 50% of their neighborhoods
-
-##-----------------------------------------
-## Check numbers
-##-----------------------------------------
-
-## city in metro w/ >25% of HOLC nhoods covered in 1940 tracts & >25% of neighborhoods with 
-holc_cities %>%
-  filter(inc_metro == 1 )  # n = 98
-
-
-## cities w/ either eary 1937, late 1937, or 1939-40 description sheet varieties
-holc_cities %>%
-  filter(inc_city == 1)  # n = 129
-
-
-## meet both of the above requirements
-holc_cities %>%
-  filter(inc_metro == 1 & inc_city == 1)  # n = 71
-
-
-## cities w/ either eary 1937, late 1937, or 1939-40 description sheets & >= 25% of nhoods covered by 1940 census tracts
-holc_cities %>%
-  filter(inc_city_ct == 1)  # n = 66
+# include:     cities w/ either eary 1937, late 1937, or 1939-40 description ADS types
 
 
 #################################################################################
@@ -109,18 +73,18 @@ holc_cities %>%
 ## organize area_descr
 ads_prep <- df %>%
   # join with holc_cities to get ads_type data
-  left_join(holc_cities[c(1:3, 7, 9, 11)],   # 1-state; 2-city; 3-metro; 7-region; 9-ads_type (type of sheet); 11-inc_city
-            by = c("state","city")) %>%
-  filter(#area_description_data != '{ "" : "" }' &  # remove missing area description sheets
-           #unique_id %in% holc_inc$unique_id &  # 
-           ads_type %in% c("early37", "late37", "x3940") &
-           inc_city == 1
-         )  %>%          ## cities with paragraphs as sheets
+  left_join(
+    holc_cities[c(1:3, 6, 8)],   # 1-state; 2-city; 3-metro; 6-region; 8-ads_type (type of sheet)
+    by = c("state","city")
+    ) %>%
+  # keep only cities with detailed Area Description Sheets
+  filter(ads_type %in% c("early37", "late37", "x3940"))  %>%
+  # split ADS data by "\"
   mutate(split = str_split(area_description_data, "\", \"")) %>%
-  unnest() %>%
+  unnest(cols = split) %>%
+  # separate sections from comments
   separate(split, c("section", "comment"), "\": ") %>%
-  # remove nhood name & inc_city for tidyness sake
-  select(-name, -inc_city) %>%
+  select(-name) %>%
   print()
 
 
