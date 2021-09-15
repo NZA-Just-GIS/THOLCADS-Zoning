@@ -3,7 +3,7 @@ This folder contains the output tables, graphs, and shapefiles that users can do
 
 - `BAR_GRAPHS` - bar graph TIFFs produced in `06_bar_graphs.R`.
 - `SHAPES` - Esri Shapefile and GeoJSON file produced in `07_gis_files_map.R`.
-- `TABLES` - Tables produced in `scripts` folder. See the README file in that folder for more information.
+- `TABLES` - Tables produced in the `scripts` folder. See the README file in that folder for more information.
 
 
 # Correspondence
