@@ -8,7 +8,6 @@ Here I provide provide code for [**Tabularizing HOLC Area Description Sheet Data
 
 # Organization
 - `DATA_DOWNLOAD` - Folders for the data tables (.csv and .xlsx), map layers (Esri Shapefile and GeoJSON), and bar graphs (.tif) produced with this code.
-- `SHAPES` - Esri Shapefile and identical GeoJSON file with HOLC neighborhood polygons containing the tabular data.
 - `scripts` - R scripts used to produce the downloads.
 - `tables` - Input data resources. These include data that have been partially or wholly produced using manual data entry.
 
