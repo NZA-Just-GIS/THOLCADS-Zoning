@@ -7,8 +7,7 @@ Here I provide provide code for [**Tabularizing HOLC Area Description Sheet Data
 # Abstract
 
 # Organization
-- `BAR_GRAPHS` - Three bar graphs produced from the scripts depicting average % Black, % Foreign Born, and Building Age by HOLC grade and region.
-- `DATA_DOWNLOAD` - Two .csv files and three .xlsx files that HOLC researchers may download for their own use.
+- `DATA_DOWNLOAD` - Folders for the data tables (.csv and .xlsx), map layers (Esri Shapefile and GeoJSON), and bar graphs (.tif) produced with this code.
 - `SHAPES` - Esri Shapefile and identical GeoJSON file with HOLC neighborhood polygons containing the tabular data.
 - `scripts` - R scripts used to produce the downloads.
 - `tables` - Input data resources. These include data that have been partially or wholly produced using manual data entry.
