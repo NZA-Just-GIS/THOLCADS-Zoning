@@ -23,7 +23,7 @@ ads <- NULL
 for(i in seq(1:3)){
   
   temp <- openxlsx::read.xlsx(
-    "output/area_desc_sheets.xlsx",
+    "DATA_DOWNLOAD/ADS_organized.xlsx",
     sheet = i
   )
   
@@ -42,12 +42,12 @@ ads  # inspect
 ## Grab cleaned data
 ##-----------------------------------------------
 
-filelist <- list.files("output", "*.csv")
+filelist <- list.files("DATA_DOWNLOAD", "*.csv")
 filelist
 
 for(i in 1:length(filelist)){
   
-  file <- paste0("output/", filelist[i])
+  file <- paste0("DATA_DOWNLOAD/", filelist[i])
   
   temp <- read_csv(file)
   
@@ -111,7 +111,7 @@ df_org <- df %>%
 
 write.xlsx(
   df_org,
-  file = "output/Sum_Stats.xlsx"
+  file = "DATA_DOWNLOAD/Sum_Stats.xlsx"
 )
 
 
@@ -188,7 +188,7 @@ df_list <- list(
 ## Save out as xlsx
 openxlsx::write.xlsx(
   df_list,
-  "output/cities_by_region.xlsx"
+  "DATA_DOWNLOAD/Cities_by_Region.xlsx"
 )
 
 
@@ -254,6 +254,15 @@ for(i in 1:length(graph_list)){
 }
 
 
+#####################################################
+##  Move holc_cities to DATA_DOWNLOAD FOLDER
+#####################################################
+
+## Read in
+holc_cities <- read_csv("tables/holc_cities.csv") %>%
+  print()
 
 
+## Save out
+write_csv(holc_cities, "DATA_DOWNLOAD/HOLC_Cities.csv")
 

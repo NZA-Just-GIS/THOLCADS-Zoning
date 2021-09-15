@@ -16,7 +16,7 @@ ads <- NULL
 for(i in seq(1:3)){
   
   temp <- openxlsx::read.xlsx(
-    "output/area_desc_sheets.xlsx",
+    "DATA_DOWNLOAD/ADS_organized.xlsx",
     sheet = i
   )
 
@@ -122,4 +122,4 @@ ads_bdg_age <- ads_prep %>%
 ##  Save out!!
 ##--------------------------------------------------------
 
-write_csv(ads_bdg_age, "output/ads_bdg_age.csv")
+write_csv(ads_bdg_age, "DATA_DOWNLOAD/ADS_Building_Age.csv")

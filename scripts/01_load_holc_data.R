@@ -11,8 +11,8 @@
 ## PREPARE WORKSPACE
 source("scripts/00_preamble.R")
 
-## Create output folder
-dir.create("output")
+## Create DATA_DOWNLOAD folder
+dir.create("DATA_DOWNLOAD")
 
 
 #################################################################################
@@ -29,8 +29,8 @@ u <- "https://dsl.richmond.edu/panorama/redlining/static/fullDownload.geojson"  
 downloader::download(url = u, destfile = "tables/holc_json.GeoJSON")  # save locally in tables folder
 
 ## For once data is saved locally
-holc_json <- rgdal::readOGR("tables/holc_json.GeoJSON")  #import
-summary(holc_json)
+holc_json <- rgdal::readOGR("tables/holc_json.GeoJSON")  # import
+summary(holc_json)  # inspect
 
 
 ##-------------------------------------------------------------------------------
@@ -51,7 +51,6 @@ df <- holc_json %>%
 
 holc_cities <- read_csv("tables/holc_cities.csv") %>%
   # add column to include only cities w/ detailed Area Description Sheets
-  #mutate(include = ifelse(ads_type %in% c("early37", "late37", "x3940"), 1, 0)) %>%
   print()
 
 # state
@@ -411,9 +410,7 @@ df_list <- list(
 ## Write as Excel workbook so can store long text
 openxlsx::write.xlsx(
   df_list, 
-  "output/area_desc_sheets.xlsx"
+  "DATA_DOWNLOAD/ADS_organized.xlsx"
   )
-
-
 
 

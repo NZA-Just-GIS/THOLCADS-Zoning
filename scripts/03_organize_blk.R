@@ -16,7 +16,7 @@ ads <- NULL
 for(i in seq(1:3)){
   
   temp <- openxlsx::read.xlsx(
-    "output/area_desc_sheets.xlsx",
+    "DATA_DOWNLOAD/ADS_organized.xlsx",
     sheet = i
   )
   
@@ -372,7 +372,7 @@ ads_blk <- ads_prep %>%
   left_join(ads_null[c(1,4)], by = c("unique_id"), suffix = c("", "2")) %>%
   mutate(blk_num = ifelse(is.na(var_num2), var_num, var_num2)) %>%
   dplyr::rename(black = var) %>%
-  select(unique_id:region, blk_num) %>%
+  select(unique_id, black, blk_num) %>%
   print()
 
 
@@ -380,5 +380,5 @@ ads_blk <- ads_prep %>%
 ##  Save out!!
 ##--------------------------------------------------------
 
-write_csv(ads_blk, "output/ads_blk.csv")
+write_csv(ads_blk, "DATA_DOWNLOAD/ADS_Black.csv")
 

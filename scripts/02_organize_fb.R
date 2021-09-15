@@ -16,7 +16,7 @@ ads <- NULL
 for(i in seq(1:3)){
   
   temp <- openxlsx::read.xlsx(
-    "output/area_desc_sheets.xlsx",
+    "DATA_DOWNLOAD/ADS_organized.xlsx",
     sheet = i
   )
   
@@ -390,7 +390,7 @@ for(i in unique(c("MW", "NE", "S", "W"))){
 ads_null  # inspect
 
 # View remaining nulls
-ads_null %>% filter(is.na(var_num)) %>% View()  # n = 53
+#ads_null %>% filter(is.na(var_num)) %>% View()  # n = 53
 
 
 ##--------------------------------------------------------
@@ -443,5 +443,5 @@ ads_fb <- ads_prep %>%
 ##  Save out!!
 ##--------------------------------------------------------
 
-write_csv(ads_fb, "output/ads_fb.csv")
+write_csv(ads_fb, "DATA_DOWNLOAD/ADS_Foreign_Born.csv")
 
