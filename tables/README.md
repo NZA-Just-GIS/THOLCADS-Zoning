@@ -17,7 +17,7 @@ Data housed in this folder are produced partially or wholly from manual processe
     - *unique* - nhoods = 27; cities = 1; no other city has a format mathcing that of York, PA.
     - *none* - nhoods = 1,117; cities = 46; these maps have no accompanying area description sheets
 
-- `numbers.csv` - crosswalk connecting numbers (`no`) to written-out numbers (`alpha_no`)
+- `numbers.csv` - crosswalk connecting numbers (**no**) to written-out numbers (**alpha_no**)
 
 # Correspondence
 For any issues with these scripts, please [create an issue](https://github.com/[removed]/HIST_HU_URB/issues).
