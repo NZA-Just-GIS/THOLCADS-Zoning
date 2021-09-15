@@ -13,7 +13,7 @@ Here I provide provide code for [**Converting HOLC Area Description Sheet Data t
 - `tables` - Input data resources. These include data that have been partially or wholly produced using manual data entry.
 
 # Codebook
-The codebook for the .csv and .xlsx output tables is provided in the `scripts` folder and in the associated writeup available at Open Science Framework(https://osf.io/qytj8/).
+The codebook for the .csv and .xlsx output tables is provided in the `scripts` folder and in the associated writeup available at [Open Science Framework](https://osf.io/qytj8/).
 
 # Correspondence
 For any issues with these scripts, please [create an issue](https://github.com/snmarkley1/HOLC_ADS/issues).
