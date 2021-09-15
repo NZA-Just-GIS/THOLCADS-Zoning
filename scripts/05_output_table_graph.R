@@ -35,7 +35,8 @@ for(i in seq(1:3)){
   
 }
 
-ads
+ads  # inspect
+
 
 ##-----------------------------------------------
 ## Grab cleaned data
@@ -62,6 +63,7 @@ df <- ads %>%
   left_join(ads1, by = "unique_id") %>%
   left_join(ads2[c(1, 4)], by = "unique_id") %>%
   left_join(ads3[c(1, 4, 6)], by = "unique_id") %>%
+  rename(fb_group = group) %>%
   print()
 
 
@@ -102,6 +104,7 @@ df_org <- df %>%
   print()
 
 
+
 ##---------------------------------
 ## SAVE OUT
 ##---------------------------------
@@ -115,6 +118,14 @@ write.xlsx(
 ######################################################
 ## Organize table by Metro Areas by Region
 ######################################################
+
+## Prepare Cities
+df_cities <- df %>%
+  mutate(city_state = paste(city, state, sep = ", ")) %>%
+  group_by(city_state, metro, region) %>%
+  summarize(holc_nhoods = dplyr::n()) %>%
+  print()
+
 
 ## Midwest
 mw <- df_cities %>% filter(region == "MW") %>%
@@ -177,7 +188,7 @@ df_list <- list(
 ## Save out as xlsx
 openxlsx::write.xlsx(
   df_list,
-  "output_prelim/cities_by_region.xlsx"
+  "output/cities_by_region.xlsx"
 )
 
 
@@ -194,6 +205,7 @@ bldg_age <- df_org %>%
 
 bldg_age
 
+
 ## Percent Black
 pblk <- df_org %>%
   ggplot(aes(x = Region, y = `Black (%)`)) +
@@ -202,6 +214,7 @@ pblk <- df_org %>%
   theme_light()
 
 pblk
+
 
 ## Percent For. Born
 pfb <- df_org %>%
@@ -218,7 +231,7 @@ pfb
 ##-----------------------------------
 
 ## Create new folder and export
-dir.create("bar_graphs")
+dir.create("BAR_GRAPHS")
 
 
 ## Save out as TIFFs
@@ -233,7 +246,7 @@ for(i in 1:length(graph_list)){
     name <- "pfb"
   }
   
-  filename = paste0("bar_graphs/", name, ".tif")
+  filename = paste0("BAR_GRAPHS/", name, ".tif")
   tiff(filename, width = 420, height = 365)
   print(graph_list[i])
   dev.off()
