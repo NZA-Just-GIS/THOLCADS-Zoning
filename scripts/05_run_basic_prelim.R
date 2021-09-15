@@ -10,8 +10,6 @@
 ## PREPARE WORKSPACE
 source("scripts/00_preamble.R")
 
-dir.create("output_prelim")
-
 
 ##############################################
 ##  LOAD DATA
@@ -68,29 +66,39 @@ df <- ads %>%
 
 
 ##############################################
-##  Look at data DATA
+##  Generate Summary Stat Tables
 ##############################################
 
 ## Look at building age, % black, and % foreign born by region & nhood
 df_org <- df %>%
-  group_by(holc_grade, region) %>%
+  mutate(
+    fb_miss = ifelse(is.na(fb_num), 1, 0),
+    city_state = paste(city, state, sep = ", ")
+    ) %>%
+  group_by(region) %>%
+  mutate(cities = length(unique(city_state))) %>%
+  group_by(holc_grade, region, cities) %>%
   summarize(
     bdg_age_mid = mean(mid_age, na.rm = TRUE),
-    bdg_age_avg = mean(avg_age, na.rm = TRUE),
+    #bdg_age_avg = mean(avg_age, na.rm = TRUE),
     black = mean(blk_num, na.rm = TRUE),
     fb = mean(fb_num, na.rm = TRUE),
-    n = dplyr::n()
+    fb_miss = sum(fb_miss),
+    nhoods = dplyr::n()
   ) %>% 
   filter(holc_grade != "E") %>%
+  select(holc_grade, region, bdg_age_mid:fb_miss, cities, nhoods) %>%
   arrange(region, holc_grade) %>%
-  print()
-
-
-## Cities
-df_cities <- df %>%
-  mutate(city_state = paste(city, state, sep = ", ")) %>%
-  group_by(city_state, metro, region) %>%
-  summarize(holc_nhoods = dplyr::n()) %>%
+  rename(
+    "HOLC Grade" = holc_grade,
+    "Region" = region,
+    "Building Age Midpoint" = bdg_age_mid,
+    "Black (%)" = black,
+    "Foreign Born (%)" = fb,
+    "Missing For. Born" = fb_miss,
+    "HOLC Cities" = cities,
+    "HOLC Neighborhoods" = nhoods
+  ) %>%
   print()
 
 
@@ -98,32 +106,58 @@ df_cities <- df %>%
 ## SAVE OUT
 ##---------------------------------
 
-write_csv(df_org, "output_prelim/df_org.csv")
-write_csv(df_cities, "output_prelim/df_cities.csv")
+write.xlsx(
+  df_org,
+  file = "output/Sum_Stats.xlsx"
+)
 
 
-##------------------------------------------
-## Make sheets
-##------------------------------------------
+######################################################
+## Organize table by Metro Areas by Region
+######################################################
 
+## Midwest
 mw <- df_cities %>% filter(region == "MW") %>%
   select(-region) %>%
   arrange(-holc_nhoods, metro) %>%
+  rename(
+    City = city_state,
+    Metro = metro,
+    "HOLC Neighborhoods" = holc_nhoods
+  ) %>%
   print()
 
+## Northeast
 ne <- df_cities %>% filter(region == "NE") %>%
   select(-region) %>%
   arrange(-holc_nhoods, metro) %>%
+  rename(
+    City = city_state,
+    Metro = metro,
+    "HOLC Neighborhoods" = holc_nhoods
+  ) %>%
   print()
 
+## South
 s <- df_cities %>% filter(region == "S") %>%
   select(-region) %>%
   arrange(-holc_nhoods, metro) %>%
+  rename(
+    City = city_state,
+    Metro = metro,
+    "HOLC Neighborhoods" = holc_nhoods
+  ) %>%
   print()
 
+## West
 w <- df_cities %>% filter(region == "W") %>%
   select(-region) %>%
   arrange(-holc_nhoods, metro) %>%
+  rename(
+    City = city_state,
+    Metro = metro,
+    "HOLC Neighborhoods" = holc_nhoods
+  ) %>%
   print()
 
 
@@ -139,104 +173,55 @@ df_list <- list(
   "west" = w
 )
 
+
 ## Save out as xlsx
 openxlsx::write.xlsx(
   df_list,
   "output_prelim/cities_by_region.xlsx"
 )
 
-##############################################
-##  Look at data DATA More
-##############################################
-
-## Look at building age, % black, and % foreign born by region & nhood --> weighted by city
-df_means_of_means <- df %>%
-  group_by(holc_grade, metro) %>%
-  mutate(
-    bdg_age_mid = mean(mid_age, na.rm = TRUE),
-    bdg_age_avg = mean(avg_age, na.rm = TRUE),
-    black = mean(blk_num, na.rm = TRUE),
-    fb = mean(fb_num, na.rm = TRUE)
-  ) %>%
-  select(holc_grade, region, bdg_age_mid:fb) %>%
-  distinct() %>%
-  group_by(holc_grade, region) %>%
-  summarize(
-    bdg_age_mid = mean(bdg_age_mid, na.rm = TRUE),
-    bdg_age_avg = mean(bdg_age_avg, na.rm = TRUE),
-    black = mean(black, na.rm = TRUE),
-    fb = mean(fb, na.rm = TRUE),
-    n = dplyr::n()
-  ) %>% 
-  filter(holc_grade != "E") %>%
-  arrange(region, holc_grade) %>%
-  print()
-
-write_csv(df_means_of_means, "output_prelim/df_means_of_means.csv")
 
 ##############################################
-##  Make bar graph
+##  Make Bar Graph
 ##############################################
-
-df_bar <- df_org %>%
-  select(-bdg_age_mid, -n) %>%
-  dplyr::rename(
-    avg_age = bdg_age_avg,
-    pblk = black,
-    pfb = fb
-    ) %>%
-  # pivot_longer(
-  #   cols = avg_age:pfb,
-  #   names_to = "variable",
-  #   values_to = "value"
-  # ) %>%
-  print()
 
 ## Building Age
-bldg_age <- 
-  ggplot(df_bar, aes(x = region, y = avg_age)) +
-  geom_bar(aes(fill = holc_grade), stat = "identity", width = 0.8, position = position_dodge(0.9)) +
-  #scale_fill_manual(values = c("#09C109", "#2155CE", "#E4ED2A", "#DE351D")) +
+bldg_age <- df_org %>%
+  ggplot(aes(x = Region, y = `Building Age Midpoint`)) +
+  geom_bar(aes(fill = `HOLC Grade`), stat = "identity", width = 0.8, position = position_dodge(0.9)) +
   scale_fill_manual(values = c("#4daf4a", "#377eb8", "#F1C40F", "#C0392B")) +
-  labs(fill = "HOLC Grade") +
-  xlab("Region") +
-  ylab("Average Building Age") +
   theme_light()
 
 bldg_age
 
 ## Percent Black
-pblk <- 
-  ggplot(df_bar, aes(x = region, y = pblk)) +
-  geom_bar(aes(fill = holc_grade), stat = "identity", width = 0.8, position = position_dodge(0.9)) +
-  #scale_fill_manual(values = c("#09C109", "#2155CE", "#E4ED2A", "#DE351D")) +
+pblk <- df_org %>%
+  ggplot(aes(x = Region, y = `Black (%)`)) +
+  geom_bar(aes(fill = `HOLC Grade`), stat = "identity", width = 0.8, position = position_dodge(0.9)) +
   scale_fill_manual(values = c("#4daf4a", "#377eb8", "#F1C40F", "#C0392B")) +
-  labs(fill = "HOLC Grade") +
-  xlab("Region") +
-  ylab("% Black") +
   theme_light()
 
 pblk
 
 ## Percent For. Born
-pfb <- 
-  ggplot(df_bar, aes(x = region, y = pfb)) +
-  geom_bar(aes(fill = holc_grade), stat = "identity", width = 0.8, position = position_dodge(0.9)) +
-  #scale_fill_manual(values = c("#09C109", "#2155CE", "#E4ED2A", "#DE351D")) +
+pfb <- df_org %>%
+  ggplot(aes(x = Region, y = `Foreign Born (%)`)) +
+  geom_bar(aes(fill = `HOLC Grade`), stat = "identity", width = 0.8, position = position_dodge(0.9)) +
   scale_fill_manual(values = c("#4daf4a", "#377eb8", "#F1C40F", "#C0392B")) +
-  labs(fill = "HOLC Grade") +
-  xlab("Region") +
-  ylab("% Foreign Born") +
   theme_light()
-
 
 pfb
 
 
-## Create new folder and export
-dir.create("figures_prelim")
+##-----------------------------------
+## SAVE FIGURES as TIFFs
+##-----------------------------------
 
-## Save out as PNGs
+## Create new folder and export
+dir.create("bar_graphs")
+
+
+## Save out as TIFFs
 graph_list <- list(bldg_age, pblk, pfb)
 for(i in 1:length(graph_list)){
   
@@ -248,7 +233,7 @@ for(i in 1:length(graph_list)){
     name <- "pfb"
   }
   
-  filename = paste0("figures_prelim/", name, ".tif")
+  filename = paste0("bar_graphs/", name, ".tif")
   tiff(filename, width = 420, height = 365)
   print(graph_list[i])
   dev.off()
@@ -256,38 +241,6 @@ for(i in 1:length(graph_list)){
 }
 
 
-##############################################
-##  Regression
-##############################################
-
-reg_data <- df %>%
-  drop_na(mid_age, avg_age, blk_num, fb_num) %>%
-  filter(holc_grade %in% c("B", "C")) %>%
-  mutate(
-    holc_grade = ifelse(holc_grade == "C", 1, 0)
-    ) %>%
-  #mutate_at(vars(avg_age, fb_num), funs(scale(., scale = FALSE))) %>%
-  print()
-
-reg1 <- glm(
-  holc_grade ~
-    region*blk_num +
-    region*fb_num +
-    region*avg_age,
-  family = binomial(link = "logit"),
-  data = reg_data
-)
-
-summary(reg1)
-
-
-##############################################
-##  Correlations
-##############################################
-
-cor_data <- df %>%
-  drop_na(mid_age, avg_age, blk_num, fb_num) %>%
-  print()
 
 
 

@@ -28,10 +28,11 @@ for(i in seq(1:3)){
   
 }
 
-ads
+ads  # inspect
 
 ## Clean up
 rm(temp, temp1)
+
 
 #################################################################################
 ## Correct Foreign Born estimates
@@ -93,11 +94,13 @@ ads_prep <- ads %>%
     ) %>%
   print()
 
-ads_prep %>% filter(is.na(var_num)) %>% View()
+
+# Inspect
+#ads_prep %>% filter(is.na(var_num)) %>% View()
 
 
 ##--------------------------------------------------------
-##  Grab mean values of common descriptors
+##  Grab mean values of common descriptors by region
 ##--------------------------------------------------------
 
 ## prepare df to join
@@ -358,7 +361,7 @@ for(i in unique(c("MW", "NE", "S", "W"))){
       var_num = 
         case_when(
           str_detect(var, regex("very few", ignore_case = TRUE)) ~ v_few$c1[v_few$region == i],
-          str_detect(var, regex("^few|few$|^a few|^- few|a few families", ignore_case = TRUE)) &
+          str_detect(var, regex("^few|few$|few few|^a few|^- few|a few families", ignore_case = TRUE)) &
             !str_detect(var, regex("very", ignore_case = TRUE)) ~ few$c1[few$region == i],
           str_detect(var, regex("negligible", ignore_case = TRUE)) ~ negligible$c1[negligible$region == i],
           str_detect(var, regex("nominal", ignore_case = TRUE)) ~ nom$c1[nom$region == i],
@@ -386,7 +389,8 @@ for(i in unique(c("MW", "NE", "S", "W"))){
 
 ads_null  # inspect
 
-ads_null %>% filter(is.na(var_num)) %>% View()  # n = 54
+# View remaining nulls
+ads_null %>% filter(is.na(var_num)) %>% View()  # n = 53
 
 
 ##--------------------------------------------------------

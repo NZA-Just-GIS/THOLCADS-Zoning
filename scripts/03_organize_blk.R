@@ -102,7 +102,8 @@ ads_prep <- ads %>%
   ) %>%
   print()
 
-ads_prep %>% filter(is.na(var_num)) %>% View()  # n = 113
+## View
+#ads_prep %>% filter(is.na(var_num)) %>% View()  # n = 113
 
 
 ##--------------------------------------------------------
@@ -316,8 +317,6 @@ threat <- ads_prep %>%
   bind_rows(df_rgn) %>%
   filter(!duplicated(region)) %>%
   mutate(c1 = ifelse(is.na(c1) | n < 3, weighted.mean(c1, n, na.rm = TRUE), c1)) %>%
-  ## comes up as null --> filling in neglible with 0.5
-  #mutate(c1 = ifelse(is.na(c1), 0.5, c1)) %>%
   arrange(region) %>%
   print() 
 
@@ -356,14 +355,13 @@ for(i in unique(c("MW", "NE", "S", "W"))){
     ) 
   
   ads_null <- bind_rows(ads_null, temp)
-  ## Remaining NAs --> Name only nationality, provide no number (need interpolation w/ census data)
   
 }
 
 ads_null  # inspect
 
 ## check for null
-ads_null %>% filter(is.na(var_num)) %>% View()
+#ads_null %>% filter(is.na(var_num)) %>% View()
 
 
 ##--------------------------------------------------------

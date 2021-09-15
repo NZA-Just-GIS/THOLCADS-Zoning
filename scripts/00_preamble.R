@@ -12,7 +12,7 @@
 rm(list = ls())  # clear environment
 options(scipen = 999) 
 options(digits = 6)
-setwd("c:/Users/scott/Dropbox/dissertation")  # change if desired
+getwd()  # ~/HOLC_ADS
 
 ## Load or install packages
 packages <- function(x) {

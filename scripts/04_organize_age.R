@@ -86,19 +86,20 @@ ads_prep <- ads %>%
   summarize(
     min = min(value, na.rm = TRUE),
     max = max(value, na.rm = TRUE),
-    midpt = (min + max) / 2,
-    avg = mean(value, na.rm = TRUE)
+    midpt = (min + max) / 2#,
+    #avg = mean(value, na.rm = TRUE)
     ) %>%
   mutate(
     min = ifelse(is.infinite(min), NA, min),
     max = ifelse(is.infinite(max), NA, max),
-    midpt = ifelse(is.nan(midpt), NA, midpt),
-    avg = ifelse(is.nan(avg), NA, avg)
+    midpt = ifelse(is.nan(midpt), NA, midpt)#,
+    #avg = ifelse(is.nan(avg), NA, avg)
   ) %>%
   print()
 
 
-ads_prep %>% filter(is.na(midpt)) %>% View()  # n = 335
+## View
+#ads_prep %>% filter(is.na(midpt)) %>% View()  # n = 335
 
 ## NAs and Inf indicate spaces that went unfilled by appraisers
 
@@ -111,8 +112,8 @@ ads_bdg_age <- ads_prep %>%
   dplyr::rename(
     min_age = min,
     max_age = max,
-    mid_age = midpt,
-    avg_age = avg
+    mid_age = midpt#,
+    #avg_age = avg
   ) %>%
   print()
 
