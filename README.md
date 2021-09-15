@@ -2,7 +2,7 @@
 Here I provide provide code for [**Tabularizing HOLC Area Description Sheet Data**](https://osf.io/qytj8/). This code converts the % Black, % Foreign Born, and Building Age data provided in the area description sheets (ADS) of the Home Owners's Loan Corporation's (HOLC) city survey maps from the mid-to-late 1930s to .csv and .xlsx files. In these formats, users may now easily integrate these important historical data into their analyses.
 
 ### Citation
-> Markley, Scott. Converting HOLC Area Description Sheet Data to a Tabular Format. *Open Science Framework* (https://osf.io/qytj8/) (2021).
+> Markley, Scott. Tabularizing HOLC Area Description Sheet Data. *Open Science Framework* (https://osf.io/qytj8/) (2021).
 
 # Abstract
 
