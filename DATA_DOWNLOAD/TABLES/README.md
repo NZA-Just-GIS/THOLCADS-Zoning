@@ -26,7 +26,7 @@ This folder contains the output tables that users can download and incorporate i
 - `HOLC_Cities.csv` - same file as `holc_cities.csv` in the `tables` folder. See that folder's [README file](https://github.com/snmarkley1/HOLC_ADS/tree/main/tables) for column descriptions.
  
 - `Sum_Stats.xlsx` - summary statistics (means) produced for the three variables of interest by region in `05_output_table_stats.R`.
-  - **HOLC Grade** - HOLC grade, A-D.
+  - **HOLC Grade** - HOLC grade (A-D).
   - **Region** - region in which HOLC city is located.
   - **Building Age** - mean of the building age midpoint.
   - **Black (%)** - mean of the Black percentage of the population.
