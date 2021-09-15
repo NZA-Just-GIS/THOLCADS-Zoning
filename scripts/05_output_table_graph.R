@@ -61,11 +61,36 @@ for(i in 1:length(filelist)){
 ## create dataframe
 df <- ads %>%
   left_join(ads1, by = "unique_id") %>%
-  left_join(ads2[c(1, 4)], by = "unique_id") %>%
-  left_join(ads3[c(1, 4, 6)], by = "unique_id") %>%
-  rename(fb_group = group) %>%
+  left_join(ads2, by = "unique_id") %>%
+  left_join(ads3[c(1, 4, 5, 6)], by = "unique_id") %>%
+  rename(fb_group = grou) %>%
   print()
 
+
+##------------------------------------
+##  Clean up Save out!!
+##------------------------------------
+
+## Clean
+df_clean <- df %>%
+  rename_all(toupper) %>%
+  rename(
+    BLK_TEXT = BLACK,
+    P_BLACK = BLK_NUM,
+    P_FOR_BORN = FB_NUM,
+    FB_TEXT = TEXT,
+    FB_GROUP = FB_GROUP
+  ) %>%
+  select(
+    UNIQUE_ID, STATE, CITY, METRO, HOLC_GRADE, HOLC_ID, REGION, ADS_TYPE, 
+    P_BLACK, BLK_TEXT, MIN_AGE, MID_AGE, MAX_AGE, P_FOR_BORN, FB_TEXT
+  ) %>%
+  print()
+
+
+## Save
+write_csv(df_clean, "DATA_DOWNLOAD/ADS_FINAL.csv")
+  
 
 ##############################################
 ##  Generate Summary Stat Tables
@@ -265,4 +290,18 @@ holc_cities <- read_csv("tables/holc_cities.csv") %>%
 
 ## Save out
 write_csv(holc_cities, "DATA_DOWNLOAD/HOLC_Cities.csv")
+
+
+##---------------------------------
+## Clean up
+##---------------------------------
+
+for(i in unique(c("Building_Age", "Black", "Foreign_Born"))){
+  
+  file <- paste0("DATA_DOWNLOAD/ADS_", i, ".csv")
+  
+  # delete
+  unlink(file, recursive = TRUE)
+  
+}
 
