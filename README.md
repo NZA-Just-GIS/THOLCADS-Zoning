@@ -7,7 +7,7 @@ Here I provide provide code for [**Converting HOLC Area Description Sheet Data t
 # Abstract
 
 # Organization
-- `BAR_GRAPHS` - Three bar graphs produced from the scripts depicting averages by HOLC grade and region.
+- `BAR_GRAPHS` - Three bar graphs produced from the scripts depicting average % Black, % Foreign Born, and Building Age by HOLC grade and region.
 - `DATA_DOWNLOAD` - Four .csv files and three .xlsx files that HOLC researchers may download for their own use.
 - `scripts` - R scripts used to produce the downloads.
 - `tables` - Input data resources. These include data that have been partially or wholly produced using manual data entry.
