@@ -2,14 +2,14 @@
 Data housed in this folder are produced partially or wholly from manual processes. These tables are necessary inputs that are called in by the scripts. Upon running the code in the `scripts` folder, this folder will be further populated with a GeoJSON file imported from the [Digital Scholarship Lab (DSL)](https://dsl.richmond.edu/panorama/redlining/#loc=4/40.886/-105.499&text=downloads).
 
 - `holc_cities.csv` - contains information about cities mapped in the HOLC's City Survey Program. Columns are as follows:
-  - *state* - state that the city is in.
-  - *city* - city according to HOLC.
-  - *metro* - metropolitan area city is in.
-  - *nhoods* - number of HOLC neighborhoods in a given city.
-  - *sheets* - percent of HOLC neighborhoods that have area description sheets (ADS) listed on the [DSL Site](https://dsl.richmond.edu/panorama/redlining/#loc=4/40.88/-105.469).
-  - *region* - region of the US in which the city is located. Region definitions are mostly based on those offered by the [US Census Bureau](https://www2.census.gov/geo/pdfs/maps-data/maps/reference/us_regdiv.pdf). Exceptions: Baltimore, MD is classified as Northeast (NE) instead of South (S), and every Pennsylvania city west of Harrisburg is categorized as Midwest (MW) instead of NE.
-  - *yr_sheet* - date, if any, listed on the area description sheet (manually recorded).
-  - *ads_type* - type of ADS sheet. The HOLC changed their ADS format throughout the history of the City Survey Program, and not all ADS types are compatible. For processing purposes, cities need to be separated by type before recombining. I identified six types and work with only the first three in this project: 
+  - **state** - state that the city is in.
+  - **city** - city according to HOLC.
+  - **metro** - metropolitan area city is in.
+  - **nhoods** - number of HOLC neighborhoods in a given city.
+  - **sheets** - percent of HOLC neighborhoods that have area description sheets (ADS) listed on the [DSL Site](https://dsl.richmond.edu/panorama/redlining/#loc=4/40.88/-105.469).
+  - **region** - region of the US in which the city is located. Region definitions are mostly based on those offered by the [US Census Bureau](https://www2.census.gov/geo/pdfs/maps-data/maps/reference/us_regdiv.pdf). Exceptions: Baltimore, MD is classified as Northeast (NE) instead of South (S), and every Pennsylvania city west of Harrisburg is categorized as Midwest (MW) instead of NE.
+  - **yr_sheet** - date, if any, listed on the area description sheet (manually recorded).
+  - **ads_type** - type of ADS sheet. The HOLC changed their ADS format throughout the history of the City Survey Program, and not all ADS types are compatible. For processing purposes, cities need to be separated by type before recombining. I identified six types and work with only the first three in this project: 
     - *early37* - nhoods = 2,114; cities = 56
     - *late37* - nhoods = 2,185; cities = 55
     - *x3940* - nhoods = 2,595; cities = 18
