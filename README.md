@@ -1,5 +1,5 @@
 # Introduction
-Here I provide provide code for [**Converting HOLC Area Description Sheet Data to a Tabular Format**](https://osf.io/qytj8/). This code converts the % Black, % Foreign Born, and Building Age data provided in the area description sheets (ADS) of the Home Owners's Loan Corporation's (HOLC) city survey maps from the mid-to-late 1930s to csv and xlsx files. In these formats, users may now use these variables to conduct their analyses.
+Here I provide provide code for [**Converting HOLC Area Description Sheet Data to a Tabular Format**](https://osf.io/qytj8/). This code converts the % Black, % Foreign Born, and Building Age data provided in the area description sheets (ADS) of the Home Owners's Loan Corporation's (HOLC) city survey maps from the mid-to-late 1930s to .csv and .xlsx files. In these formats, users may now use these variables to conduct their analyses.
 
 ### Citation
 > Markley, Scott. Converting HOLC Area Description Sheet Data to a Tabular Format. *Open Science Framework* (https://osf.io/qytj8/) (2021).
