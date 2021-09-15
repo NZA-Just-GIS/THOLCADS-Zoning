@@ -1,5 +1,5 @@
 # Organization
-Data housed in this folder are produced partially or wholly from manual processes. Upon running the code in the `scripts` folder, this folder will be further populated with a GeoJSON file imported from the [Digital Scholarship Lab (DSL)](https://dsl.richmond.edu/panorama/redlining/#loc=4/40.886/-105.499&text=downloads).
+Data housed in this folder are produced partially or wholly from manual processes. These tables are necessary inputs that are called in by the scripts. Upon running the code in the `scripts` folder, this folder will be further populated with a GeoJSON file imported from the [Digital Scholarship Lab (DSL)](https://dsl.richmond.edu/panorama/redlining/#loc=4/40.886/-105.499&text=downloads).
 
 - `holc_cities.csv` - contains information about cities mapped in the HOLC's City Survey Program. Columsn are as follows:
   - `state` - state that the city is in.
