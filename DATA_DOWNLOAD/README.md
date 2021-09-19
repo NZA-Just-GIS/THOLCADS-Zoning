@@ -5,6 +5,9 @@ This folder contains the output tables, graphs, and shapefiles that users can do
 - `SHAPES` - Esri Shapefile and GeoJSON file produced in `07_gis_files_map.R`.
 - `TABLES` - Tables produced by the code in the `scripts` folder. See the README file in that folder for more information.
 
+## Note
+If users wish to run the code in the `scripts` folder, they should delete the `DATA_DOWNLOAD` folder after cloning the repo. Otherwise, the code will spit errors.
+
 
 # Correspondence
 For any issues with these scripts, please [create an issue](https://github.com/[removed]/HHUUD10/issues).
