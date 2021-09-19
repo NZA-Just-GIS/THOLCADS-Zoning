@@ -59,7 +59,7 @@ ads_prep <- ads %>%
   dplyr::rename(var = 2) %>%
   # add numbers to var_num
   mutate(
-    var = str_replace(var, "new", "0"),
+    var = str_replace(var, regex("new", ignore_case = TRUE), "0"),  # covert "new" to zero
     var_num1 = str_extract(var, "[:digit:]+"),
     var_num2 = strex::str_after_nth(var, "[:digit:]+", 1),
     var_num2 = str_extract(var_num2, "[:digit:]+"),

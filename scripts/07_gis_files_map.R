@@ -19,7 +19,6 @@ source("scripts/00_preamble.R")
 ##  GeoJSON Import
 ##-----------------------------------------------------
 
-## For once data is saved locally
 holc_json <- rgdal::readOGR("tables/holc_json.GeoJSON")  # import
 summary(holc_json)  # inspect
 
@@ -90,14 +89,20 @@ st_write(
 ## Load mapview package
 packages(mapview)
 
+## Clean file
+HOLC <- holc_join %>%
+  select(UNIQUE_ID:REGION, MID_AGE, P_BLACK, P_FOR_BORN, FB_TEXT) %>%
+  rename(`N'hood Grade` = HOLC_GRADE) %>%
+  print()
+
 ## Set HOLC colors
 palette <- c("#4daf4a", "#377eb8", "#F1C40F", "#C0392B", "darkgray")
 
 ## Create interactive map
 mapview(
-  holc_join,
-  alpha.regions = 0.5,
-  zcol = "HOLC_GRADE",
-  col.regions = palette,
-  lwd = 2
+  HOLC,  # geo file
+  alpha.regions = 0.5,  # polygon transparency
+  zcol = "N'hood Grade",  # data to display
+  col.regions = palette,  # colors to display
+  lwd = 1.5  # line width
   )
