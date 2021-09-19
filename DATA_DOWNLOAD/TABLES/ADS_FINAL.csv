@@ -172,7 +172,7 @@ CA_San Jose_B5,CA,San Jose,San Jose,B,B5,W,early37,0,No,20,20,20,0,None
 CA_San Jose_B6,CA,San Jose,San Jose,B,B6,W,early37,0,No,8,9,10,0,No concentration
 CA_San Jose_B7,CA,San Jose,San Jose,B,B7,W,early37,0,No,4,4,4,0,No concentration
 CA_San Jose_C1,CA,San Jose,San Jose,C,C1,W,early37,5.4725,Yes,25,25,25,0,None
-CA_San Jose_C10,CA,San Jose,San Jose,C,C10,W,early37,0,None,10,10,10,3.5,Very few
+CA_San Jose_C10,CA,San Jose,San Jose,C,C10,W,early37,0,None,0,5,10,3.5,Very few
 CA_San Jose_C11,CA,San Jose,San Jose,C,C11,W,early37,0,No,12,13.5,15,0,No concentration
 CA_San Jose_C12,CA,San Jose,San Jose,C,C12,W,early37,0,No,25,25,25,0.024390243902439025,Few
 CA_San Jose_C13,CA,San Jose,San Jose,C,C13,W,early37,0,No,8,8,8,0,No concentration
@@ -180,7 +180,7 @@ CA_San Jose_C14,CA,San Jose,San Jose,C,C14,W,early37,0,No,30,30,30,0,No concentr
 CA_San Jose_C15,CA,San Jose,San Jose,C,C15,W,early37,0,No,8,8,8,0,No concentration
 CA_San Jose_C2,CA,San Jose,San Jose,C,C2,W,early37,0,No,20,20,20,0,No concentration
 CA_San Jose_C3,CA,San Jose,San Jose,C,C3,W,early37,0,No,15,22.5,30,0,No
-CA_San Jose_C4,CA,San Jose,San Jose,C,C4,W,early37,0,No,30,30,30,NA,Mexicans trace
+CA_San Jose_C4,CA,San Jose,San Jose,C,C4,W,early37,0,No,0,15,30,NA,Mexicans trace
 CA_San Jose_C5,CA,San Jose,San Jose,C,C5,W,early37,0,None   No,8,10,12,0,None No concentration
 CA_San Jose_C6,CA,San Jose,San Jose,C,C6,W,early37,0,None,12,12,12,0,None
 CA_San Jose_C7,CA,San Jose,San Jose,C,C7,W,early37,0,No,25,25,25,10,Italians
@@ -190,8 +190,8 @@ CA_San Jose_D1,CA,San Jose,San Jose,D,D1,W,early37,0,No,25,25,25,20,Portuguese
 CA_San Jose_D10,CA,San Jose,San Jose,D,D10,W,early37,0,No,10,12.5,15,75,Italian and Portuguese
 CA_San Jose_D11,CA,San Jose,San Jose,D,D11,W,early37,1,1% yes,0,37.5,75,75,Italians
 CA_San Jose_D2,CA,San Jose,San Jose,D,D2,W,early37,0,No,40,50,60,25,Italians
-CA_San Jose_D3,CA,San Jose,San Jose,D,D3,W,early37,10,Yes 10%,50,50,50,35,Orientals Italians
-CA_San Jose_D4,CA,San Jose,San Jose,D,D4,W,early37,2,2% Yes,25,37.5,50,75,Italian
+CA_San Jose_D3,CA,San Jose,San Jose,D,D3,W,early37,10,Yes 10%,0,25,50,35,Orientals Italians
+CA_San Jose_D4,CA,San Jose,San Jose,D,D4,W,early37,2,2% Yes,0,25,50,75,Italian
 CA_San Jose_D5,CA,San Jose,San Jose,D,D5,W,early37,2,2% Yes,30,30,30,15,Italians mostly
 CA_San Jose_D6,CA,San Jose,San Jose,D,D6,W,early37,0,no,2,3.5,5,0,No concentration
 CA_San Jose_D7,CA,San Jose,San Jose,D,D7,W,early37,0,no,30,30,30,0,No concentration
@@ -557,7 +557,7 @@ IN_Fort Wayne_C17,IN,Fort Wayne,Fort Wayne,C,C17,MW,early37,0,None,20,20,20,0,No
 IN_Fort Wayne_C18,IN,Fort Wayne,Fort Wayne,C,C18,MW,early37,0,None,10,10,10,0,None
 IN_Fort Wayne_C19,IN,Fort Wayne,Fort Wayne,C,C19,MW,early37,0,None,10,10,10,0,None
 IN_Fort Wayne_C2,IN,Fort Wayne,Fort Wayne,C,C2,MW,early37,0,None,7,7,7,0,None
-IN_Fort Wayne_C3,IN,Fort Wayne,Fort Wayne,C,C3,MW,early37,0,None,18,18,18,0,None
+IN_Fort Wayne_C3,IN,Fort Wayne,Fort Wayne,C,C3,MW,early37,0,None,0,9,18,0,None
 IN_Fort Wayne_C4,IN,Fort Wayne,Fort Wayne,C,C4,MW,early37,0,None,10,10,10,0,None
 IN_Fort Wayne_C5,IN,Fort Wayne,Fort Wayne,C,C5,MW,early37,0,None,25,25,25,0,None
 IN_Fort Wayne_C6,IN,Fort Wayne,Fort Wayne,C,C6,MW,early37,0,None,10,10,10,0,None
@@ -852,7 +852,7 @@ MI_Battle Creek_C11,MI,Battle Creek,Battle Creek,C,C11,MW,early37,0,None,10,10,1
 MI_Battle Creek_C12,MI,Battle Creek,Battle Creek,C,C12,MW,early37,0,None,10,10,10,0,None
 MI_Battle Creek_C13,MI,Battle Creek,Battle Creek,C,C13,MW,early37,0,None,15,15,15,0,None
 MI_Battle Creek_C14,MI,Battle Creek,Battle Creek,C,C14,MW,early37,0,None,8,8,8,0,None
-MI_Battle Creek_C15,MI,Battle Creek,Battle Creek,C,C15,MW,early37,0,None,NA,NA,NA,0,None
+MI_Battle Creek_C15,MI,Battle Creek,Battle Creek,C,C15,MW,early37,0,None,0,0,0,0,None
 MI_Battle Creek_C16,MI,Battle Creek,Battle Creek,C,C16,MW,early37,5,Nominal  5,40,40,40,5,Few
 MI_Battle Creek_C17,MI,Battle Creek,Battle Creek,C,C17,MW,early37,0,None,18,18,18,0,None
 MI_Battle Creek_C2,MI,Battle Creek,Battle Creek,C,C2,MW,early37,0,None,16,16,16,0,None
@@ -1053,7 +1053,7 @@ MO_St. Joseph_A1,MO,St. Joseph,St. Joseph,A,A1,MW,early37,0,No,9,9,9,0,None
 MO_St. Joseph_A2,MO,St. Joseph,St. Joseph,A,A2,MW,early37,0,None,15,15,15,0,None
 MO_St. Joseph_A3,MO,St. Joseph,St. Joseph,A,A3,MW,early37,0,None,8,8,8,0,None
 MO_St. Joseph_B1,MO,St. Joseph,St. Joseph,B,B1,MW,early37,0,None,10,10,10,0,None
-MO_St. Joseph_B2,MO,St. Joseph,St. Joseph,B,B2,MW,early37,0,None,8,19,30,0,None
+MO_St. Joseph_B2,MO,St. Joseph,St. Joseph,B,B2,MW,early37,0,None,0,15,30,0,None
 MO_St. Joseph_B3,MO,St. Joseph,St. Joseph,B,B3,MW,early37,0,None,30,30,30,0,None
 MO_St. Joseph_B4,MO,St. Joseph,St. Joseph,B,B4,MW,early37,0,None,15,15,15,0,None
 MO_St. Joseph_B5,MO,St. Joseph,St. Joseph,B,B5,MW,early37,0,None,25,25,25,0,None
@@ -1347,7 +1347,7 @@ NY_Buffalo_B12,NY,Buffalo,Buffalo-Niagara Falls,B,B12,NE,early37,0,No 0,35,35,35
 NY_Buffalo_B13,NY,Buffalo,Buffalo-Niagara Falls,B,B13,NE,early37,0,0 No,25,25,25,10,Mixed
 NY_Buffalo_B2,NY,Buffalo,Buffalo-Niagara Falls,B,B2,NE,early37,0,No 0,15,15,15,2,Mixed
 NY_Buffalo_B3,NY,Buffalo,Buffalo-Niagara Falls,B,B3,NE,early37,0,No 0,15,15,15,5,Mixed
-NY_Buffalo_B4,NY,Buffalo,Buffalo-Niagara Falls,B,B4,NE,early37,0,No 0,NA,NA,NA,0,None
+NY_Buffalo_B4,NY,Buffalo,Buffalo-Niagara Falls,B,B4,NE,early37,0,No 0,0,0,0,0,None
 NY_Buffalo_B5,NY,Buffalo,Buffalo-Niagara Falls,B,B5,NE,early37,0,No 0,15,15,15,0,None
 NY_Buffalo_B6,NY,Buffalo,Buffalo-Niagara Falls,B,B6,NE,early37,0,0% No,12,12,12,0,None
 NY_Buffalo_B7,NY,Buffalo,Buffalo-Niagara Falls,B,B7,NE,early37,0,No 0%,12,12,12,0,None
@@ -1921,7 +1921,7 @@ VA_Richmond_A3,VA,Richmond,Richmond,A,A3,S,early37,0,0,2,6,10,0,NA
 VA_Richmond_A4,VA,Richmond,Richmond,A,A4,S,early37,0,0,2,6,10,0,NA
 VA_Richmond_A5,VA,Richmond,Richmond,A,A5,S,early37,0,0,2,5,8,0,NA
 VA_Richmond_A6,VA,Richmond,Richmond,A,A6,S,early37,0,0,2,6,10,0,NA
-VA_Richmond_A7,VA,Richmond,Richmond,A,A7,S,early37,0,0,5,5,5,0,NA
+VA_Richmond_A7,VA,Richmond,Richmond,A,A7,S,early37,0,0,0,2.5,5,0,NA
 VA_Richmond_B1,VA,Richmond,Richmond,B,B1,S,early37,0,0,10,12.5,15,0,NA
 VA_Richmond_B10,VA,Richmond,Richmond,B,B10,S,early37,0,0,10,17.5,25,0,NA
 VA_Richmond_B11,VA,Richmond,Richmond,B,B11,S,early37,0,0,2,4,6,0,NA
@@ -1931,7 +1931,7 @@ VA_Richmond_B13,VA,Richmond,Richmond,B,B13,S,early37,0,0,15,22.5,30,0,NA
 VA_Richmond_B14,VA,Richmond,Richmond,B,B14,S,early37,0,0,10,11,12,0,NA
 VA_Richmond_B2,VA,Richmond,Richmond,B,B2,S,early37,0,0,6,9,12,0,NA
 VA_Richmond_B3,VA,Richmond,Richmond,B,B3,S,early37,0,0,1,3.5,6,0,NA
-VA_Richmond_B4,VA,Richmond,Richmond,B,B4,S,early37,0,0,6,6,6,0,NA
+VA_Richmond_B4,VA,Richmond,Richmond,B,B4,S,early37,0,0,0,3,6,0,NA
 VA_Richmond_B5,VA,Richmond,Richmond,B,B5,S,early37,0,0,10,17.5,25,0,NA
 VA_Richmond_B6,VA,Richmond,Richmond,B,B6,S,early37,0,0,5,7.5,10,0,NA
 VA_Richmond_B7,VA,Richmond,Richmond,B,B7,S,early37,0,NA,NA,NA,NA,0,NA
@@ -2233,7 +2233,7 @@ CA_Sacramento_C2,CA,Sacramento,Sacramento,C,C2,W,late37,0,None,15,15,15,0.024390
 CA_Sacramento_C20,CA,Sacramento,Sacramento,C,C20,W,late37,0.5,"1 family, see 5 below",20,20,20,20,Latin Several Japanese families
 CA_Sacramento_C21,CA,Sacramento,Sacramento,C,C21,W,late37,1.8333333333333333,Few,0,10,20,0.024390243902439025,Mixed Few
 CA_Sacramento_C22,CA,Sacramento,Sacramento,C,C22,W,late37,1.8333333333333333,Few scattered,30,30,30,10,Latin
-CA_Sacramento_C23,CA,Sacramento,Sacramento,C,C23,W,late37,3.5,Few families (7 families known),20,30,40,10,Latin
+CA_Sacramento_C23,CA,Sacramento,Sacramento,C,C23,W,late37,3.5,Few families (7 families known),0,20,40,10,Latin
 CA_Sacramento_C24,CA,Sacramento,Sacramento,C,C24,W,late37,0,None,15,15,15,0.024390243902439025,Few None subversive
 CA_Sacramento_C25,CA,Sacramento,Sacramento,C,C25,W,late37,0,NA,15,15,15,10,Latin
 CA_Sacramento_C26,CA,Sacramento,Sacramento,C,C26,W,late37,0,None,15,15,15,0,Few None
@@ -2279,7 +2279,7 @@ CA_Stockton_C11,CA,Stockton,Stockton,C,C11,W,late37,0,None,10,10,10,10,Italians
 CA_Stockton_C12,CA,Stockton,Stockton,C,C12,W,late37,0,None,NA,NA,NA,0,Few None
 CA_Stockton_C13,CA,Stockton,Stockton,C,C13,W,late37,0,None,12,12,12,0,None Few
 CA_Stockton_C14,CA,Stockton,Stockton,C,C14,W,late37,0,None,10,10,10,0.024390243902439025,None subversive or Few
-CA_Stockton_C2,CA,Stockton,Stockton,C,C2,W,late37,0,NA,NA,NA,NA,0,NA
+CA_Stockton_C2,CA,Stockton,Stockton,C,C2,W,late37,0,NA,0,0,0,0,NA
 CA_Stockton_C3,CA,Stockton,Stockton,C,C3,W,late37,0,None,20,20,20,0,Few None
 CA_Stockton_C4,CA,Stockton,Stockton,C,C4,W,late37,0,None,15,15,15,0,Few None
 CA_Stockton_C5,CA,Stockton,Stockton,C,C5,W,late37,0,None,10,10,10,0,None Few
@@ -2300,7 +2300,7 @@ CA_Stockton_D8,CA,Stockton,Stockton,D,D8,W,late37,3,3 Yes,27,27,27,20,Oriental C
 CA_Stockton_D9,CA,Stockton,Stockton,D,D9,W,late37,1,1 Yes,15,15,15,0,Few None
 CO_Denver_A1,CO,Denver,Denver,A,A1,W,late37,0,0,12,12,12,0,NA
 CO_Denver_A2,CO,Denver,Denver,A,A2,W,late37,0,0,5,5,5,0,NA
-CO_Denver_A3,CO,Denver,Denver,A,A3,W,late37,0,0,8,8,8,0,NA
+CO_Denver_A3,CO,Denver,Denver,A,A3,W,late37,0,0,0,4,8,0,NA
 CO_Denver_A4,CO,Denver,Denver,A,A4,W,late37,0,0,8,8,8,0,NA
 CO_Denver_A5,CO,Denver,Denver,A,A5,W,late37,2,4 families,15,15,15,0,NA
 CO_Denver_A6,CO,Denver,Denver,A,A6,W,late37,0,0,2,2.5,3,0,NA
@@ -2898,8 +2898,8 @@ MI_Muskegon_D4,MI,Muskegon,Muskegon,D,D4,MW,late37,0,No,25,25,25,0,No
 MI_Muskegon_D5,MI,Muskegon,Muskegon,D,D5,MW,late37,0,No,20,20,20,10,Polish
 MI_Muskegon_D6,MI,Muskegon,Muskegon,D,D6,MW,late37,0,No,15,15,15,65,Polish and Hungarian
 MI_Muskegon_D7,MI,Muskegon,Muskegon,D,D7,MW,late37,15,15 Yes,20,20,20,20,Mixed
-MO_Springfield_A1,MO,Springfield,"Springfield, MO",A,A1,MW,late37,0,No,NA,NA,NA,0,No
-MO_Springfield_A2,MO,Springfield,"Springfield, MO",A,A2,MW,late37,0,No,15,15,15,0,No
+MO_Springfield_A1,MO,Springfield,"Springfield, MO",A,A1,MW,late37,0,No,0,0,0,0,No
+MO_Springfield_A2,MO,Springfield,"Springfield, MO",A,A2,MW,late37,0,No,0,7.5,15,0,No
 MO_Springfield_B1,MO,Springfield,"Springfield, MO",B,B1,MW,late37,0,No,5,12.5,20,0,No
 MO_Springfield_B2,MO,Springfield,"Springfield, MO",B,B2,MW,late37,0,No,1,15.5,30,0,No
 MO_Springfield_B3,MO,Springfield,"Springfield, MO",B,B3,MW,late37,0,No,1,13,25,0,No
@@ -3158,7 +3158,7 @@ NY_Queens_B11,NY,Queens,NYC Region,B,B11,NE,late37,0,No,20,20,20,0,None
 NY_Queens_B12,NY,Queens,NYC Region,B,B12,NE,late37,0,No,20,20,20,22,British German
 NY_Queens_B13,NY,Queens,NYC Region,B,B13,NE,late37,0,No,10,12.5,15,23,Czech German
 NY_Queens_B14,NY,Queens,NYC Region,B,B14,NE,late37,0,No,15,15,15,24,Bruitish German
-NY_Queens_B15,NY,Queens,NYC Region,B,B15,NE,late37,0,None,1,1,1,0,None
+NY_Queens_B15,NY,Queens,NYC Region,B,B15,NE,late37,0,None,0,0.5,1,0,None
 NY_Queens_B16,NY,Queens,NYC Region,B,B16,NE,late37,0,No,15,15,15,22,Irish Russian
 NY_Queens_B17,NY,Queens,NYC Region,B,B17,NE,late37,0,No,20,20,20,27,Russian
 NY_Queens_B2,NY,Queens,NYC Region,B,B2,NE,late37,0,No,10,15,20,20,British Irish
@@ -4010,7 +4010,7 @@ WI_Milwaukee Co._B11,WI,Milwaukee Co.,Milwaukee Co.,B,B11,MW,late37,0,-,8,8.5,9,
 WI_Milwaukee Co._B12,WI,Milwaukee Co.,Milwaukee Co.,B,B12,MW,late37,0,0,10,15,20,2,Mixed
 WI_Milwaukee Co._B13,WI,Milwaukee Co.,Milwaukee Co.,B,B13,MW,late37,0,-,10,10,10,5.0344827586206895,Few if any
 WI_Milwaukee Co._B14,WI,Milwaukee Co.,Milwaukee Co.,B,B14,MW,late37,0,0,1,6.5,12,5,Mixed nationalities
-WI_Milwaukee Co._B15,WI,Milwaukee Co.,Milwaukee Co.,B,B15,MW,late37,0,0,6,6,6,0,None
+WI_Milwaukee Co._B15,WI,Milwaukee Co.,Milwaukee Co.,B,B15,MW,late37,0,0,0,3,6,0,None
 WI_Milwaukee Co._B16,WI,Milwaukee Co.,Milwaukee Co.,B,B16,MW,late37,0,0,10,11,12,10,Polish German
 WI_Milwaukee Co._B17,WI,Milwaukee Co.,Milwaukee Co.,B,B17,MW,late37,0,-,10,25,40,5.0344827586206895,Few Germans
 WI_Milwaukee Co._B18,WI,Milwaukee Co.,Milwaukee Co.,B,B18,MW,late37,0,0,1,8,15,10,German Irish
@@ -4081,7 +4081,7 @@ WI_Milwaukee Co._D6,WI,Milwaukee Co.,Milwaukee Co.,D,D6,MW,late37,0,-,10,30,50,5
 WI_Milwaukee Co._D7,WI,Milwaukee Co.,Milwaukee Co.,D,D7,MW,late37,0,0,10,35,60,50,Mixture Germans Yugoslavians
 WI_Milwaukee Co._D7A,WI,Milwaukee Co.,Milwaukee Co.,D,D7A,MW,late37,0,0,10,35,60,50,Mixture Germans Yugoslavians
 WI_Milwaukee Co._D8,WI,Milwaukee Co.,Milwaukee Co.,D,D8,MW,late37,0,0,1,10.5,20,10,Germans
-WI_Milwaukee Co._D9,WI,Milwaukee Co.,Milwaukee Co.,D,D9,MW,late37,0,0,20,20,20,25,Slavs Poles etc
+WI_Milwaukee Co._D9,WI,Milwaukee Co.,Milwaukee Co.,D,D9,MW,late37,0,0,0,10,20,25,Slavs Poles etc
 WI_Milwaukee Co._S-A1,WI,Milwaukee Co.,Milwaukee Co.,A,S-A1,MW,late37,0,NA,NA,NA,NA,0,NA
 WI_Milwaukee Co._S-A2,WI,Milwaukee Co.,Milwaukee Co.,A,S-A2,MW,late37,0,NA,NA,NA,NA,0,NA
 WI_Milwaukee Co._S-B1,WI,Milwaukee Co.,Milwaukee Co.,B,S-B1,MW,late37,0,NA,NA,NA,NA,0,NA
@@ -4379,7 +4379,7 @@ CA_Los Angeles_B33,CA,Los Angeles,Los Angeles,B,B33,W,x3940,0,0,15,15,15,0.02439
 CA_Los Angeles_B34,CA,Los Angeles,Los Angeles,B,B34,W,x3940,0,0,20,20,20,0.024390243902439025,Few None subversive
 CA_Los Angeles_B35,CA,Los Angeles,Los Angeles,B,B35,W,x3940,0,N/A 0,5,5,5,0,N A N A
 CA_Los Angeles_B36,CA,Los Angeles,Los Angeles,B,B36,W,x3940,0,0,20,20,20,0,None subversive
-CA_Los Angeles_B37,CA,Los Angeles,Los Angeles,B,B37,W,x3940,0,0 0,20,20,20,0,NA
+CA_Los Angeles_B37,CA,Los Angeles,Los Angeles,B,B37,W,x3940,0,0 0,0,10,20,0,NA
 CA_Los Angeles_B38,CA,Los Angeles,Los Angeles,B,B38,W,x3940,0,0,8,8,8,0.024390243902439025,None subversive Few
 CA_Los Angeles_B39,CA,Los Angeles,Los Angeles,B,B39,W,x3940,0,0,20,20,20,0,NA
 CA_Los Angeles_B4,CA,Los Angeles,Los Angeles,B,B4,W,x3940,0,0,1,1,1,0,NA
@@ -5094,7 +5094,7 @@ MI_Detroit_D7,MI,Detroit,Detroit-Pontiac,D,D7,MW,x3940,90,90%,8,11.5,15,0,No Neg
 MI_Detroit_D8,MI,Detroit,Detroit-Pontiac,D,D8,MW,x3940,0,No,10,12.5,15,60,Polish A few Mexicans
 MI_Detroit_D9,MI,Detroit,Detroit-Pontiac,D,D9,MW,x3940,0,No,10,10,10,28.808823529411764,Mixed aliens
 MO_Greater Kansas City_A1,MO,Greater Kansas City,Greater Kansas City,A,A1,MW,x3940,0,NA,1,2,3,0,NA
-MO_Greater Kansas City_A10,MO,Greater Kansas City,Greater Kansas City,A,A10,MW,x3940,0,0%,10,10,10,0,NA
+MO_Greater Kansas City_A10,MO,Greater Kansas City,Greater Kansas City,A,A10,MW,x3940,0,0%,0,5,10,0,NA
 MO_Greater Kansas City_A2,MO,Greater Kansas City,Greater Kansas City,A,A2,MW,x3940,0,NA,0,0,0,0,NA
 MO_Greater Kansas City_A3,MO,Greater Kansas City,Greater Kansas City,A,A3,MW,x3940,0,0,1,8,15,0,NA
 MO_Greater Kansas City_A4,MO,Greater Kansas City,Greater Kansas City,A,A4,MW,x3940,0,NA,NA,NA,NA,0,NA
@@ -5102,7 +5102,7 @@ MO_Greater Kansas City_A5,MO,Greater Kansas City,Greater Kansas City,A,A5,MW,x39
 MO_Greater Kansas City_A6,MO,Greater Kansas City,Greater Kansas City,A,A6,MW,x3940,0,NA,12,12,12,0,NA
 MO_Greater Kansas City_A7,MO,Greater Kansas City,Greater Kansas City,A,A7,MW,x3940,0,NA,0,0,0,0,NA
 MO_Greater Kansas City_A8,MO,Greater Kansas City,Greater Kansas City,A,A8,MW,x3940,0,0%,1,8.5,16,0,NA
-MO_Greater Kansas City_A9,MO,Greater Kansas City,Greater Kansas City,A,A9,MW,x3940,0,0%,15,15,15,0,NA
+MO_Greater Kansas City_A9,MO,Greater Kansas City,Greater Kansas City,A,A9,MW,x3940,0,0%,0,7.5,15,0,NA
 MO_Greater Kansas City_B1,MO,Greater Kansas City,Greater Kansas City,B,B1,MW,x3940,0,0%,25,25,25,0,NA
 MO_Greater Kansas City_B10,MO,Greater Kansas City,Greater Kansas City,B,B10,MW,x3940,0,0%,NA,NA,NA,0,NA
 MO_Greater Kansas City_B11,MO,Greater Kansas City,Greater Kansas City,B,B11,MW,x3940,0,NA,20,20,20,0,NA
@@ -5112,21 +5112,21 @@ MO_Greater Kansas City_B14,MO,Greater Kansas City,Greater Kansas City,B,B14,MW,x
 MO_Greater Kansas City_B15,MO,Greater Kansas City,Greater Kansas City,B,B15,MW,x3940,0,0%,15,15,15,0,NA
 MO_Greater Kansas City_B16,MO,Greater Kansas City,Greater Kansas City,B,B16,MW,x3940,0,0%,12,12,12,0,NA
 MO_Greater Kansas City_B17,MO,Greater Kansas City,Greater Kansas City,B,B17,MW,x3940,0,0%,15,15,15,0,NA
-MO_Greater Kansas City_B18,MO,Greater Kansas City,Greater Kansas City,B,B18,MW,x3940,0,NA,18,18,18,0,NA
+MO_Greater Kansas City_B18,MO,Greater Kansas City,Greater Kansas City,B,B18,MW,x3940,0,NA,0,9,18,0,NA
 MO_Greater Kansas City_B19,MO,Greater Kansas City,Greater Kansas City,B,B19,MW,x3940,0,0%,10,11,12,0,NA
 MO_Greater Kansas City_B2,MO,Greater Kansas City,Greater Kansas City,B,B2,MW,x3940,0,0%,1,4.5,8,0,NA
-MO_Greater Kansas City_B20,MO,Greater Kansas City,Greater Kansas City,B,B20,MW,x3940,0,0%,25,25,25,0,NA
+MO_Greater Kansas City_B20,MO,Greater Kansas City,Greater Kansas City,B,B20,MW,x3940,0,0%,0,12.5,25,0,NA
 MO_Greater Kansas City_B21,MO,Greater Kansas City,Greater Kansas City,B,B21,MW,x3940,0,NA,10,12.5,15,0,NA
 MO_Greater Kansas City_B22,MO,Greater Kansas City,Greater Kansas City,B,B22,MW,x3940,0,NA,NA,NA,NA,0,NA
 MO_Greater Kansas City_B23,MO,Greater Kansas City,Greater Kansas City,B,B23,MW,x3940,0,NA,NA,NA,NA,0,NA
 MO_Greater Kansas City_B3,MO,Greater Kansas City,Greater Kansas City,B,B3,MW,x3940,0,0%,12,13.5,15,0,NA
 MO_Greater Kansas City_B4,MO,Greater Kansas City,Greater Kansas City,B,B4,MW,x3940,0,0%,10,11,12,0,NA
 MO_Greater Kansas City_B5,MO,Greater Kansas City,Greater Kansas City,B,B5,MW,x3940,0,0%,1,8,15,0,NA
-MO_Greater Kansas City_B6,MO,Greater Kansas City,Greater Kansas City,B,B6,MW,x3940,0,0,12,12,12,0,NA
-MO_Greater Kansas City_B7,MO,Greater Kansas City,Greater Kansas City,B,B7,MW,x3940,0,0,15,15,15,0,NA
+MO_Greater Kansas City_B6,MO,Greater Kansas City,Greater Kansas City,B,B6,MW,x3940,0,0,0,6,12,0,NA
+MO_Greater Kansas City_B7,MO,Greater Kansas City,Greater Kansas City,B,B7,MW,x3940,0,0,0,7.5,15,0,NA
 MO_Greater Kansas City_B8,MO,Greater Kansas City,Greater Kansas City,B,B8,MW,x3940,0,0,10,15,20,0,NA
 MO_Greater Kansas City_B9,MO,Greater Kansas City,Greater Kansas City,B,B9,MW,x3940,0,0,1,8,15,0,NA
-MO_Greater Kansas City_C1,MO,Greater Kansas City,Greater Kansas City,C,C1,MW,x3940,0,0%,40,40,40,0,NA
+MO_Greater Kansas City_C1,MO,Greater Kansas City,Greater Kansas City,C,C1,MW,x3940,0,0%,0,20,40,0,NA
 MO_Greater Kansas City_C10,MO,Greater Kansas City,Greater Kansas City,C,C10,MW,x3940,0,0%,10,10,10,0,NA
 MO_Greater Kansas City_C11,MO,Greater Kansas City,Greater Kansas City,C,C11,MW,x3940,0,0%,1,20.5,40,0,NA
 MO_Greater Kansas City_C12,MO,Greater Kansas City,Greater Kansas City,C,C12,MW,x3940,0,NA,25,25,25,0,NA
@@ -6075,7 +6075,7 @@ CA_Los Angeles_C9,CA,Los Angeles,Los Angeles,C,C9,W,x3940,0,0,8,9,10,0.024390243
 IL_Chicago_A10,IL,Chicago,Chicago-Lake County,A,A10,MW,x3940,0,0%,10,15,20,0,NA
 IL_Chicago_A11,IL,Chicago,Chicago-Lake County,A,A11,MW,x3940,0,0%,1,6.5,12,0,NA
 IL_Chicago_A12,IL,Chicago,Chicago-Lake County,A,A12,MW,x3940,0,0%,5,27.5,50,0,NA
-IL_Chicago_A13,IL,Chicago,Chicago-Lake County,A,A13,MW,x3940,0,0%,12,12,12,0,NA
+IL_Chicago_A13,IL,Chicago,Chicago-Lake County,A,A13,MW,x3940,0,0%,0,6,12,0,NA
 IL_Chicago_A14,IL,Chicago,Chicago-Lake County,A,A14,MW,x3940,0,0,2,8.5,15,0,NA
 IL_Chicago_A15,IL,Chicago,Chicago-Lake County,A,A15,MW,x3940,0,0,1,12,23,0,NA
 IL_Chicago_A16,IL,Chicago,Chicago-Lake County,A,A16,MW,x3940,0,0,10,20,30,0,NA
@@ -6084,18 +6084,18 @@ IL_Chicago_A18,IL,Chicago,Chicago-Lake County,A,A18,MW,x3940,0,0,1,6.5,12,0,NA
 IL_Chicago_A19,IL,Chicago,Chicago-Lake County,A,A19,MW,x3940,0,0,1,6.5,12,0,NA
 IL_Chicago_A2,IL,Chicago,Chicago-Lake County,A,A2,MW,x3940,0,0%,1,6.5,12,0,NA
 IL_Chicago_A20,IL,Chicago,Chicago-Lake County,A,A20,MW,x3940,0,0,1,10.5,20,0,NA
-IL_Chicago_A21,IL,Chicago,Chicago-Lake County,A,A21,MW,x3940,0,0,10,10,10,0,NA
-IL_Chicago_A22,IL,Chicago,Chicago-Lake County,A,A22,MW,x3940,0,0,5,5,5,0,NA
+IL_Chicago_A21,IL,Chicago,Chicago-Lake County,A,A21,MW,x3940,0,0,0,5,10,0,NA
+IL_Chicago_A22,IL,Chicago,Chicago-Lake County,A,A22,MW,x3940,0,0,0,2.5,5,0,NA
 IL_Chicago_A23,IL,Chicago,Chicago-Lake County,A,A23,MW,x3940,0,0,10,17.5,25,0,NA
 IL_Chicago_A24,IL,Chicago,Chicago-Lake County,A,A24,MW,x3940,0,0,5,12.5,20,0,NA
 IL_Chicago_A25,IL,Chicago,Chicago-Lake County,A,A25,MW,x3940,0,0,1,8,15,0,NA
 IL_Chicago_A26,IL,Chicago,Chicago-Lake County,A,A26,MW,x3940,0,0,20,20,20,0,NA
 IL_Chicago_A27,IL,Chicago,Chicago-Lake County,A,A27,MW,x3940,0,0,1,3,5,0,NA
-IL_Chicago_A28,IL,Chicago,Chicago-Lake County,A,A28,MW,x3940,0,NA,10,10,10,0,NA
+IL_Chicago_A28,IL,Chicago,Chicago-Lake County,A,A28,MW,x3940,0,NA,0,5,10,0,NA
 IL_Chicago_A29,IL,Chicago,Chicago-Lake County,A,A29,MW,x3940,0,0,1,6.5,12,0,NA
 IL_Chicago_A3,IL,Chicago,Chicago-Lake County,A,A3,MW,x3940,0,0%,7,7,7,0,NA
 IL_Chicago_A30,IL,Chicago,Chicago-Lake County,A,A30,MW,x3940,0,0,NA,NA,NA,0,NA
-IL_Chicago_A31,IL,Chicago,Chicago-Lake County,A,A31,MW,x3940,0,0,3,3,3,0,NA
+IL_Chicago_A31,IL,Chicago,Chicago-Lake County,A,A31,MW,x3940,0,0,0,1.5,3,0,NA
 IL_Chicago_A32,IL,Chicago,Chicago-Lake County,A,A32,MW,x3940,0,0,5,5.5,6,0,NA
 IL_Chicago_A33,IL,Chicago,Chicago-Lake County,A,A33,MW,x3940,0,0,12,13,14,0,NA
 IL_Chicago_A34,IL,Chicago,Chicago-Lake County,A,A34,MW,x3940,0,0,15,20,25,0,NA
@@ -6162,7 +6162,7 @@ IL_Chicago_B27,IL,Chicago,Chicago-Lake County,B,B27,MW,x3940,0,0%,20,27.5,35,0,N
 IL_Chicago_B28,IL,Chicago,Chicago-Lake County,B,B28,MW,x3940,0,0%,15,22.5,30,0,NA
 IL_Chicago_B29,IL,Chicago,Chicago-Lake County,B,B29,MW,x3940,0,0%,1,8,15,0,NA
 IL_Chicago_B3,IL,Chicago,Chicago-Lake County,B,B3,MW,x3940,0,0%,15,15,15,0,NA
-IL_Chicago_B30,IL,Chicago,Chicago-Lake County,B,B30,MW,x3940,0,0%,2,2,2,0,NA
+IL_Chicago_B30,IL,Chicago,Chicago-Lake County,B,B30,MW,x3940,0,0%,0,1,2,0,NA
 IL_Chicago_B31,IL,Chicago,Chicago-Lake County,B,B31,MW,x3940,0,0%,10,11,12,0,NA
 IL_Chicago_B32,IL,Chicago,Chicago-Lake County,B,B32,MW,x3940,0,0%,1,2,3,0,NA
 IL_Chicago_B33,IL,Chicago,Chicago-Lake County,B,B33,MW,x3940,0,0%,15,15,15,0,NA
@@ -6204,7 +6204,7 @@ IL_Chicago_B65,IL,Chicago,Chicago-Lake County,B,B65,MW,x3940,0,NA,1,6.5,12,0,NA
 IL_Chicago_B66,IL,Chicago,Chicago-Lake County,B,B66,MW,x3940,0,NA,15,15,15,15,Scandinavian
 IL_Chicago_B67,IL,Chicago,Chicago-Lake County,B,B67,MW,x3940,0,0%,15,22.5,30,10,NA
 IL_Chicago_B68,IL,Chicago,Chicago-Lake County,B,B68,MW,x3940,0,NA,35,37.5,40,10,Polish
-IL_Chicago_B69,IL,Chicago,Chicago-Lake County,B,B69,MW,x3940,0,0%,3,3,3,0,NA
+IL_Chicago_B69,IL,Chicago,Chicago-Lake County,B,B69,MW,x3940,0,0%,0,1.5,3,0,NA
 IL_Chicago_B7,IL,Chicago,Chicago-Lake County,B,B7,MW,x3940,0,0%,5,5,5,0,NA
 IL_Chicago_B70,IL,Chicago,Chicago-Lake County,B,B70,MW,x3940,0,0%,10,17.5,25,5,Jewish
 IL_Chicago_B71,IL,Chicago,Chicago-Lake County,B,B71,MW,x3940,0,0%,NA,NA,NA,0,NA
@@ -6217,7 +6217,7 @@ IL_Chicago_B77,IL,Chicago,Chicago-Lake County,B,B77,MW,x3940,0,0%,12,15,18,3,Jew
 IL_Chicago_B78,IL,Chicago,Chicago-Lake County,B,B78,MW,x3940,0,0%,25,25,25,0,NA
 IL_Chicago_B79,IL,Chicago,Chicago-Lake County,B,B79,MW,x3940,0,0%,12,13,14,0,NA
 IL_Chicago_B8,IL,Chicago,Chicago-Lake County,B,B8,MW,x3940,0,0%,5,8.5,12,0,NA
-IL_Chicago_B80,IL,Chicago,Chicago-Lake County,B,B80,MW,x3940,0,0%,12,12,12,0,NA
+IL_Chicago_B80,IL,Chicago,Chicago-Lake County,B,B80,MW,x3940,0,0%,0,6,12,0,NA
 IL_Chicago_B81,IL,Chicago,Chicago-Lake County,B,B81,MW,x3940,0,0%,1,6.5,12,0,NA
 IL_Chicago_B82,IL,Chicago,Chicago-Lake County,B,B82,MW,x3940,0,0%,13,14,15,50,Polish
 IL_Chicago_B83,IL,Chicago,Chicago-Lake County,B,B83,MW,x3940,0,0%,15,15,15,5,Polish
