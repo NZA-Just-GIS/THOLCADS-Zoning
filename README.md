@@ -11,6 +11,9 @@ Here I provide provide code for [**Tabulating HOLC Area Description Sheet Data**
 - `scripts` - R scripts used to produce the downloads.
 - `tables` - Input data resources. These include data that have been partially or wholly produced using manual data entry.
 
+## Note
+If users wish to run the code in the `scripts` folder, they should delete the `DATA_DOWNLOAD` folder after cloning the repo. Otherwise, the code will spit errors.
+
 # Codebook
 The codebook for the .csv and .xlsx output tables is provided in the `scripts` folder and in the associated writeup available at [Open Science Framework](https://osf.io/qytj8/).
 
