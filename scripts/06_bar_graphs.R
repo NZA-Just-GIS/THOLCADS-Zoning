@@ -38,7 +38,8 @@ bldg_age <- df_org %>%
     axis.text = element_text(size = 11),
     legend.title = element_text(size = 13.5),
     legend.text = element_text(size = 11)
-  )
+  ) +
+  ylim(0, 50)
 
 
 bldg_age
@@ -55,7 +56,8 @@ pblk <- df_org %>%
     axis.text = element_text(size = 11),
     legend.title = element_text(size = 13.5),
     legend.text = element_text(size = 11)
-  )
+  ) +
+  ylim(0, 50)
 
 pblk
 
@@ -71,7 +73,8 @@ pfb <- df_org %>%
     axis.text = element_text(size = 11),
     legend.title = element_text(size = 13.5),
     legend.text = element_text(size = 11)
-  )
+  ) +
+  ylim(0, 50)
 
 pfb
 
