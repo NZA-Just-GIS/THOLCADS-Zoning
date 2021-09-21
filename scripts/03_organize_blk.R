@@ -35,7 +35,7 @@ rm(temp, temp1)
 
 
 #################################################################################
-## Correct Foreign Born estimates
+## Correct Black estimates
 #################################################################################
 
 ##----------------------------------------
@@ -72,7 +72,7 @@ fractions <- ads %>%
 
 
 ## Extract all other numbers
-ads_prep <- ads %>%
+ads_pre_prep <- ads %>%
   # keep only unique identifier & variable of interest
   select(unique_id, var, region) %>%
   # keep generic name
@@ -98,12 +98,32 @@ ads_prep <- ads %>%
     var_num = ifelse(is.na(var_num) & str_detect(var, regex("O no$|^Negro$|no$|^x$|jewish", ignore_case = TRUE)), 0, var_num),
     var_num = ifelse(is.na(var_num) & str_detect(var, "^[:punct:]+$|^[:punct:][:space:][:punct:]"), 0, var_num),
     var_num = ifelse(is.na(var_num) & rapportools::is.empty(var, trim = TRUE), 0, var_num),
-    var_num = ifelse(str_detect(var, regex("2nd street", ignore_case = TRUE)), 5, var_num)  # fix peculiar case
+    var_num = ifelse(str_detect(var, regex("2nd street", ignore_case = TRUE)), 5, var_num),  # fix peculiar case
+    ## fix cases in Augusta, GA
+    var_num = ifelse(unique_id %in% c("GA_Augusta_D9", "GA_Augusta_D10"), 50, var_num),
+    var_num = ifelse(unique_id == "GA_Augusta_D11", 90, var_num),
+    var_num = ifelse(unique_id == "GA_Augusta_D4", 25, var_num),
+    var_num = ifelse(unique_id == "GA_Augusta_D5", 0, var_num)
   ) %>%
   print()
 
 ## View
 #ads_prep %>% filter(is.na(var_num)) %>% View()  # n = 113
+
+##-----------------------------------------------
+## Correct special cases in Chicago
+##-----------------------------------------------
+
+## Load Chicago fix data
+chicago_fix <- read_csv("tables/chicago_fix.csv") %>%
+  print()
+
+## Join
+ads_prep <- ads_pre_prep %>%
+  left_join(chicago_fix, by = "unique_id") %>%
+  mutate(var_num = ifelse(!is.na(black), black, var_num)) %>%
+  select(-black) %>%
+  print()
 
 
 ##--------------------------------------------------------

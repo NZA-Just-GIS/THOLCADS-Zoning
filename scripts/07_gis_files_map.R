@@ -68,6 +68,7 @@ st_write(
   driver = "ESRI Shapefile"
 )
 
+
 ##---------------------------
 ## Save as GeoJSON file
 ##---------------------------
