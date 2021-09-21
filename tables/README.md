@@ -1,6 +1,8 @@
 # Organization
 Data housed in this folder are produced partially or wholly from manual processes. These tables are necessary inputs that are called in by the scripts. Upon running the code in the `scripts` folder, this folder will be further populated with a GeoJSON file imported from the [Digital Scholarship Lab (DSL)](https://dsl.richmond.edu/panorama/redlining/#loc=4/40.886/-105.499&text=downloads).
 
+- `chicago_fix.csv` - contains the unique identifier (**unique_id**) and % Black values (**black**) for 202 Chicago neighborhoods. This table is imported into the `03_organize_blk.R` script, joined with the dataframe in there, and used to override its % Black estimates. This step is necessary because there is an error in how those entries were digitized.
+
 - `holc_cities.csv` - contains information about cities mapped in the HOLC's City Survey Program. Columns are as follows:
   - **state** - state that the city is in.
   - **city** - city according to HOLC.
