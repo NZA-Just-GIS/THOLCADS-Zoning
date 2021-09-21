@@ -24,9 +24,13 @@ This directory contains three .csv files and two .xlsx files produced by running
    - **P_FOR_BORN** - "Foreign-born" percentage listed on the ADS. 53 NULL values. These are places where a "foreign-born" population was listed but no accompanying percentage was provided.
    - **FB_TEXT** - written description provided for the % "foreign-born variable.
 
+- `ADS_organized.xlsx` - tabulated ADS for early37 (**e37**), late37 (**l37**) , and x3940 (**x3940**) types. The name of each sheet in the Excel sheet corresponds to its ADS type. See code in `01_load_holc_data.R` to get a description of the attribute names.
 
-- `SHAPES` - Esri shapefile and identical GeoJSON file. Both contain HOLC neighborhood polygons with attributes produced by the scripts herein. Those attributes include % Black, % "foreign born", and average building age midpoint.
-- `TABLES` - output tables produced by the scripts. Please reference the README file in that folder for further information.
+- `Cities_by_Region.xlsx` - cities included in this analysis by their metro and region. The sheets are separated by region, and the **HOLC Neighborhoods** column lists the number of neighborhoods by city.
+
+- `HOLC_Cities.csv` - identical to the `holc_cities.csv` file in the `tables` folder.
+
+- `Sum_Stats.xlsx` - summary statistics (means) for HOLC grades by region. Column headings should be self-evident, except possibly **Missing For. Born**. This number represents the number of HOLC neighborhoods where a "foreign born" population is named but no percentage is listed. These cases could not be used to calculate the mean **Foreign Born (%)** value.
 
 # Correspondence
 For any issues with these scripts, please [create an issue](https://github.com/snmarkley1/HOLC_ADS/issues).
