@@ -70,6 +70,7 @@ pfb <- df_org %>%
   geom_bar(aes(fill = `HOLC Grade`), stat = "identity", width = 0.8, position = position_dodge(0.9)) +
   scale_fill_manual(values = c("#4daf4a", "#377eb8", "#F1C40F", "#C0392B")) +
   labs(fill = "HOLC\nGrade") +
+  ylab("\"Foreign Born\" (%)") + 
   theme_light() +
   theme(
     axis.title = element_text(size = 13.5),
