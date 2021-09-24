@@ -11,7 +11,6 @@ In the 1930s, the Home Owners’ Loan Corporation (HOLC) oversaw a massive feder
 - `DATA_DOWNLOAD` - Folders for the data tables (.csv and .xlsx), map layers (Esri Shapefile and GeoJSON), and bar graphs (.tif) produced with this code.
 - `scripts` - R scripts used to produce the downloads.
 - `tables` - Input data resources. These include data that have been partially or wholly produced using manual data entry.
-- `Markley_TABULATING_HOLC_ADS_DATA.pdf` - PDF of the associated write-up.
 
 ## Note
 If users wish to run the code in the `scripts` folder, they should delete the `DATA_DOWNLOAD` folder after cloning the repo. Otherwise, the code will spit errors.
