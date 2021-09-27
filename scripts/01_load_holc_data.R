@@ -23,11 +23,11 @@ dir.create("DATA_DOWNLOAD")
 ##-------------------------------------------------------------------------------
 
 ### Data from Digital Scholarship Lab @ the Univ. of Richmond: https://dsl.richmond.edu/panorama/redlining/#loc=4/40.886/-105.499&text=downloads
-## Can skip to Line 32 in future after saving this data locally
+## Can skip to Line 31 in future after saving this data locally
 u <- "https://dsl.richmond.edu/panorama/redlining/static/fullDownload.geojson"  # get url
 downloader::download(url = u, destfile = "tables/holc_json.GeoJSON")  # save locally in tables folder
 
-## For once data is saved locally
+## Import
 holc_json <- rgdal::readOGR("tables/holc_json.GeoJSON")  # import
 summary(holc_json)  # inspect
 
