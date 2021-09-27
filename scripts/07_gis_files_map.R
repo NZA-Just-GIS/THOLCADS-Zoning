@@ -25,7 +25,13 @@ summary(holc_json)  # inspect
 
 ## Convert from ST to SF
 holc_sf <- st_as_sf(holc_json) %>%
-  mutate(UNIQUE_ID = paste(state, city, holc_id, sep = "_")) %>%
+  mutate(
+    UNIQUE_ID = paste(state, city, holc_id, sep = "_"),
+    UNIQUE_ID = str_replace_all(UNIQUE_ID, ",", ""),  # remove all commas
+    UNIQUE_ID = str_replace_all(UNIQUE_ID, "\\.", ""),  # remove all periods
+    UNIQUE_ID = str_replace(UNIQUE_ID, " and ", ""),  # remove "and"s
+    UNIQUE_ID = str_replace_all(UNIQUE_ID, "[[:space:]]", "")  # remove all spaces
+  ) %>%
   select(UNIQUE_ID, geometry) %>%
   print() # inspect
 
