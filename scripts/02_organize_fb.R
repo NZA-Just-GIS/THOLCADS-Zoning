@@ -85,12 +85,24 @@ ads_prep <- ads %>%
     var_num = ifelse(is.na(var_num) & str_detect(var, regex("only 3 italians fam", ignore_case = TRUE)), 1.5, var_num),
     var_num = ifelse(is.na(var_num) & str_detect(var, regex("4 jewish fam", ignore_case = TRUE)), 2, var_num),
     var_num = ifelse(is.na(var_num), as.numeric(str_extract(var, "[:digit:]+")), var_num),
-    var_num = ifelse(is.na(var_num) & str_detect(var, regex("none|NULL|^no|- No|no conc|nil|^N/A|- n/a", ignore_case = TRUE)), 0, var_num),
+    var_num = ifelse(is.na(var_num) & str_detect(var, regex("NULL|^no|- No|no conc|nil|^N/A|- n/a", ignore_case = TRUE)), 0, var_num),
+    var_num = ifelse(is.na(var_num) & 
+                       str_detect(var, regex("none", ignore_case = TRUE)) &
+                       !str_detect(var, regex("few", ignore_case = TRUE)), ## remove cases with "few none" on W
+                     0, var_num),
+    var_num = ifelse(is.na(var_num) & 
+                       str_detect(var, regex("none", ignore_case = TRUE)) &
+                       str_detect(var, regex("few", ignore_case = TRUE)), ## give "few none" 1%
+                     2, var_num),
     var_num = ifelse(is.na(var_num) & str_detect(var, "^[:punct:]+$|^[:punct:][:space:][:punct:]"), 0, var_num),
     var_num = ifelse(is.na(var_num) & rapportools::is.empty(var, trim = TRUE), 0, var_num),
-    var_num = ifelse(is.na(var_num) & str_detect(var, regex("one", ignore_case = TRUE)), 1, var_num),
+    var_num = ifelse(is.na(var_num) & 
+                       str_detect(var, regex("one", ignore_case = TRUE)) & 
+                       !str_detect(var, regex("none", ignore_case = TRUE)), 
+                     1, var_num),
     var_num = ifelse(is.na(var_num) & str_detect(var, regex("two", ignore_case = TRUE)), 2, var_num),
-    var_num = ifelse(var_num == 0 & !str_detect(var, "0") & str_detect(var, regex("none sub", ignore_case = TRUE)), NA, var_num)
+    var_num = ifelse(var_num == 0 & !str_detect(var, "0") & str_detect(var, regex("none sub", ignore_case = TRUE)), NA, var_num),
+    var_num = ifelse(var_num == 0 & str_detect(var, regex("few", ignore_case = TRUE)), NA, var_num)
     ) %>%
   print()
 
