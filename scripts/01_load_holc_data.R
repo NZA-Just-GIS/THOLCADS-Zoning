@@ -39,7 +39,13 @@ summary(holc_json)  # inspect
 df <- holc_json %>%
   as_tibble() %>%
   # create unique state-city-neighborhood ID
-  mutate(unique_id = paste(state, city, holc_id, sep = "_")) %>%
+  mutate(
+    unique_id = paste(state, city, holc_id, sep = "_"),
+    unique_id = str_replace_all(unique_id, ",", ""),  # remove all commas
+    unique_id = str_replace_all(unique_id, "\\.", ""),  # remove all periods
+    unique_id = str_replace(unique_id, " and ", ""),  # remove "and"s
+    unique_id = str_replace_all(unique_id, "[[:space:]]", "")  # remove all spaces
+    ) %>%
   select(-neighborhood_id) %>%
   print()
 
