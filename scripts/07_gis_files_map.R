@@ -9,8 +9,7 @@
 
 ## PREPARE WORKSPACE
 source("scripts/00_preamble.R")
-packages(leaflet)  # for export
-packages(mapview)  # for interactive map
+
 
 #################################################################################
 ## LOAD HOLC data
@@ -26,6 +25,7 @@ summary(holc_json)  # inspect
 
 ## Convert from ST to SF
 holc_sf <- st_as_sf(holc_json) %>%
+  # clean up unique ID
   mutate(
     UNIQUE_ID = paste(state, city, holc_id, sep = "_"),
     UNIQUE_ID = str_replace_all(UNIQUE_ID, ",", ""),  # remove all commas
@@ -94,9 +94,6 @@ st_write(
 ## Map and inspect
 #################################################################################
 
-## Load mapview package
-mapviewOptions(fgb = FALSE)
-
 ## Clean file
 HOLC <- holc_join %>%
   select(UNIQUE_ID:REGION, MID_AGE, P_BLACK, P_FOR_BORN, FB_TEXT) %>%
@@ -116,6 +113,13 @@ mapview(
   )
 
 
+##--------------------------------------------------
+##  Export interactive Map as HTML
+##--------------------------------------------------
+
+## Set mapview options to allow export
+mapviewOptions(fgb = FALSE)
+
 ## create map object
 map_obj <- mapview(
   HOLC,  # geo file
@@ -125,10 +129,12 @@ map_obj <- mapview(
   lwd = 1.5  # line width
 )
 
-
 ## Save out as HTML
 mapshot(
   map_obj, 
-  url = paste0(getwd(), "/DATA_DOWNLOAD/holc_map.html"),
+  url = "DATA_DOWNLOAD/SHAPES/holc_map.html",
   remove_controls = c("homeButton", "drawToolbar", "easyButton")
   )
+
+## Delete extra folder
+unlink("DATA_DOWNLOAD/SHAPES/holc_map_files", recursive = TRUE)
