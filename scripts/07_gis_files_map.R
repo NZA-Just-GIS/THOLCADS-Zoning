@@ -9,7 +9,8 @@
 
 ## PREPARE WORKSPACE
 source("scripts/00_preamble.R")
-
+packages(leaflet)  # for export
+packages(mapview)  # for interactive map
 
 #################################################################################
 ## LOAD HOLC data
@@ -94,7 +95,7 @@ st_write(
 #################################################################################
 
 ## Load mapview package
-packages(mapview)
+mapviewOptions(fgb = FALSE)
 
 ## Clean file
 HOLC <- holc_join %>%
@@ -112,4 +113,22 @@ mapview(
   zcol = "N'hood Grade",  # data to display
   col.regions = palette,  # colors to display
   lwd = 1.5  # line width
+  )
+
+
+## create map object
+map_obj <- mapview(
+  HOLC,  # geo file
+  alpha.regions = 0.5,  # polygon transparency
+  zcol = "N'hood Grade",  # data to display
+  col.regions = palette,  # colors to display
+  lwd = 1.5  # line width
+)
+
+
+## Save out as HTML
+mapshot(
+  map_obj, 
+  url = paste0(getwd(), "/DATA_DOWNLOAD/holc_map.html"),
+  remove_controls = c("homeButton", "drawToolbar", "easyButton")
   )
