@@ -1,7 +1,7 @@
 # Organization
 This folder contains the R scripts used to create the files in the `DATA_DOWNLOAD` folder. Users should run the code in the order of the file numbers. Here, I provide a brief description for each script.
 
-- `00_preample.R` - is a simple R script that sets up the workspace and loads the libraries used in the subsequent R scripts.
+- `00_preamble.R` - is a simple R script that sets up the workspace and loads the libraries used in the subsequent R scripts.
 
 - `01_load_holc_data.R` - pulls in and organizes the HOLC neighborhood GeoJSON file from the [Digital Scholarship Lab (DSL)](https://dsl.richmond.edu/panorama/redlining/#loc=4/41.218/-97.194&text=downloads)
 
