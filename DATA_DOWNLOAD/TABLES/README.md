@@ -20,7 +20,7 @@ This directory contains three .csv files and two .xlsx files produced by running
    - **P_FB** - "Foreign-born" percentage listed on the ADS. 53 NULL values. These are places where a "foreign-born" population was listed but no accompanying percentage was provided.
    - **FB_GROUP** - "Foreign-born" group listed on the ADS, if any.
    - **OCC_CLASS** - occupation class denoted in the ADS (see [manuscript](https://osf.io/preprints/socarxiv/dktah/) for a description of the methods).
-      - *Upper*, *Up_Mid*, *Mid_Mix*, *Low_Mid*, *Lower*, "Other_NA*
+      - *Upper*, *Up_Mid*, *Mid_Mix*, *Low_Mid*, *Lower*, *Other_NA*
    - **MID_INC** - midpoint family income.
    - **MID_AGE** - midpoint building age.
    - **REPAIR** - repair status of the properties in that neighborhood (see [manuscript](https://osf.io/preprints/socarxiv/dktah/) for a description of the methods).
@@ -30,8 +30,14 @@ This directory contains three .csv files and two .xlsx files produced by running
    - **MORT_FHA** - binary variable indicating if the appraiser remarked that the area was suitable for Federal Housing Administration (FHA) loans.
       - *1 = yes*
       - *0 = no*
-   - **BLK_TEXT** - written description provided for the % Black variable.
-   - **FB_TEXT** - written description provided for the % "foreign-born variable.
+   - **BLACK_TXT** - ADS text for P_BLACK.
+   - **FB_TXT** - ADS text for P_FB and FB_GROUP.
+   - **OCC_TXT** - ADS text for OCC_CLASS.
+   - **INC_TXT** - ADS text for MID_INC (OCC_CLASS for *x3940* neighborhoods).
+   - **MORT_TXT** - ADS text for MORT_AV.
+   - **FB_FLAG** - binary indicating imputation for P_FB.
+   - **INC_FLAG** - binary indicating imputation for MID_INC.
+   - **AGE_FLAG** - binary indicating imputation for MID_AGE.
 
 - `ADS_organized.xlsx` - tabulated ADS for early37 (**e37**), late37 (**l37**) , and x3940 (**x3940**) types. The name of each sheet in the Excel sheet corresponds to its ADS type. See code in `01_load_holc_data.R` to get a description of the attribute names.
 
