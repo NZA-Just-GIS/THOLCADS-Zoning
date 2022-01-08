@@ -21,7 +21,7 @@ Data housed in this folder are produced partially or wholly from manual processe
     - *unique* - nhoods = 27; cities = 1; no other city has a format mathcing that of York, PA.
     - *none* - nhoods = 1,117; cities = 46; these maps have no accompanying area description sheets
 
-- `holc_json.GeoJSON` - GeoJSON file of the ADS variables pulled from the [DSL](https://dsl.richmond.edu/panorama/redlining/#loc=4/40.886/-105.499&text=downloads). The commented out code to import this data can be found in script `01_load_holc_data.R`, but it is stored locally here in case the DSL makes any changes to the file on their end. This data was last loaded on September 24, 2021.
+- `holc_json.GeoJSON` - GeoJSON file of the ADS variables pulled from the [DSL](https://dsl.richmond.edu/panorama/redlining/#loc=4/40.886/-105.499&text=downloads). The commented out code to import this data can be found in script `01_load_holc_data.R`, but it is stored locally here in case the DSL makes any changes to the file on their end. This data was last imported on December 1, 2021.
 
 - `numbers.csv` - crosswalk connecting numbers (**no**) to written-out numbers (**alpha_no**)
 
