@@ -3,7 +3,7 @@ Data housed in this folder are produced partially or wholly from manual processe
 
 - `age_fix.csv` - contains minumum, maximum, and midpoint building ages for select cities and neighborhoods where the OCR process misread the scanned area description sheets (ADS).
 
-- `chicago_fix.csv` - contains the unique identifier (**unique_id**) and % Black values (**black**) for 202 Chicago neighborhoods. This table is imported into the `03_organize_blk.R` script, joined with the dataframe in there, and used to override its % Black estimates. This step is necessary because there is an error in how those entries were digitized.
+- `chicago_fix.csv` - contains the unique identifier (**unique_id**), % Black values (**black**), % "foreign born" values (**for_born**), and the "foreign born" descriptive text (**fb_text**) for 221 Chicago neighborhoods. This table is imported into the `02_organize_fb.R` and `03_organize_blk.R` scripts, joined with the dataframes in there, and used to override its % Black and % "Foreign Born" estimates. These steps are necessary because there are error in how the OCR process digitized these entries.
 
 - `holc_cities.csv` - contains information about cities mapped in the HOLC's City Survey Program. Columns are as follows:
   - **state** - state that the city is in.
@@ -24,6 +24,8 @@ Data housed in this folder are produced partially or wholly from manual processe
 - `holc_json.GeoJSON` - GeoJSON file of the ADS variables pulled from the [DSL](https://dsl.richmond.edu/panorama/redlining/#loc=4/40.886/-105.499&text=downloads). The commented out code to import this data can be found in script `01_load_holc_data.R`, but it is stored locally here in case the DSL makes any changes to the file on their end. This data was last imported on December 1, 2021.
 
 - `numbers.csv` - crosswalk connecting numbers (**no**) to written-out numbers (**alpha_no**)
+
+- `others_fix.csv` - contains corrected entries for the repair (**repair**) and mortgage availability (**mort_av_buy**) variables, as well as for two other variables not used in this data&mdash;sales demand and the trend of desirability&mdash;for 95 neighborhoods that were missed by the OCR process.
 
 # Correspondence
 For any issues with these scripts, please [create an issue](https://github.com/[removed]/HIST_HU_URB/issues).
