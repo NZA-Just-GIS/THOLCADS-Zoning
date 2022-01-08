@@ -1,6 +1,8 @@
 # Organization
 Data housed in this folder are produced partially or wholly from manual processes. These tables are necessary inputs that are called in by the scripts. Upon running the code in the `scripts` folder, this folder will be further populated with a GeoJSON file imported from the [Digital Scholarship Lab (DSL)](https://dsl.richmond.edu/panorama/redlining/#loc=4/40.886/-105.499&text=downloads).
 
+- `age_fix.csv` - contains minumum, maximum, and midpoint building ages for select cities and neighborhoods where the OCR process misread the scanned area description sheets (ADS).
+
 - `chicago_fix.csv` - contains the unique identifier (**unique_id**) and % Black values (**black**) for 202 Chicago neighborhoods. This table is imported into the `03_organize_blk.R` script, joined with the dataframe in there, and used to override its % Black estimates. This step is necessary because there is an error in how those entries were digitized.
 
 - `holc_cities.csv` - contains information about cities mapped in the HOLC's City Survey Program. Columns are as follows:
@@ -18,6 +20,8 @@ Data housed in this folder are produced partially or wholly from manual processe
     - *para* - nhoods = 836; cities = 26; these sheets provide only descriptive paragraphs.
     - *unique* - nhoods = 27; cities = 1; no other city has a format mathcing that of York, PA.
     - *none* - nhoods = 1,117; cities = 46; these maps have no accompanying area description sheets
+
+- `holc_json.GeoJSON` - GeoJSON file of the ADS variables pulled from the [DSL](https://dsl.richmond.edu/panorama/redlining/#loc=4/40.886/-105.499&text=downloads). The commented out code to import this data can be found in script `01_load_holc_data.R`, but it is stored locally here in case the DSL makes any changes to the file on their end. This data was last loaded on September 24, 2021.
 
 - `numbers.csv` - crosswalk connecting numbers (**no**) to written-out numbers (**alpha_no**)
 
