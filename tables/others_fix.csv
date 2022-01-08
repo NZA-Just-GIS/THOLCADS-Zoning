@@ -1,0 +1,95 @@
+unique_id,repair,sale_dem,mort_av_buy,trend
+NJ_AtlanticCity_A1,Good,"Fair up to $17,500",Plenty,Static
+NJ_AtlanticCity_A2,Good,"Fair up to $12,500",Plenty,Static
+NJ_AtlanticCity_B1,Good,"Fair up to $7,500",FHA Chiefly,Static
+NJ_AtlanticCity_B2,Good,"Fair up to $8,500",Ample,Static
+NJ_AtlanticCity_B3,Good,"Fair up to $10,000",Fair to good,Static
+NJ_AtlanticCity_B4,Good,"Fair up to $10,000",Slow,Static
+NJ_AtlanticCity_B5,Good,Fair up to $6000 Good up to $3500,Scarce,Static
+NJ_AtlanticCity_B6,Fair to Good,"Fair up to $4,500 - Sales have been made as low as $2500 and as high as $12000, but these are exceptions",FHA will insure,Static
+NJ_AtlanticCity_B7,Fair to Good,"Fair up to $3,500 - Exceptional sales have been made as low as $700. and as high as $6500",Local bank thru FHA,Static
+NJ_AtlanticCity_C1,Good,Fair up to $5000,Scarce,Static
+NJ_AtlanticCity_C10,Good,Fair up to $4500,Scarce although FHA will insure,Static
+NJ_AtlanticCity_C11,Fair,Very poor - $2500 top,Very scarce,Static
+NJ_AtlanticCity_C12,Fair,Poor up to $3500,Scarce (see below),Static
+NJ_AtlanticCity_C13,Good,Fair up to $4500,Scarce but FHA will insure,Static
+NJ_AtlanticCity_C14,Fair,"Poor - $4,000  top",Scarce,Static
+NJ_AtlanticCity_C15,Fair,"Fair up to $5,500",Scarce,Static
+NJ_AtlanticCity_C2,Fair,Fair to slow up to $4000,Very scarce,Static
+NJ_AtlanticCity_C3,Fair,Fair up to $3000,None,Static
+NJ_AtlanticCity_C4,Fair,Fair up to $2500,None,Static
+NJ_AtlanticCity_C5,Fair to poor,Fair up to $3000,None,Static
+NJ_AtlanticCity_C6,Fair,Fair up to $3500,None,Static
+NJ_AtlanticCity_C7,Fair to good,Fair up to $5000,Very scarce,Static
+NJ_AtlanticCity_C8,Fair to poor,Poor up to $4500,None,Static
+NJ_AtlanticCity_C9,Fair to good,Good up to $3000,None,Static
+NJ_AtlanticCity_D1,Fair to very poor,Poor - difficult to get over $2000,None,Static
+NJ_AtlanticCity_D2,Fair,Very poor $2000 top,None,Static
+NJ_AtlanticCity_D3,Poor,Fair to poor $2500 top,None,Static
+OH_Akron_A1,Very good,Fair,Ample,Firm
+OH_Akron_A10,Good,Fair,Ample,Firm
+OH_Akron_A11,Good,Fair,Ample,Firm
+OH_Akron_A2,Good,Good,Available 5.5 - 6%,Up 3%
+OH_Akron_A3,Excellent,Slow,Ample,Static
+OH_Akron_A4,Good,Good,Ample,Firm
+OH_Akron_A5,Good,Fair,Ample,Static
+OH_Akron_A6,Good,Fair,Ample,Static to slightly downward
+OH_Akron_A7,Good,Fair,Ample,Firm
+OH_Akron_A8,Good,Fair,Ample,Firm
+OH_Akron_A9,Good,Fair,Ample,Firm
+OH_Akron_B1,Good,Fair Fair,Ample,Firm to slightly downward
+OH_Akron_B10,Fair,Slow Slow,Ample,Static
+OH_Akron_B11,Fair to good,Slow Slow to fair,Ample,Static to firm
+OH_Akron_B12,Fair to good,Slow,Ample,Static
+OH_Akron_B13,Medium,Slow Slow,Ample,Static
+OH_Akron_B14,Fair,Slow  Slow,Available up to 40% of appraisal,Static
+OH_Akron_B15,Fair to good,Slow Slow,Fairly ample,Static to slightly downward
+OH_Akron_B16,Good,Fair,Available up to 60% of appraisal,Static
+OH_Akron_B17,Fair,Fair Fair,Available up to 50% of appraisal,Static to firm
+OH_Akron_B18,Good,Fair,Available up to 40% of appraisal,Firm
+OH_Akron_B19,Good,Fair Fair,Available up to 60% of appraisal,Firm
+OH_Akron_B2,Fair,Poor,Ample,Down
+OH_Akron_B3,Fair,Poor,Fair,Down
+OH_Akron_B4,Fair,Slow,Available 6%,Static
+OH_Akron_B5,Fair to poor,Poor,Fairly ample,Static
+OH_Akron_B6,Good,Slow,Available up to 50%,Static
+OH_Akron_B7,Good,Fair,Ample,Static
+OH_Akron_B8,Good,Only fair,Ample,Static
+OH_Akron_B9,Fair to good,Slow,Ample,Static
+OH_Akron_C1,Good,Fair Fair,Available up to 40% of appraisal,Static to slightly upward
+OH_Akron_C10,Good,Fair Fair,Available up ton 40% of appraisal,Static
+OH_Akron_C11,Fair condition,Fair to poor Fair to poor,Very limited,Static
+OH_Akron_C12,Just fair,Fair to slow,Limited,Static
+OH_Akron_C13,Fair,Fair,Available up to 40%,Firm
+OH_Akron_C14,Just fair,Fair Fair,Generally available up to 40%,Static
+OH_Akron_C15,Fair to good,Fair to slow Fair to slow,Available generally up to 35%,Static
+OH_Akron_C16,Fair to Good,Fair Fair,Available up to 50% of appraisal,Fairly firm
+OH_Akron_C17,Good,Fair to slow,Available up to 40% of appraisal,Fair to slow
+OH_Akron_C18,Fair,Slow Slow,Available up to 40% of appraisal,Static
+OH_Akron_C19,Fair,Slow Slow,Limited,Static
+OH_Akron_C2,Fair only,Poor,None,Definitely downward
+OH_Akron_C20,Fair,Fair Fair,Limited,Static to upward
+OH_Akron_C21,Fair,Fair Fair,Available up to 40% of appraisal,Firm to slightly upward
+OH_Akron_C22,Fair,Fair,Available up to 40% of appraisal,Static to slightly upward
+OH_Akron_C23,Just fair,Fair Fair,Available up to 40% of appraisal,Static to slightly upward
+OH_Akron_C24,Fair,Slow Slow,Available up to 40% of appraisal,Static
+OH_Akron_C3,Fair,Fair Fair,Very limited,Static
+OH_Akron_C4,Fair,Fair,Very little available,Static to slightly upward
+OH_Akron_C5,Good,Fair Fair,Ample up to 40% of appraisal,Firm
+OH_Akron_C6,Fair only,Fair Fair,Very little available,Static
+OH_Akron_C7,Good,Fair Fair,Available for better homes,Static
+OH_Akron_C8,Fair only,Fair Fair,Available up to 40% of appraisal,Static
+OH_Akron_C9,Good,Poor Poor,Limited,Static
+OH_Akron_D1,Fair only,Slow Slow,Very limited,Downward
+OH_Akron_D10,Terrible,Very poor,None,Rapidly downward
+OH_Akron_D11,Poor,Poor Poor,Very limited,Slowly downward
+OH_Akron_D12,Very poor,Very poor,None,Decidedly downward
+OH_Akron_D13,Very poor,Poor,None,Downward
+OH_Akron_D2,Poor,Poor,None,Downward
+OH_Akron_D3,Fair to poor,Slow,None,Static
+OH_Akron_D4,Fair only,Slow,"Very little, if any",Downward
+OH_Akron_D5,Poor,Poor,None,Downward
+OH_Akron_D6,Fair,Fair,Limited,Static
+OH_Akron_D7,poor,Very poor,None,Downward
+OH_Akron_D8,Fair,Slow Slow,Limited,Static
+OH_Akron_D9,Fair to poor,Fair Fair,Limited,Static
