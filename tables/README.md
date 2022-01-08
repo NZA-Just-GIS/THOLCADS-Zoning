@@ -25,7 +25,7 @@ Data housed in this folder are produced partially or wholly from manual processe
 
 - `numbers.csv` - crosswalk connecting numbers (**no**) to written-out numbers (**alpha_no**)
 
-- `others_fix.csv` - contains corrected entries for the repair (**repair**) and mortgage availability (**mort_av_buy**) variables, as well as for two other variables not used in this data&mdash;sales demand and the trend of desirability&mdash;for 95 neighborhoods that were missed by the OCR process.
+- `others_fix.csv` - contains corrected entries for the repair (**repair**) and mortgage availability (**mort_av_buy**) variables, as well as for two other variables not used in this data&mdash;sales demand and the trend of desirability&mdash;for 94 neighborhoods that were read incorrectly by the OCR process.
 
 # Correspondence
 For any issues with these scripts, please [create an issue](https://github.com/[removed]/HIST_HU_URB/issues).
