@@ -7,17 +7,17 @@ This folder contains the R scripts used to create the files in the `DATA_DOWNLOA
 
 - `02_organize_fb.R` - prepares the % Foreign Born entry on the HOLC area description sheets.
 
-- `03_organize_blk.R` - prepares the % Black entry on the HOLC area description sheets.
+- `03_organize_blk.R` - prepares the % Black variable.
 
-- `04_organize_age.R` - prepares the Building Age entry on the HOLC area description sheets.
+- `04_organize_age.R` - prepares the Building Age variable.
 
-- `05_organize_repair_mortgages.R` - prepares the Repair and Mortgage Availability variables from the HOLC area description sheets.
+- `05_organize_repair_mortgages.R` - prepares the Repair and Mortgage Availability variables.
 
-- `06_organize_income.R` - prepares the Income entry on the HOLC area description sheets.
+- `06_organize_income.R` - prepares the Income variable.
 
-- `07_organize_occupation.R` - prepares the Occupation Class entry on the HOLC area description sheets.
+- `07_organize_occupation.R` - prepares the Occupation Class variable.
 
-- `08_impute_output_tables.R` - imputes missing Income, Building Age, and "Foreign Born" variables, generates a cleaned output table, and produces a summary statistics table. The two tables are located in the `DATA_DOWNLOAD` folder.
+- `08_impute_output_tables.R` - imputes missing Income, Building Age, and "Foreign Born" variables and corresponding flagged binary variables; generates a cleaned output table; and produces a summary statistics table. The two tables are located in the `DATA_DOWNLOAD` folder.
 
 - `09_bar_graphs.R` - produces the bar graphs in the `DATA_DOWNLOAD` folder.
 
