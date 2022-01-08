@@ -72,7 +72,7 @@ fractions <- ads %>%
 
 
 ## Extract all other numbers
-ads_prep <- ads %>%
+ads_pre_prep <- ads %>%
   # keep only unique identifier & variable of interest
   select(unique_id, var, region) %>%
   # keep generic name
@@ -92,7 +92,7 @@ ads_prep <- ads %>%
                      0, var_num),
     var_num = ifelse(is.na(var_num) & 
                        str_detect(var, regex("none", ignore_case = TRUE)) &
-                       str_detect(var, regex("few", ignore_case = TRUE)), ## give "few none" 1%
+                       str_detect(var, regex("few", ignore_case = TRUE)), ## give "few none" 2%
                      2, var_num),
     var_num = ifelse(is.na(var_num) & str_detect(var, "^[:punct:]+$|^[:punct:][:space:][:punct:]"), 0, var_num),
     var_num = ifelse(is.na(var_num) & rapportools::is.empty(var, trim = TRUE), 0, var_num),
@@ -109,6 +109,26 @@ ads_prep <- ads %>%
 
 # Inspect
 #ads_prep %>% filter(is.na(var_num)) %>% View()
+
+##-----------------------------------------------
+## Correct special cases in Chicago
+##-----------------------------------------------
+
+## Load Chicago fix data
+chicago_fix <- read_csv("tables/chicago_fix.csv") %>%
+  print()
+
+
+## Join
+ads_prep <- ads_pre_prep %>%
+  left_join(chicago_fix, by = "unique_id") %>%
+  mutate(
+    var_num = ifelse(!is.na(for_born), for_born, var_num),
+    var = ifelse(!is.na(fb_text), fb_text, var),
+    var = ifelse(str_detect(var, "December"), "", var)  # fix "December" cases in Chicago
+    ) %>%
+  select(-c(black:fb_text)) %>%
+  print()
 
 
 ##--------------------------------------------------------
@@ -143,6 +163,7 @@ v_few <- ads_prep %>%
 
 ## Check few --> get mean of "few"
 few <- ads_prep %>%
+  
   filter(
     str_detect(var, regex("^few|few$|^a few|^- few|a few families", ignore_case = TRUE)) &
       !str_detect(var, regex("very", ignore_case = TRUE)) &
@@ -206,6 +227,27 @@ negligible <- ads_prep %>%
   print()  # varies by region
 
 
+## Check trace --> get mean of "trace"
+trace <- ads_prep %>%
+  filter(
+    str_detect(var, regex("^trace| trace|trace$", ignore_case = TRUE)) &
+      !is.na(var_num)
+  ) %>%
+  group_by(region) %>%
+  summarize(
+    c1 = mean(var_num, na.rm = TRUE),
+    n = dplyr::n()
+  ) %>%
+  mutate(c1 = ifelse(n < 3, weighted.mean(c1, n), c1)) %>%
+  bind_rows(df_rgn) %>%
+  filter(!duplicated(region)) %>%
+  mutate(c1 = ifelse(is.na(c1) | n < 3, weighted.mean(c1, n, na.rm = TRUE), c1)) %>%
+  ## comes up as null --> filling in neglible with 0.5
+  mutate(c1 = ifelse(is.na(c1), 2, c1)) %>%
+  arrange(region) %>%
+  print()  # varies by region
+
+
 ## Check nominal --> get mean of "nominal"
 nom <- ads_prep %>%
   filter(str_detect(var, regex("nominal", ignore_case = TRUE)) & !is.na(var_num)) %>%
@@ -256,30 +298,10 @@ small <- ads_prep %>%
   print()  # small = 1
 
 
-## Check various --> get mean of "various"
-various <- ads_prep %>%
-  filter(str_detect(var, regex("various", ignore_case = TRUE)) & 
-           !is.na(var_num)
-         ) %>%
-  group_by(region) %>%
-  summarize(
-    c1 = mean(var_num, na.rm = TRUE),
-    n = dplyr::n()
-  ) %>%
-  mutate(c1 = ifelse(n < 3, weighted.mean(c1, n), c1)) %>%
-  bind_rows(df_rgn) %>%
-  filter(!duplicated(region)) %>%
-  mutate(c1 = ifelse(is.na(c1) | n < 3, weighted.mean(c1, n, na.rm = TRUE), c1)) %>%
-  ## comes up as null --> filling in neglible with 0.5
-  mutate(c1 = ifelse(is.na(c1), 0.5, c1)) %>%
-  arrange(region) %>%
-  print()  # various: MW: 12.5; NE: 20; W: 9.56
-
-
 ## Check mix --> get mean of "mix"
 mix <- ads_prep %>%
   filter(
-    str_detect(var, regex("mix", ignore_case = TRUE))  &
+    str_detect(var, regex("mix|all kind|all nat|various", ignore_case = TRUE))  &
       !str_detect(var, regex("few", ignore_case = TRUE)) &
       !is.na(var_num)
   ) %>%
@@ -340,6 +362,7 @@ threat <- ads_prep %>%
   #mutate(c1 = ifelse(is.na(c1), 2, round(c1))) %>%
   print()  # threat = 2
 
+
 ## Check "none subversive"
 none_sub <- ads_prep %>%
   filter(
@@ -376,11 +399,12 @@ for(i in unique(c("MW", "NE", "S", "W"))){
           str_detect(var, regex("^few|few$|few few|^a few|^- few|a few families", ignore_case = TRUE)) &
             !str_detect(var, regex("very", ignore_case = TRUE)) ~ few$c1[few$region == i],
           str_detect(var, regex("negligible", ignore_case = TRUE)) ~ negligible$c1[negligible$region == i],
+          str_detect(var, regex("^trace| trace|trace$", ignore_case = TRUE)) ~ trace$c1[trace$region == i],
           str_detect(var, regex("nominal", ignore_case = TRUE)) ~ nom$c1[nom$region == i],
           str_detect(var, regex("some", ignore_case = TRUE)) ~ some$c1[some$region == i],
           str_detect(var, regex("small", ignore_case = TRUE)) ~ small$c1[small$region == i],
-          str_detect(var, regex("various", ignore_case = TRUE)) ~ various$c1[various$region == i],
-          str_detect(var, regex("mix", ignore_case = TRUE)) ~ mix$c1[mix$region == i],
+          #str_detect(var, regex("various", ignore_case = TRUE)) ~ various$c1[various$region == i],
+          str_detect(var, regex("mix|all kind|all nat|various", ignore_case = TRUE)) ~ mix$c1[mix$region == i],
           str_detect(var, regex("substantial", ignore_case = TRUE)) ~ substantial$c1[substantial$region == i],
           str_detect(var, regex("threat", ignore_case = TRUE)) ~ threat$c1[threat$region == i],
           str_detect(var, regex("none sub", ignore_case = TRUE)) ~ none_sub$c1[none_sub$region == i],
@@ -390,6 +414,8 @@ for(i in unique(c("MW", "NE", "S", "W"))){
             !str_detect(var, regex("small", ignore_case = TRUE)) &
             !str_detect(var, regex("negligible", ignore_case = TRUE)) &
             !str_detect(var, regex("substantial", ignore_case = TRUE)) ~ yes$c1[yes$region == i],
+          is.na(var_num) & str_detect(var, regex("native|american", ignore_case = T)) ~ 0,
+          is.na(var_num) & str_detect(var, regex("none few", ignore_case = T)) ~ 2,
           TRUE ~ var_num
         )
     ) 
@@ -423,9 +449,9 @@ ads_group <- ads_prep %>%
       str_replace_all(
         text, 
         regex(
-          "known|not|practically|Predominantly|Predominately|possibly|^none$|^no |no$|concentration|
-          a few|few|small|and|very|substantial|threatening|yes|N A|nominal|less|than|percentage|percent|
-          about|some|but|defined|nil|whatever|kinds|kind|see remarks|see below|December|or$|of
+          "known|not |practically|Predominantly|Predominately|possibly|^none|none$|^no | no$|concentration|
+          a few|few|small| and |very|substantial|threatening|yes|N A|nominal|less|than |percent|
+          about|some|but|defined|nil|whatever|kinds|kind|see remarks|see below|December|or |of
           foreign|^A$|about|number|^one|family|families|none$|scattered", 
           ignore_case = TRUE
           ),  
@@ -448,7 +474,20 @@ ads_fb <- ads_prep %>%
   mutate(fb_num = ifelse(is.na(var_num2), var_num, var_num2)) %>%
   dplyr::rename(for_born = var) %>%
   select(unique_id:region, fb_num, text, group) %>%
+  # add chicago fix descriptions
+  left_join(chicago_fix, by = "unique_id", suffix = c("", "_cf")) %>%
+  mutate(text = ifelse(!is.na(fb_text), fb_text, text)) %>%
+  select(unique_id, fb_num, group, text) %>%
+  dplyr::rename(
+    fb_group = group,
+    fb_txt = text
+    ) %>%
   print()
+
+
+## check null
+ads_fb %>%
+  filter(is.na(fb_num))
 
 
 ##--------------------------------------------------------

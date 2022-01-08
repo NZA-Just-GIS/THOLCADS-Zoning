@@ -11,7 +11,7 @@
 source("scripts/00_preamble.R")
 
 ## Create DATA_DOWNLOAD folder
-dir.create("DATA_DOWNLOAD")
+#dir.create("DATA_DOWNLOAD")
 
 
 #################################################################################
@@ -23,11 +23,11 @@ dir.create("DATA_DOWNLOAD")
 ##-------------------------------------------------------------------------------
 
 ### Data from Digital Scholarship Lab @ the Univ. of Richmond: https://dsl.richmond.edu/panorama/redlining/#loc=4/40.886/-105.499&text=downloads
-## Can skip to Line 31 in future after saving this data locally
+## Can skip to line 31 in future after saving this data locally (DSL may be add more data)
 u <- "https://dsl.richmond.edu/panorama/redlining/static/fullDownload.geojson"  # get url
 downloader::download(url = u, destfile = "tables/holc_json.GeoJSON")  # save locally in tables folder
 
-## Import
+## For once data is saved locally
 holc_json <- rgdal::readOGR("tables/holc_json.GeoJSON")  # import
 summary(holc_json)  # inspect
 
@@ -47,6 +47,10 @@ df <- holc_json %>%
     unique_id = str_replace_all(unique_id, "[[:space:]]", "")  # remove all spaces
     ) %>%
   select(-neighborhood_id) %>%
+  # remove NAs
+  drop_na(holc_id) %>%
+  # remove missing data
+  filter(area_description_data != "{ \"\": \"\" }") %>%
   print()
 
 
@@ -406,7 +410,7 @@ rm(ads_x3940_prep)
 #####################################################
 
 ## Add output TABLES folder
-dir.create("DATA_DOWNLOAD/TABLES")
+#dir.create("DATA_DOWNLOAD/TABLES")
 
 ## Create list of dataframes
 df_list <- list(

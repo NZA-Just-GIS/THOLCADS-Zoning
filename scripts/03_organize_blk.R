@@ -118,11 +118,12 @@ ads_pre_prep <- ads %>%
 chicago_fix <- read_csv("tables/chicago_fix.csv") %>%
   print()
 
+
 ## Join
 ads_prep <- ads_pre_prep %>%
   left_join(chicago_fix, by = "unique_id") %>%
   mutate(var_num = ifelse(!is.na(black), black, var_num)) %>%
-  select(-black) %>%
+  select(-c(black:fb_text)) %>%
   print()
 
 
@@ -342,7 +343,6 @@ threat <- ads_prep %>%
   print() 
 
 
-
 ##--------------------------------------------------------
 ##  Extract For. Born. Estimates for remaining Null
 ##--------------------------------------------------------
@@ -393,7 +393,8 @@ ads_blk <- ads_prep %>%
   left_join(ads_null[c(1,4)], by = c("unique_id"), suffix = c("", "2")) %>%
   mutate(blk_num = ifelse(is.na(var_num2), var_num, var_num2)) %>%
   dplyr::rename(black = var) %>%
-  select(unique_id, black, blk_num) %>%
+  select(unique_id, blk_num, black) %>%
+  dplyr::rename(blk_txt = black) %>%
   print()
 
 

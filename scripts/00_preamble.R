@@ -27,17 +27,18 @@ packages <- function(x) {
   rm(installed_packages) # Remove From Workspace
 }
 
-packages(httr)  # for NHGIS API
-packages(jsonlite)  # for NHGIS API
-packages(ipumsr)  # for NHGIS tables
+packages(tidyverse)
+#packages(httr)  # for NHGIS API
+#packages(jsonlite)  # for NHGIS API
 packages(foreign)  # write out DBFs (for ArcGIS)
 packages(sf)  # for spatial/ArcGIS Pro data
 packages(tidycensus)  # for getting state/county names/abbrevs.
-packages(data.table) # for setnames function
 packages(rgdal)  # import GeoJSON
 packages(rapportools)  # for is.empty fn
 packages(openxlsx)  # for reading/writing files as Excel workbooks
 packages(mapview)
-packages(tmap)
-packages(tidyverse)
+packages(strex)  # for str_after_nth command
+packages(downloader)
+
+
 

@@ -52,7 +52,7 @@ numbers <- read_csv("tables/numbers.csv") %>%
 var <- "avg_age"
 
 ## Extract all other numbers
-ads_prep <- ads %>%
+ads_pre_prep <- ads %>%
   # keep only unique identifier & variable of interest
   select(unique_id, var, region) %>%
   # keep generic name
@@ -81,7 +81,11 @@ ads_prep <- ads %>%
     names_to = "var_nums",
     values_to = "value"
   ) %>%
-  mutate(value = as.numeric(value)) %>%
+  mutate(
+    up_to = ifelse(str_detect(var, regex("up to", ignore_case = TRUE)), 0.75, 1),  # ID "up to" (n = 173)
+    value = as.numeric(value),
+    value = value * up_to
+    ) %>%
   group_by(unique_id) %>%
   summarize(
     min = min(value, na.rm = TRUE),
@@ -104,6 +108,26 @@ ads_prep <- ads %>%
 ## NAs and Inf indicate spaces that went unfilled by appraisers
 
 
+##-----------------------------------------------
+## Correct special cases 
+##-----------------------------------------------
+
+## Load Chicago fix data
+age_fix <- read_csv("tables/age_fix.csv") %>%
+  print()
+
+## Join
+ads_prep <- ads_pre_prep %>%
+  left_join(age_fix, by = "unique_id", suffix = c("", "_fix")) %>%
+  mutate(
+    min = ifelse(!is.na(min_fix), min_fix, min),
+    max = ifelse(!is.na(max_fix), max_fix, max),
+    midpt = ifelse(!is.na(midpt_fix), midpt_fix, midpt)
+  ) %>%
+  select(-c(min_fix:midpt_fix)) %>%
+  print()
+
+
 ##--------------------------------------------------------
 ##  Join back and rename column
 ##--------------------------------------------------------
@@ -112,9 +136,20 @@ ads_bdg_age <- ads_prep %>%
   dplyr::rename(
     min_age = min,
     max_age = max,
-    mid_age = midpt#,
-    #avg_age = avg
+    mid_age = midpt
   ) %>%
+  # fix special case
+  mutate_at(
+    vars(min_age:mid_age),
+    ~case_when(
+      unique_id %in% c("WA_Spokane_D8") ~ 25,
+      unique_id %in% c("CA_LosAngeles_A30") ~ 6,
+      TRUE ~ .
+    )
+    ) %>%
+  # add text
+  left_join(ads[c("unique_id", "avg_age")], by = "unique_id") %>%
+  dplyr::rename(age_txt = avg_age) %>%
   print()
 
 
@@ -123,3 +158,4 @@ ads_bdg_age <- ads_prep %>%
 ##--------------------------------------------------------
 
 write_csv(ads_bdg_age, "DATA_DOWNLOAD/ADS_Building_Age.csv")
+
