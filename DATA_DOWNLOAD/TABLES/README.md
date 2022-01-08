@@ -17,11 +17,20 @@ This directory contains three .csv files and two .xlsx files produced by running
     - *unique* - format unique to York, PA; not used; 1 city; 27 neighborhoods
     - *none* - no ADS provided
    - **P_BLACK** - Black percentage listed on the ADS.
-   - **BLK_TEXT** - written description provided for the % Black variable.
-   - **MIN_AGE** - minimum building age listed in the ADS.
+   - **P_FB** - "Foreign-born" percentage listed on the ADS. 53 NULL values. These are places where a "foreign-born" population was listed but no accompanying percentage was provided.
+   - **FB_GROUP** - "Foreign-born" group listed on the ADS, if any.
+   - **OCC_CLASS** - occupation class denoted in the ADS (see [manuscript](https://osf.io/preprints/socarxiv/dktah/) for a description of the methods).
+      - *Upper*, *Up_Mid*, *Mid_Mix*, *Low_Mid*, *Lower*, "Other_NA*
+   - **MID_INC** - midpoint family income.
    - **MID_AGE** - midpoint building age.
-   - **MAX_AGE** - maximum building age listed in the ADS.
-   - **P_FOR_BORN** - "Foreign-born" percentage listed on the ADS. 53 NULL values. These are places where a "foreign-born" population was listed but no accompanying percentage was provided.
+   - **REPAIR** - repair status of the properties in that neighborhood (see [manuscript](https://osf.io/preprints/socarxiv/dktah/) for a description of the methods).
+      - *Good*, *Fair-Good*, *Fair*, *Fair-Poor*, *Poor*, *Other_NA*
+   - **MORT_AV** - mortgage availability for home buyers.
+      - *Good*, *Fair-Good*, *Fair*, *Fair-Poor*, *Poor*, *Other_NA*
+   - **MORT_FHA** - binary variable indicating if the appraiser remarked that the area was suitable for Federal Housing Administration (FHA) loans.
+      - *1 = yes*
+      - *0 = no*
+   - **BLK_TEXT** - written description provided for the % Black variable.
    - **FB_TEXT** - written description provided for the % "foreign-born variable.
 
 - `ADS_organized.xlsx` - tabulated ADS for early37 (**e37**), late37 (**l37**) , and x3940 (**x3940**) types. The name of each sheet in the Excel sheet corresponds to its ADS type. See code in `01_load_holc_data.R` to get a description of the attribute names.
@@ -30,7 +39,7 @@ This directory contains three .csv files and two .xlsx files produced by running
 
 - `HOLC_Cities.csv` - identical to the `holc_cities.csv` file in the `tables` folder.
 
-- `Sum_Stats.xlsx` - summary statistics (means) for HOLC grades by region. Column headings should be self-evident, except possibly **Missing For. Born**. This number represents the number of HOLC neighborhoods where a "foreign born" population is named but no percentage is listed. These cases could not be used to calculate the mean **Foreign Born (%)** value.
+- `Sum_Stats.xlsx` - summary statistics (means) for HOLC grades by region. Column headings should be self-evident, except possibly **Missing Family Income** and **Missing For. Born**. These values represents the number of HOLC neighborhoods where the corresponding variables are missing from the area description sheets. These cases could not be used to calculate the mean **Family Income** and **Foreign Born (%)** values.
 
 # Correspondence
 For any issues with these scripts, please [create an issue](https://github.com/snmarkley1/HOLC_ADS/issues).
