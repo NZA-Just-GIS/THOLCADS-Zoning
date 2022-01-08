@@ -1,8 +1,8 @@
 # Organization
 This directory contains three folders. They are as follows:
 
-- `BAR_GRAPHS` - bar graphs produced in the `06_bar_graphs.R` script.
-- `SHAPES` - Identical Esri shapefile and GeoJSON file and an interactive map as an HTML file. All contain HOLC neighborhood polygons with attributes produced by the scripts herein. Those attributes include % Black, % "foreign born", and average building age midpoint. 
+- `BAR_GRAPHS` - bar graphs produced in the `09_bar_graphs.R` script and featured in the [attendant manuscript](https://osf.io/preprints/socarxiv/dktah/).
+- `SHAPES` - Identical Esri shapefile and GeoJSON file and an interactive map as an HTML file. All contain HOLC neighborhood polygons with attributes produced by the scripts herein.
 - `TABLES` - output tables produced by the scripts. Please reference the README file in that folder for further information.
 
 # Correspondence
