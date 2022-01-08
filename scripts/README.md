@@ -5,17 +5,23 @@ This folder contains the R scripts used to create the files in the `DATA_DOWNLOA
 
 - `01_load_holc_data.R` - pulls in and organizes the HOLC neighborhood GeoJSON file from the [Digital Scholarship Lab (DSL)](https://dsl.richmond.edu/panorama/redlining/#loc=4/41.218/-97.194&text=downloads)
 
-- `02_organize_fb.R` - organizes and reads the % Foreign Born entry on the HOLC area description sheets.
+- `02_organize_fb.R` - prepares the % Foreign Born entry on the HOLC area description sheets.
 
-- `03_organize_blk.R` - organizes and reads the % Black entry on the HOLC area description sheets.
+- `03_organize_blk.R` - prepares the % Black entry on the HOLC area description sheets.
 
-- `04_organize_age.R` - organizes and reads the Building Age entry on the HOLC area description sheets.
+- `04_organize_age.R` - prepares the Building Age entry on the HOLC area description sheets.
 
-- `05_output_table_stats.R` - generates table outputs and summary statistics that are located in the `DATA_DOWNLOAD` folder.
+- `05_organize_repair_mortgages.R` - prepares the Repair and Mortgage Availability variables from the HOLC area description sheets.
 
-- `06_bar_graphs.R` - produces the bar graphs in the `DATA_DOWNLOAD` folder.
+- `06_organize_income.R` - prepares the Income entry on the HOLC area description sheets.
 
-- `gis_files_map.R` - produces the Esri Shapefile and GeoJSON file in the `DATA_DOWNLOAD` folder. Also creates an interactive map that users can explore within R.
+- `07_organize_occupation.R` - prepares the Occupation Class entry on the HOLC area description sheets.
+
+- `08_impute_output_tables.R` - imputes missing Income, Building Age, and "Foreign Born" variables, generates a cleaned output table, and produces a summary statistics table. The two tables are located in the `DATA_DOWNLOAD` folder.
+
+- `09_bar_graphs.R` - produces the bar graphs in the `DATA_DOWNLOAD` folder.
+
+- `10_gis_files_map.R` - produces the Esri Shapefile and GeoJSON file in the `DATA_DOWNLOAD` folder. Also creates an interactive map that users can explore within R or export as an HTML file.
 
 
 # Correspondence
