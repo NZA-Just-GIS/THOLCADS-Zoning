@@ -24,8 +24,8 @@ source("scripts/00_preamble.R")
 
 ### Data from Digital Scholarship Lab @ the Univ. of Richmond: https://dsl.richmond.edu/panorama/redlining/#loc=4/40.886/-105.499&text=downloads
 ## Can skip to line 31 in future after saving this data locally (DSL may be add more data)
-u <- "https://dsl.richmond.edu/panorama/redlining/static/fullDownload.geojson"  # get url
-downloader::download(url = u, destfile = "tables/holc_json.GeoJSON")  # save locally in tables folder
+#u <- "https://dsl.richmond.edu/panorama/redlining/static/fullDownload.geojson"  # get url
+#downloader::download(url = u, destfile = "tables/holc_json.GeoJSON")  # save locally in tables folder
 
 ## For once data is saved locally
 holc_json <- rgdal::readOGR("tables/holc_json.GeoJSON")  # import
