@@ -445,6 +445,10 @@ write_csv(df_fix2, "DATA_DOWNLOAD/TABLES/ADS_FINAL.csv")
 ## Residual Plots -- density & histogram
 ##------------------------------------------------------
 
+## set text size
+strip_text <- 18
+axis_title <- 16
+axis_text <- 14
 
 ## Foreign born
 plot_fb <- ols_plot_resid_hist(reg_fb) + 
@@ -457,9 +461,9 @@ plot_fb <- ols_plot_resid_hist(reg_fb) +
   theme_bw() +
   facet_grid(. ~ "% \"Foreign Born\"") +
   theme(
-    strip.text.x = element_text(size = 16, face = "bold"),
-    axis.title = element_text(size = 14),
-    axis.text = element_text(size = 12)
+    strip.text.x = element_text(size = strip_text, face = "bold"),
+    axis.title = element_text(size = axis_title),
+    axis.text = element_text(size = axis_text)
   )
 
 
@@ -477,9 +481,9 @@ plot_inc <- ols_plot_resid_hist(reg_inc) +
   theme_bw() +
   facet_grid(. ~ "Family Income") +
   theme(
-    strip.text.x = element_text(size = 16, face = "bold"),
-    axis.title = element_text(size = 14),
-    axis.text = element_text(size = 12)
+    strip.text.x = element_text(size = strip_text, face = "bold"),
+    axis.title = element_text(size = axis_title),
+    axis.text = element_text(size = axis_text)
   )
 
 
@@ -490,16 +494,16 @@ plot_inc
 plot_age <- ols_plot_resid_hist(reg_age) + 
   ggtitle("") +
   ylab("Density") +
-  xlab("Residuals (Std. Dev.)") +
+  xlab("Residuals") +
   scale_y_continuous(labels = scales::comma, breaks = seq(0, 6000, 1000)) +
   #scale_x_continuous(breaks = seq(-3, 3, 1), ) +
   xlim(-2.5, 2.5)+
   theme_bw() +
   facet_grid(. ~ "Building Age") +
   theme(
-    strip.text.x = element_text(size = 16, face = "bold"),
-    axis.title = element_text(size = 14),
-    axis.text = element_text(size = 12)
+    strip.text.x = element_text(size = strip_text, face = "bold"),
+    axis.title = element_text(size = axis_title),
+    axis.text = element_text(size = axis_text)
     )
 
 plot_age
@@ -512,7 +516,7 @@ prow <- cowplot::plot_grid(
   plot_inc,
   plot_age,
   labels = "auto",
-  label_size = 18,
+  label_size = 20,
   ncol = 1
 )
 
@@ -527,7 +531,7 @@ dir.create("DATA_DOWNLOAD/APPENDIX")
 
 
 ## Save out plots
-tiff("DATA_DOWNLOAD/APPENDIX/Residuals.tif", width = 600, height = 1200)
+tiff("DATA_DOWNLOAD/APPENDIX/Residuals.tif", width = 550, height = 1100)
 prow
 dev.off()
 
