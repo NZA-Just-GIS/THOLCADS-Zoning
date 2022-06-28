@@ -21,7 +21,7 @@ for(i in seq(1:3)){
   )
   
   temp1 <- temp %>%
-    select(state:ads_type, for_born, black, infilt, avg_age, mort_av_buy) %>%
+    dplyr::select(state:ads_type, for_born, black, infilt, avg_age, mort_av_buy) %>%
     as_tibble()
   
   ads <- bind_rows(ads, temp1)
@@ -48,7 +48,7 @@ var <- "black"
 ## Isolate fractions and convert them to decimals
 fractions <- ads %>%
   # keep only unique identifier & variable of interest
-  select(unique_id, var) %>%
+  dplyr::select(unique_id, var) %>%
   # keep generic name
   dplyr::rename(var = 2) %>%
   # keep only descriptions w/ fractions (n = 6)
@@ -67,20 +67,21 @@ fractions <- ads %>%
     var_num = whole + fract  # add whole number in front (if any)
   ) %>%
   # clean up
-  select(unique_id, var_num) %>%
+  dplyr::select(unique_id, var_num) %>%
   print()
 
 
 ## Extract all other numbers
 ads_pre_prep <- ads %>%
   # keep only unique identifier & variable of interest
-  select(unique_id, var, region) %>%
+  dplyr::select(unique_id, var, region, holc_grade) %>%
   # keep generic name
   dplyr::rename(var = 2) %>%
   # join fractions
   left_join(fractions, by = "unique_id") %>%
   # add numbers to var_num
   mutate(
+    var = ifelse(unique_id == "CA_SanJose_C1", "None", var),
     var_num = ifelse(is.na(var_num) & str_detect(var, regex("one fam|one colored fam|^1 fam| 1 fam", ignore_case = TRUE)), 0.5, var_num),  # estimates for family size
     var_num = ifelse(is.na(var_num) & str_detect(var, regex("two fam|^2 fam| 2 fam|2 negro fam", ignore_case = TRUE)), 1, var_num),
     var_num = ifelse(is.na(var_num) & str_detect(var, regex("three fam|3 fam|3 scattered fam", ignore_case = TRUE)), 1.5, var_num),
@@ -103,7 +104,14 @@ ads_pre_prep <- ads %>%
     var_num = ifelse(unique_id %in% c("GA_Augusta_D9", "GA_Augusta_D10"), 50, var_num),
     var_num = ifelse(unique_id == "GA_Augusta_D11", 90, var_num),
     var_num = ifelse(unique_id == "GA_Augusta_D4", 25, var_num),
-    var_num = ifelse(unique_id == "GA_Augusta_D5", 0, var_num)
+    var_num = ifelse(unique_id == "GA_Augusta_D5", 0, var_num),
+    # fix specific cases
+    var_num = ifelse(unique_id == "WV_Charleston_C10", 5, var_num),
+    var_num = ifelse(unique_id == "WA_Tacoma_B2", 0.5, var_num),
+    var_num = ifelse(unique_id == "IN_Indianapolis_B13", 5, var_num),
+    var_num = ifelse(unique_id == "NJ_AtlanticCity_B3", 0, var_num),
+    var_num = ifelse(unique_id == "NJ_AtlanticCity_B6", 0, var_num),
+    var_num = ifelse(unique_id == "NJ_Camden_NJ_B13", 0, var_num)
   ) %>%
   print()
 
@@ -123,7 +131,7 @@ chicago_fix <- read_csv("tables/chicago_fix.csv") %>%
 ads_prep <- ads_pre_prep %>%
   left_join(chicago_fix, by = "unique_id") %>%
   mutate(var_num = ifelse(!is.na(black), black, var_num)) %>%
-  select(-c(black:fb_text)) %>%
+  dplyr::select(-c(black:fb_text)) %>%
   print()
 
 
@@ -148,7 +156,7 @@ v_few <- ads_prep %>%
       !is.na(var_num)
     ) %>%
   group_by(region) %>%
-  summarize(
+  dplyr::summarize(
     c1 = round(mean(var_num, na.rm = TRUE)),
     n = dplyr::n()
   ) %>%
@@ -168,7 +176,7 @@ few <- ads_prep %>%
       !is.na(var_num)
   ) %>%
   group_by(region) %>%
-  summarize(
+  dplyr::summarize(
     c1 = mean(var_num, na.rm = TRUE),
     n = dplyr::n()
   ) %>%
@@ -191,17 +199,20 @@ yes <- ads_prep %>%
       !str_detect(var, regex("substantial", ignore_case = TRUE)) &
       !is.na(var_num)
   ) %>%
-  group_by(region) %>%
-  summarize(
+  group_by(region, holc_grade) %>%
+  dplyr::summarize(
     c1 = mean(var_num, na.rm = TRUE),
     n = dplyr::n()
   ) %>%
-  mutate(c1 = ifelse(n < 3, weighted.mean(c1, n), c1)) %>%
+  #mutate(c1 = ifelse(n < 3, weighted.mean(c1, n), c1)) %>%
   bind_rows(df_rgn) %>%
-  filter(!duplicated(region)) %>%
-  mutate(c1 = ifelse(is.na(c1) | n < 3, weighted.mean(c1, n, na.rm = TRUE), c1)) %>%
-  arrange(region) %>%
-  print()  # varies by region
+  #filter(!duplicated(region)) %>%
+  ungroup() %>%
+  complete(region, holc_grade) %>%
+  mutate(holc_grade = ifelse(is.na(holc_grade), "A", holc_grade)) %>%
+  mutate(c1 = ifelse(is.na(c1) | n < 2, 0, c1)) %>%
+  arrange(region, holc_grade) %>%
+  print()  # varies by region and grade
 
 
 ## Check negligible --> get mean of "negligible"
@@ -211,7 +222,7 @@ negligible <- ads_prep %>%
       !is.na(var_num)
   ) %>%
   group_by(region) %>%
-  summarize(
+  dplyr::summarize(
     c1 = mean(var_num, na.rm = TRUE),
     n = dplyr::n()
   ) %>%
@@ -229,7 +240,7 @@ negligible <- ads_prep %>%
 nom <- ads_prep %>%
   filter(str_detect(var, regex("nominal", ignore_case = TRUE)) & !is.na(var_num)) %>%
   group_by(region) %>%
-  summarize(
+  dplyr::summarize(
     c1 = mean(var_num, na.rm = TRUE),
     n = dplyr::n()
   ) %>%
@@ -248,7 +259,7 @@ some <- ads_prep %>%
       !is.na(var_num)
     ) %>%
   group_by(region) %>%
-  summarize(
+  dplyr::summarize(
     c1 = mean(var_num, na.rm = TRUE),
     n = dplyr::n()
   ) %>%
@@ -266,7 +277,7 @@ some <- ads_prep %>%
 small <- ads_prep %>%
   filter(str_detect(var, regex("small", ignore_case = TRUE)) & !is.na(var_num)) %>%
   group_by(region) %>%
-  summarize(
+  dplyr::summarize(
     c1 = mean(var_num, na.rm = TRUE),
     n = dplyr::n()
   ) %>%
@@ -287,7 +298,7 @@ substantial <- ads_prep %>%
       !is.na(var_num)
   ) %>%
   group_by(region) %>%
-  summarize(
+  dplyr::summarize(
     c1 = mean(var_num, na.rm = TRUE),
     n = dplyr::n()
   ) %>%
@@ -309,7 +320,7 @@ several <- ads_prep %>%
       !is.na(var_num)
   ) %>%
   group_by(region) %>%
-  summarize(
+  dplyr::summarize(
     c1 = mean(var_num, na.rm = TRUE),
     n = dplyr::n()
   ) %>%
@@ -331,7 +342,7 @@ threat <- ads_prep %>%
       !is.na(var_num)
   ) %>%
   group_by(region) %>%
-  summarize(
+  dplyr::summarize(
     c1 = mean(var_num, na.rm = TRUE),
     n = dplyr::n()
   ) %>%
@@ -349,33 +360,40 @@ threat <- ads_prep %>%
 
 ads_null <- NULL
 for(i in unique(c("MW", "NE", "S", "W"))){
-  
-  temp <- ads_prep %>%
-    filter(is.na(var_num) & region == i) %>%
-    mutate(
-      var_num = 
-        case_when(
-          str_detect(var, regex("very few", ignore_case = TRUE)) ~ v_few$c1[v_few$region == i],
-          str_detect(var, regex("few|fwe", ignore_case = TRUE)) &
-            !str_detect(var, regex("very", ignore_case = TRUE)) ~ few$c1[few$region == i],
-          str_detect(var, regex("negligible", ignore_case = TRUE)) ~ negligible$c1[negligible$region == i],
-          str_detect(var, regex("nominal", ignore_case = TRUE)) ~ nom$c1[nom$region == i],
-          str_detect(var, regex("some", ignore_case = TRUE)) ~ some$c1[some$region == i],
-          str_detect(var, regex("small", ignore_case = TRUE)) ~ small$c1[small$region == i],
-          str_detect(var, regex("substantial", ignore_case = TRUE)) ~ substantial$c1[substantial$region == i],
-          str_detect(var, regex("several", ignore_case = TRUE)) ~ several$c1[several$region == i],
-          str_detect(var, regex("threat", ignore_case = TRUE)) ~ threat$c1[threat$region == i],
-          str_detect(var, regex("yes", ignore_case = TRUE)) &
-            !str_detect(var, regex("few", ignore_case = TRUE)) &
-            !str_detect(var, regex("some", ignore_case = TRUE)) &
-            !str_detect(var, regex("small", ignore_case = TRUE)) &
-            !str_detect(var, regex("negligible", ignore_case = TRUE)) &
-            !str_detect(var, regex("substantial", ignore_case = TRUE)) ~ yes$c1[yes$region == i],
-          TRUE ~ var_num
-        )
-    ) 
-  
-  ads_null <- bind_rows(ads_null, temp)
+  for(j in unique(c("A", "B", "C", "D"))){
+    
+    tryCatch({
+      temp <- ads_prep %>%
+        filter(is.na(var_num) & region == i & holc_grade == j) %>%
+        mutate(
+          var_num = 
+            case_when(
+              str_detect(var, regex("very few", ignore_case = TRUE)) ~ v_few$c1[v_few$region == i],
+              str_detect(var, regex("few|fwe", ignore_case = TRUE)) &
+                !str_detect(var, regex("very", ignore_case = TRUE)) ~ few$c1[few$region == i],
+              str_detect(var, regex("negligible", ignore_case = TRUE)) ~ negligible$c1[negligible$region == i],
+              str_detect(var, regex("nominal", ignore_case = TRUE)) ~ nom$c1[nom$region == i],
+              str_detect(var, regex("some", ignore_case = TRUE)) ~ some$c1[some$region == i],
+              str_detect(var, regex("small", ignore_case = TRUE)) ~ small$c1[small$region == i],
+              str_detect(var, regex("substantial", ignore_case = TRUE)) ~ substantial$c1[substantial$region == i],
+              str_detect(var, regex("several", ignore_case = TRUE)) ~ several$c1[several$region == i],
+              str_detect(var, regex("threat", ignore_case = TRUE)) ~ threat$c1[threat$region == i],
+              str_detect(var, regex("yes", ignore_case = TRUE)) &
+                !str_detect(var, regex("few", ignore_case = TRUE)) &
+                !str_detect(var, regex("some", ignore_case = TRUE)) &
+                !str_detect(var, regex("small", ignore_case = TRUE)) &
+                !str_detect(var, regex("negligible", ignore_case = TRUE)) &
+                !str_detect(var, regex("substantial", ignore_case = TRUE)) ~ yes$c1[yes$region == i & yes$holc_grade == j],
+              TRUE ~ var_num
+            ),
+          b_flag = 1  # flag that these are estimates
+        ) 
+      
+      ads_null <- bind_rows(ads_null, temp)
+      
+    }, error = function(e){})
+    
+  }
   
 }
 
@@ -390,10 +408,13 @@ ads_null  # inspect
 ##--------------------------------------------------------
 
 ads_blk <- ads_prep %>%
-  left_join(ads_null[c(1,4)], by = c("unique_id"), suffix = c("", "2")) %>%
-  mutate(blk_num = ifelse(is.na(var_num2), var_num, var_num2)) %>%
+  left_join(ads_null[c(1,5,6)], by = c("unique_id"), suffix = c("", "2")) %>%
+  mutate(
+    blk_num = ifelse(is.na(var_num2), var_num, var_num2),
+    b_flag = ifelse(is.na(b_flag), 0, 1)
+    ) %>%
   dplyr::rename(black = var) %>%
-  select(unique_id, blk_num, black) %>%
+  dplyr::select(unique_id, blk_num, black, b_flag) %>%
   dplyr::rename(blk_txt = black) %>%
   print()
 

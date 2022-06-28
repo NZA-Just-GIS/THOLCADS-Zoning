@@ -23,7 +23,7 @@ for(i in seq(1:3)){
   
   ## organize vars: repair, sales demand (eventually dropped), and mortgage availability for buyers
   temp1 <- temp %>%
-      select(state:ads_type, repair, mort_av_buy) %>%
+      dplyr::select(state:ads_type, repair, mort_av_buy) %>%
       as_tibble()
 
   ## bind together
@@ -50,7 +50,7 @@ ads2 <- ads %>%
     repair = ifelse(!is.na(repair_fix), repair_fix, repair),
     mort_av_buy = ifelse(!is.na(mort_av_buy_fix), mort_av_buy_fix, mort_av_buy)
   ) %>%
-  select(-c(repair_fix:ncol(.))) %>%
+  dplyr::select(-c(repair_fix:ncol(.))) %>%
   print()
 
 
@@ -126,7 +126,7 @@ ads_fix1 <- ads_fix %>%
     mort_fair = ifelse(mort_lim == 1 | mort_per == 1, 1, 0),
     mort_poor = ifelse(mort_vlim == 1 | mort_none == 1, 1, 0)
   ) %>%
-  select(
+  dplyr::select(
     state:ads_type, 
     repair_good, repair_fair, repair_poor, repair_na, repair_oth, repair,
     mort_good, mort_fair, mort_poor, mort_fha, mort_na, mort_oth, mort_av_buy
@@ -172,7 +172,7 @@ ads_fix2 <- ads_fix1 %>%
       ),
   ) %>%
   # organize
-  select(
+  dplyr::select(
     state:ads_type,
     repair_cat, repair,
     mort_cat, mort_fha, mort_av_buy
@@ -203,7 +203,7 @@ ads_fix2 <- ads_fix1 %>%
     mort_av = mort_cat
   ) %>%
   # clean (remove sales demand)
-  select(unique_id, repair, mort_av, mort_fha, repair_txt, mort_txt) %>%
+  dplyr::select(unique_id, repair, mort_av, mort_fha, repair_txt, mort_txt) %>%
   print()
 
 

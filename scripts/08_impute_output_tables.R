@@ -9,6 +9,10 @@
 
 ## PREPARE WORKSPACE
 source("scripts/00_preamble.R")
+packages(ggpubr)  # for ggdensity plot
+packages(olsrr)  # for alternative density plot
+packages(cowplot)  # for compbine residual plots
+
 
 
 ##############################################
@@ -28,7 +32,7 @@ for(i in seq(1:3)){
   )
   
   temp1 <- temp %>%
-    select(state:ads_type) %>%
+    dplyr::select(state:ads_type) %>%
     as_tibble()
   
   ads <- bind_rows(ads, temp1)
@@ -89,7 +93,7 @@ df_clean <- df %>%
     BLACK_TXT = BLK_TXT,
     INC_TXT = INC_OCC_TXT
     ) %>%
-  select(
+  dplyr::select(
     # basic info
     UNIQUE_ID, STATE, CITY, METRO, HOLC_GRADE, HOLC_ID, REGION, ADS_TYPE, 
     # race/fb
@@ -101,7 +105,9 @@ df_clean <- df %>%
     # text
     BLACK_TXT, FB_TXT,
     OCC_TXT, INC_TXT,
-    AGE_TXT, REPAIR_TXT, MORT_TXT
+    AGE_TXT, REPAIR_TXT, MORT_TXT,
+    # flags
+    B_FLAG, FB_FLAG
   ) %>%
   # factor reorder
   mutate_at(
@@ -134,88 +140,111 @@ df_clean1 <- df_clean %>%
   print()
 
 
-##------------------------
+##-------------------------------------------------------------------
 ##  % Foreign Born
-##------------------------
+##-------------------------------------------------------------------
+
+
+## cleaned data -> only FB of greater than 0%
+df_clean2 <- df_clean1 %>%
+  filter(P_FB > 0) %>%
+  print()
+
 
 ## regression
-reg1 <- df_clean1 %>% 
-  # keep only nhoods w/ > 0 FB pop
-  filter(P_FB > 0) %>%
+reg1 <- df_clean2 %>%
   lm(
     log(P_FB) ~
-      METRO +
+    STATE +
+    OCC_CLASS +
+    HOLC_GRADE +
+    REPAIR +
+    MORT_AV +
+    P_BLACK,
+    data = .
+  )
+
+summary(reg1)
+#plot(reg1)
+ggdensity(residuals(reg1))
+
+
+## remove outlier residuals
+df_clean3 <- df_clean2 %>%
+  mutate(
+    resid = residuals(reg1),
+    sd2 = 2*sd(residuals(reg1)),
+    outs = ifelse(abs(resid) > sd2, 1, 0)
+  ) %>%
+  filter(outs == 0) %>%
+  print()
+
+
+## regression 2 --> removed residual outliers
+reg_fb <- df_clean3 %>%
+  lm(
+    log(P_FB) ~
+      STATE +
       OCC_CLASS +
       HOLC_GRADE +
+      REPAIR +
       MORT_AV +
       P_BLACK,
     data = .
   )
 
-summary(reg1)
+summary(reg_fb)
+#plot(reg_fb)
+ggdensity(residuals(reg_fb))
 
 
-## get coefficients
-df_coef <- bind_cols(
-  rownames(summary(reg1)$coefficients), 
-  summary(reg1)$coefficients[,1]
-) %>% 
-  dplyr::rename(
-    variables = 1, 
-    coef = 2
-  ) %>%
-  # remove var names to allow join
-  mutate(
-    var2 = str_replace(variables, "METRO|OCC_CLASS|HOLC_GRADE|MORT_AV", "")
-  ) %>%
+## predict missing vars with regression results
+est_data <- df_clean1 %>%
+  filter(P_FB > 0 | is.na(P_FB))
+
+estimate <- predict(reg_fb, newdata = est_data, se.fit = TRUE, interval = "confidence", level = 0.9)  # 90% CI
+
+
+## rest of data for rejoining
+df_rest <- df_clean1 %>%
+  filter(!UNIQUE_ID %in% est_data$UNIQUE_ID) %>%
   print()
 
 
-## make results table
-reg_results <- reg1$model %>% 
-  as_tibble() %>%
-  # remove value
-  select(-1) %>% 
-  distinct() %>% 
-  # fill out data set
-  tidyr::expand(METRO, OCC_CLASS, HOLC_GRADE, MORT_AV) %>%
-  bind_cols(
-    reg1$coefficients[1], # Intercept
-    reg1$coefficients["P_BLACK"]  # % Black
+## create predicted and join
+df_predict <- bind_cols(est_data, as.matrix(estimate)[1], estimate[2]) %>%
+  dplyr::rename(se = ncol(.)) %>%
+  # transform logged variables
+  mutate(
+    fit = exp(fit),
+    lwr = exp(lwr),
+    upr = exp(upr),
+    FB_ME = upr - fit
   ) %>%
-  dplyr::rename(
-    Intercept = 5,
-    coef_BLACK = 6
-  ) %>%
-  # join to coefficient df
-  left_join(df_coef[-1], by = c("METRO" = "var2")) %>%
-  left_join(df_coef[-1], by = c("OCC_CLASS" = "var2"), suffix = c("_METRO", "_OCC")) %>%
-  left_join(df_coef[-1], by = c("HOLC_GRADE" = "var2")) %>%
-  left_join(df_coef[-1], by = c("MORT_AV" = "var2"), suffix = c("_HOLC", "_MORT")) %>% 
-  #rename(coef_HOLC = coef) %>%
-  # change NAs to zeros
-  mutate_at(vars(contains("coef_")), ~ifelse(is.na(.), 0, .)) %>%
-  distinct() %>%
+  print()
+  
+
+## rejoin with original data 
+df_fix <- df_predict %>%
+  bind_rows(df_rest) %>%
+  # fix FB estimate
+  mutate(
+    FB_FLAG = ifelse(is.na(P_FB), 1, FB_FLAG),
+    FB_ME = ifelse(is.na(P_FB), FB_ME, NA),
+    P_FB = ifelse(is.na(P_FB), fit, P_FB)
+    ) %>%
+  dplyr::select(-c(fit:se)) %>%
   print()
 
 
-## add to data and update
-df_fix <- df_clean1 %>% 
-  left_join(reg_results, by = c("METRO", "OCC_CLASS", "HOLC_GRADE", "MORT_AV")) %>%
-  mutate(
-    FB_FLAG = ifelse(is.na(P_FB), 1, 0),  # flag imputed cases
-    FB_est = exp(Intercept + coef_BLACK*P_BLACK + coef_METRO + coef_OCC + coef_HOLC + coef_MORT),  # regression estimates
-    P_FB = ifelse(is.na(P_FB), FB_est, P_FB)  # replace MID_INC var
-  ) %>%
-  distinct() %>%
-  select(UNIQUE_ID:MORT_FHA, contains("TXT"), FB_FLAG) %>%
-  glimpse()
-
-
-
-##------------------------
+##------------------------------------------------------------------
 ##  Income
-##------------------------
+##------------------------------------------------------------------
+
+
+df_clean <- df_fix %>%
+  drop_na(MID_INC)
+
 
 ## regression
 reg1 <- lm(
@@ -224,76 +253,93 @@ reg1 <- lm(
     OCC_CLASS +
     HOLC_GRADE +
     REPAIR +
+    P_FB +
     P_BLACK,
   data = df_fix
 )
 
 # summary
 summary(reg1)
+#plot(reg1)
+ggdensity(residuals(reg1))
 
 
-## get coefficients
-df_coef <- bind_cols(
-  rownames(summary(reg1)$coefficients), 
-  summary(reg1)$coefficients[,1]
-  ) %>% 
-  dplyr::rename(
-    variables = 1, 
-    coef = 2
-    ) %>%
-  # remove var names to allow join
+## remove outlier residuals
+df_clean1 <- df_clean %>%
   mutate(
-    var2 = str_replace(variables, "REGION|OCC_CLASS|HOLC_GRADE|REPAIR", "")
+    resid = residuals(reg1),
+    sd2 = 2*sd(residuals(reg1)),
+    outs = ifelse(abs(resid) > sd2, 1, 0)
+  ) %>%
+  filter(outs == 0) %>%
+  print()
+
+
+## remove residual outliers
+reg_inc <- lm(
+  log(MID_INC) ~
+    REGION +
+    OCC_CLASS +
+    HOLC_GRADE +
+    REPAIR +
+    P_FB +
+    P_BLACK,
+  data = df_clean1
+)
+
+summary(reg_inc)
+#plot(reg_inc)
+ggdensity(residuals(reg_inc))
+
+
+## predict missing vars with regression results
+est_data <- df_fix %>%
+  filter(is.na(MID_INC)) %>%
+  filter(HOLC_GRADE != "E") %>%
+  print()
+
+estimate <- predict(reg_inc, newdata = est_data, se.fit = TRUE, interval = "confidence", level = 0.9)  # 90% CI
+
+
+## rest of data for rejoining
+df_rest <- df_fix %>%
+  filter(!UNIQUE_ID %in% est_data$UNIQUE_ID) %>%
+  print()
+
+
+## create predicted and join
+df_predict <- bind_cols(est_data, as.matrix(estimate)[1], estimate[2]) %>%
+  dplyr::rename(se = ncol(.)) %>%
+  # transform logged variables
+  mutate(
+    fit = exp(fit),
+    lwr = exp(lwr),
+    upr = exp(upr),
+    INC_ME = upr - fit
   ) %>%
   print()
 
 
-## make results table
-reg_results <- reg1$model %>% 
-  as_tibble() %>%
-  # remove value
-  select(-1) %>% 
-  distinct() %>% 
-  # fill out data set
-  tidyr::expand(REGION, OCC_CLASS, HOLC_GRADE, REPAIR) %>%
-  bind_cols(
-    reg1$coefficients[1], # Intercept
-    reg1$coefficients["P_BLACK"]  # % Black
-    ) %>%
-  dplyr::rename(
-    Intercept = 5,
-    coef_BLACK = 6
-    ) %>%
-  # join to coefficient df
-  left_join(df_coef[-1], by = c("REGION" = "var2")) %>%
-  left_join(df_coef[-1], by = c("OCC_CLASS" = "var2"), suffix = c("_REGION", "_OCC")) %>%
-  left_join(df_coef[-1], by = c("HOLC_GRADE" = "var2")) %>%
-  left_join(df_coef[-1], by = c("REPAIR" = "var2"), suffix = c("_HOLC", "_REPAIR")) %>%
-  #rename(coef_HOLC = coef) %>%
-  # change NAs to zeros
-  mutate_at(vars(contains("coef_")), ~ifelse(is.na(.), 0, .)) %>%
-  distinct() %>%
+## rejoin with original data 
+df_fix1 <- df_predict %>%
+  bind_rows(df_rest) %>%
+  # fix FB estimate
+  mutate(
+    INC_FLAG = ifelse(is.na(MID_INC), 1, 0),
+    INC_ME = ifelse(is.na(MID_INC), INC_ME, NA),
+    MID_INC = ifelse(is.na(MID_INC), fit, MID_INC)
+  ) %>%
+  dplyr::select(-c(fit:se)) %>%
   print()
 
 
-## add to data and update
-df_fix1 <- df_fix %>% 
-  left_join(reg_results, by = c("REGION", "OCC_CLASS", "HOLC_GRADE", "REPAIR")) %>%
-  mutate(
-    INC_FLAG = ifelse(is.na(MID_INC), 1, 0),  # flag imputed cases
-    INC_est = exp(Intercept + coef_BLACK*P_BLACK + coef_REGION + coef_OCC + coef_HOLC + coef_REPAIR),  # regression estimates
-    MID_INC = ifelse(is.na(MID_INC), INC_est, MID_INC)  # replace MID_INC var
-  ) %>%
-  distinct() %>%
-  select(UNIQUE_ID:MORT_FHA, contains("TXT"), contains("FLAG")) %>%
-  glimpse()
 
-
-
-##------------------------
+##---------------------------------------------------------
 ##  Building Age
-##------------------------
+##---------------------------------------------------------
 
+df_clean <- df_fix1 %>%
+  drop_na(MID_AGE)
 
 ## regression
 reg1 <- lm(
@@ -304,83 +350,90 @@ reg1 <- lm(
     MID_INC +
     P_FB +
     P_BLACK,
-  data = df_fix1
+  data = df_clean
 )
 
 # summary
 summary(reg1)
+#plot(reg1)
+ggdensity(residuals(reg1))
 
 
-## get coefficients
-df_coef <- bind_cols(
-  rownames(summary(reg1)$coefficients), 
-  summary(reg1)$coefficients[,1]
-) %>% 
-  dplyr::rename(
-    variables = 1, 
-    coef = 2
-  ) %>%
-  # remove var names to allow join
+## remove outlier residuals and NAs from Inc.
+df_clean1 <- df_clean %>%
   mutate(
-    var2 = str_replace(variables, "STATE|REPAIR|HOLC_GRADE", "")
+    resid = residuals(reg1),
+    sd2 = 2*sd(residuals(reg1)),
+    outs = ifelse(abs(resid) > sd2, 1, 0)
+  ) %>%
+  filter(outs == 0) %>%
+  print()
+
+
+## remove residual outliers
+reg_age <- lm(
+  log(MID_INC) ~
+    STATE +
+    OCC_CLASS +
+    HOLC_GRADE +
+    REPAIR +
+    P_FB +
+    P_BLACK,
+  data = df_clean1
+)
+
+summary(reg_age)
+#plot(reg2)
+ggdensity(residuals(reg_age))
+
+
+## predict missing vars with regression results
+est_data <- df_fix1 %>%
+  filter(is.na(MID_AGE)) %>%
+  filter(HOLC_GRADE != "E") %>%
+  print()
+
+estimate <- predict(reg_age, newdata = est_data, se.fit = TRUE, interval = "confidence", level = 0.9)  # 90% CI
+
+## rest of data for rejoining
+df_rest <- df_fix1 %>%
+  filter(!UNIQUE_ID %in% est_data$UNIQUE_ID) %>%
+  print()
+
+
+## create predicted and join
+df_predict <- bind_cols(est_data, as.matrix(estimate)[1], estimate[2]) %>%
+  dplyr::rename(se = ncol(.)) %>%
+  # transform logged variables
+  mutate(
+    fit = exp(fit),
+    lwr = exp(lwr),
+    upr = exp(upr),
+    AGE_ME = upr - fit
   ) %>%
   print()
 
 
-## make results table
-reg_results <- reg1$model %>% 
-  as_tibble() %>%
-  select(-1) %>% 
-  distinct() %>% 
-  # fill out data set
-  tidyr::expand(STATE, REPAIR, HOLC_GRADE) %>%
-  bind_cols(
-    reg1$coefficients[1],  #Intercept
-    reg1$coefficients["P_BLACK"],  # % Black
-    reg1$coefficients["P_FB"],  # % Foreign Born
-    reg1$coefficients["MID_INC"]  # Income
-    ) %>%
-  dplyr::rename(
-    Intercept = 4,
-    coef_BLACK = 5,
-    coef_FB = 6,
-    coef_INC = 7
-    ) %>%
-  # join to coefficient df
-  left_join(df_coef[-1], by = c("STATE" = "var2")) %>%
-  left_join(df_coef[-1], by = c("REPAIR" = "var2"), suffix = c("_STATE", "_REPAIR")) %>%
-  left_join(df_coef[-1], by = c("HOLC_GRADE" = "var2")) %>%
-  dplyr::rename(coef_HOLC = coef) %>%
-  # change NAs to zeros
-  mutate_at(vars(contains("coef_")), ~ifelse(is.na(.), 0, .)) %>%
-  distinct() %>%
-  print()
-
-
-
-## add to data and update
-df_fix2 <- df_fix1 %>% 
-  left_join(reg_results, by = c("STATE", "REPAIR", "HOLC_GRADE")) %>%
+## rejoin with original data 
+df_fix2 <- df_predict %>%
+  bind_rows(df_rest) %>%
+  # fix FB estimate
   mutate(
     AGE_FLAG = ifelse(is.na(MID_AGE), 1, 0),
-    AGE_est = exp(Intercept + coef_BLACK*P_BLACK + coef_FB*P_FB + coef_INC*MID_INC + coef_STATE + coef_REPAIR + coef_HOLC),
-    MID_AGE = ifelse(is.na(MID_AGE), AGE_est, MID_AGE)
+    AGE_ME = ifelse(is.na(MID_AGE), AGE_ME, NA),
+    MID_AGE = ifelse(is.na(MID_AGE), fit, MID_AGE)
   ) %>%
-  distinct() %>%
-  select(UNIQUE_ID:MORT_FHA, contains("TXT"), contains("FLAG")) %>%
-  # remove single case missing data
-  filter(!is.na(MID_INC) & !is.na(MID_AGE)) %>%
+  dplyr::select(-c(fit:se)) %>%
+  dplyr::select(UNIQUE_ID:FB_FLAG, INC_FLAG, AGE_FLAG, FB_ME, INC_ME, AGE_ME) %>%
   # fix names
   mutate(
     OCC_CLASS = str_replace(OCC_CLASS, "_OC", ""),
     REPAIR = str_replace(REPAIR, "_R", ""),
     MORT_AV = str_replace(MORT_AV, "_AV", "")
   ) %>%
-  glimpse()
+  print()
 
 
-
-##------------------------------
 ## Save!!
 ##------------------------------
 
@@ -388,9 +441,101 @@ write_csv(df_fix2, "DATA_DOWNLOAD/TABLES/ADS_FINAL.csv")
 
 
 
-##############################################
+##------------------------------------------------------
+## Residual Plots -- density & histogram
+##------------------------------------------------------
+
+
+## Foreign born
+plot_fb <- ols_plot_resid_hist(reg_fb) + 
+  ggtitle("") +
+  ylab("Density") +
+  xlab("") +
+  scale_y_continuous(labels = scales::comma, breaks = seq(0, 1200, 200)) +
+  #scale_x_continuous(breaks = seq(-3, 3, 1)) +
+  xlim(-2.5, 2.5) +
+  theme_bw() +
+  facet_grid(. ~ "% \"Foreign Born\"") +
+  theme(
+    strip.text.x = element_text(size = 16, face = "bold"),
+    axis.title = element_text(size = 14),
+    axis.text = element_text(size = 12)
+  )
+
+
+plot_fb
+
+
+## density plot of residuals
+plot_inc <- ols_plot_resid_hist(reg_inc) +
+  ggtitle("") +
+  ylab("Density") +
+  xlab("") +
+  scale_y_continuous(labels = scales::comma, breaks = seq(0, 4000, 1000)) +
+  #scale_x_continuous(breaks = seq(-3, 3, 0.5)) +
+  xlim(-2.5, 2.5)+
+  theme_bw() +
+  facet_grid(. ~ "Family Income") +
+  theme(
+    strip.text.x = element_text(size = 16, face = "bold"),
+    axis.title = element_text(size = 14),
+    axis.text = element_text(size = 12)
+  )
+
+
+plot_inc
+
+
+## Income
+plot_age <- ols_plot_resid_hist(reg_age) + 
+  ggtitle("") +
+  ylab("Density") +
+  xlab("Residuals (Std. Dev.)") +
+  scale_y_continuous(labels = scales::comma, breaks = seq(0, 6000, 1000)) +
+  #scale_x_continuous(breaks = seq(-3, 3, 1), ) +
+  xlim(-2.5, 2.5)+
+  theme_bw() +
+  facet_grid(. ~ "Building Age") +
+  theme(
+    strip.text.x = element_text(size = 16, face = "bold"),
+    axis.title = element_text(size = 14),
+    axis.text = element_text(size = 12)
+    )
+
+plot_age
+
+
+## Cowplot
+##-------------------------------------
+prow <- cowplot::plot_grid(
+  plot_fb,
+  plot_inc,
+  plot_age,
+  labels = "auto",
+  label_size = 18,
+  ncol = 1
+)
+
+prow
+
+
+## Save plots
+##----------------------------------------
+
+## create folder
+dir.create("DATA_DOWNLOAD/APPENDIX")
+
+
+## Save out plots
+tiff("DATA_DOWNLOAD/APPENDIX/Residuals.tif", width = 600, height = 1200)
+prow
+dev.off()
+
+
+
+###################################################################################
 ##  Generate Summary Stat Tables
-##############################################
+###################################################################################
 
 ## Look at building age, % black, and % foreign born by region & nhood
 df_org <- df %>%
@@ -402,17 +547,17 @@ df_org <- df %>%
   group_by(region) %>%
   mutate(cities = length(unique(city_state))) %>%
   group_by(holc_grade, region, cities) %>%
-  summarize(
+  dplyr::summarize(
     bdg_age_mid = mean(mid_age, na.rm = TRUE),
     mid_inc = mean(mid_inc, na.rm = TRUE),
     black = mean(blk_num, na.rm = TRUE),
     fb = mean(fb_num, na.rm = TRUE),
-    inc_miss = sum(inc_miss),
-    fb_miss = sum(fb_miss),
+    inc_miss = base::sum(inc_miss),
+    fb_miss = base::sum(fb_miss),
     nhoods = dplyr::n()
   ) %>% 
   filter(holc_grade != "E") %>%
-  select(holc_grade, region, bdg_age_mid:fb_miss, cities, nhoods) %>%
+  dplyr::select(holc_grade, region, bdg_age_mid:fb_miss, cities, nhoods) %>%
   arrange(region, holc_grade) %>%
   dplyr::rename(
     "HOLC Grade" = holc_grade,
@@ -449,13 +594,13 @@ write.xlsx(
 df_cities <- df %>%
   mutate(city_state = paste(city, state, sep = ", ")) %>%
   group_by(city_state, metro, region) %>%
-  summarize(holc_nhoods = dplyr::n()) %>%
+  dplyr::summarize(holc_nhoods = dplyr::n()) %>%
   print()
 
 
 ## Midwest
 mw <- df_cities %>% filter(region == "MW") %>%
-  select(-region) %>%
+  dplyr::select(-region) %>%
   arrange(-holc_nhoods, metro) %>%
   dplyr::rename(
     City = city_state,
@@ -466,7 +611,7 @@ mw <- df_cities %>% filter(region == "MW") %>%
 
 ## Northeast
 ne <- df_cities %>% filter(region == "NE") %>%
-  select(-region) %>%
+  dplyr::select(-region) %>%
   arrange(-holc_nhoods, metro) %>%
   dplyr::rename(
     City = city_state,
@@ -477,7 +622,7 @@ ne <- df_cities %>% filter(region == "NE") %>%
 
 ## South
 s <- df_cities %>% filter(region == "S") %>%
-  select(-region) %>%
+  dplyr::select(-region) %>%
   arrange(-holc_nhoods, metro) %>%
   dplyr::rename(
     City = city_state,
@@ -488,7 +633,7 @@ s <- df_cities %>% filter(region == "S") %>%
 
 ## West
 w <- df_cities %>% filter(region == "W") %>%
-  select(-region) %>%
+  dplyr::select(-region) %>%
   arrange(-holc_nhoods, metro) %>%
   dplyr::rename(
     City = city_state,
@@ -531,7 +676,6 @@ holc_cities <- read_csv("tables/holc_cities.csv") %>%
 
 ## Save out
 write_csv(holc_cities, "DATA_DOWNLOAD/TABLES/HOLC_Cities.csv")
-
 
 
 

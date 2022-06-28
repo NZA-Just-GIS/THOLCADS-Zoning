@@ -33,7 +33,7 @@ holc_sf <- st_as_sf(holc_json) %>%
     UNIQUE_ID = str_replace(UNIQUE_ID, " and ", ""),  # remove "and"s
     UNIQUE_ID = str_replace_all(UNIQUE_ID, "[[:space:]]", "")  # remove all spaces
   ) %>%
-  select(UNIQUE_ID, geometry) %>%
+  dplyr::select(UNIQUE_ID, geometry) %>%
   print() # inspect
 
 
@@ -58,7 +58,7 @@ holc_join <- holc_sf %>%
   # remove cities missing table data
   drop_na(HOLC_ID) %>%
   # drop txt & flag vars
-  select(UNIQUE_ID:MORT_FHA, contains("FLAG")) %>%
+  dplyr::select(UNIQUE_ID:MORT_FHA, contains("FLAG")) %>%
   glimpse()
   
 
@@ -98,7 +98,7 @@ st_write(
 
 ## Clean file
 HOLC <- holc_join %>%
-  select(
+  dplyr::select(
     UNIQUE_ID:REGION, 
     MID_AGE, P_BLACK, P_FB, FB_GROUP,
     MID_INC, OCC_CLASS, REPAIR, MORT_AV, MORT_FHA,
@@ -128,26 +128,26 @@ mapview(
 ##----------------------------------------------------
 
 ## Set mapview options to allow export
-#mapviewOptions(fgb = FALSE)
+mapviewOptions(fgb = FALSE)
 
 ## create map object
-# map_obj <- mapview(
-#    HOLC,  # geo file
-#    alpha.regions = 0.5,  # polygon transparency
-#    zcol = "N'hood Grade",  # data to display
-#    col.regions = palette,  # colors to display
-#    lwd = 1.5  # line width
-# )
+ map_obj <- mapview(
+    HOLC,  # geo file
+    alpha.regions = 0.5,  # polygon transparency
+    zcol = "N'hood Grade",  # data to display
+    col.regions = palette,  # colors to display
+    lwd = 1.5  # line width
+ )
  
 ## Save out as HTML
-# mapshot(
-#    map_obj, 
-#    url = "DATA_DOWNLOAD/SHAPES/holc_map.html",
-#    remove_controls = c("homeButton", "drawToolbar", "easyButton")
-#    )
+ mapshot(
+    map_obj, 
+    url = "holc_map.html",
+    remove_controls = c("homeButton", "drawToolbar", "easyButton")
+    )
 
 ## Delete extra folder
-#unlink("DATA_DOWNLOAD/SHAPES/holc_map_files", recursive = TRUE)
+unlink("holc_map_files", recursive = TRUE)
 
 
 ##-----------------------------------------------------

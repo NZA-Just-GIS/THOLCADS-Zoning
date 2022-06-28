@@ -29,14 +29,14 @@ for(i in seq(1,3)){
   if(temp$ads_type == "early37"){
     
     temp1 <- temp %>%
-      select(unique_id, ads_type, inh_type) %>%
+      dplyr::select(unique_id, ads_type, inh_type) %>%
       dplyr::rename(occ = inh_type) %>%
       as_tibble()
     
   } else{
     # occupation
     temp1 <- temp %>%
-      select(unique_id, ads_type, occupation) %>%
+      dplyr::select(unique_id, ads_type, occupation) %>%
       dplyr::rename(occ = occupation) %>%
       as_tibble()
     
@@ -207,7 +207,7 @@ occ2 %>%
 
 ## finalize
 ads_occ <- occ2 %>%
-  select(unique_id, class, occ) %>%
+  dplyr::select(unique_id, class, occ) %>%
   dplyr::rename(
     occ_class = class,
     occ_txt = occ

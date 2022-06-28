@@ -27,6 +27,7 @@ packages <- function(x) {
   rm(installed_packages) # Remove From Workspace
 }
 
+
 packages(tidyverse)
 #packages(httr)  # for NHGIS API
 #packages(jsonlite)  # for NHGIS API

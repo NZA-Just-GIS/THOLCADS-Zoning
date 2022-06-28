@@ -21,7 +21,7 @@ for(i in seq(1:3)){
   )
 
   temp1 <- temp %>%
-    select(state:ads_type, avg_age) %>%
+    dplyr::select(state:ads_type, avg_age) %>%
     as_tibble()
 
   ads <- bind_rows(ads, temp1)
@@ -54,7 +54,7 @@ var <- "avg_age"
 ## Extract all other numbers
 ads_pre_prep <- ads %>%
   # keep only unique identifier & variable of interest
-  select(unique_id, var, region) %>%
+  dplyr::select(unique_id, var, region) %>%
   # keep generic name
   dplyr::rename(var = 2) %>%
   # add numbers to var_num
@@ -75,7 +75,7 @@ ads_pre_prep <- ads %>%
   ) %>%
   left_join(numbers, by = c("var_join" = "alpha_no")) %>%
   mutate(var_num1 = ifelse(!is.na(var_join), no, var_num1)) %>%
-  select(-var_join, -no) %>%
+  dplyr::select(-var_join, -no) %>%
   pivot_longer(
     cols = var_num1:var_num6,
     names_to = "var_nums",
@@ -86,10 +86,11 @@ ads_pre_prep <- ads %>%
     value = as.numeric(value),
     value = value * up_to
     ) %>%
+  arrange(unique_id) %>%
   group_by(unique_id) %>%
-  summarize(
-    min = min(value, na.rm = TRUE),
-    max = max(value, na.rm = TRUE),
+  dplyr::summarize(
+    min = base::min(value, na.rm = TRUE),
+    max = base::max(value, na.rm = TRUE),
     midpt = (min + max) / 2#,
     #avg = mean(value, na.rm = TRUE)
     ) %>%
@@ -124,7 +125,7 @@ ads_prep <- ads_pre_prep %>%
     max = ifelse(!is.na(max_fix), max_fix, max),
     midpt = ifelse(!is.na(midpt_fix), midpt_fix, midpt)
   ) %>%
-  select(-c(min_fix:midpt_fix)) %>%
+  dplyr::select(-c(min_fix:midpt_fix)) %>%
   print()
 
 

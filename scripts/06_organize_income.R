@@ -25,14 +25,14 @@ for(i in seq(1:3)){
   if(temp$ads_type == "x3940"){
     
     ads3940 <- temp %>%
-      select(unique_id, ads_type, occupation) %>%
+      dplyr::select(unique_id, ads_type, occupation) %>%
       dplyr::rename(fam_inc = ncol(.)) %>%
       as_tibble()
     
   } else{
     # family income (fam_inc)
     temp1 <- temp %>%
-      select(unique_id, ads_type, fam_inc) %>%
+      dplyr::select(unique_id, ads_type, fam_inc) %>%
       as_tibble()
     
     ads37 <- bind_rows(ads37, temp1)
@@ -166,16 +166,16 @@ ads37_fixed <- fix1 %>%
     and_up = ifelse(str_detect(var, " up") & !str_detect(var, "up to"), 1.5, 1)  # multiplier for "and up"
   ) %>%
   group_by(unique_id, and_up) %>%
-  summarize(
-     min = min(value, na.rm = TRUE),
-     max = max(value, na.rm = TRUE) * and_up,  # multiple
+  dplyr::summarize(
+     min = base::min(value, na.rm = TRUE),
+     max = base::max(value, na.rm = TRUE) * and_up,  # multiple
      mid = (min + max) / 2,
      mid = ifelse(is.nan(mid), NA, mid)
   ) %>%
   mutate_at(vars(min:mid), ~ifelse(is.infinite(.), 0, .)) %>%
   mutate_at(vars(min, max), ~ifelse(min == 0 & max == 0, NA, .)) %>%
   ungroup() %>%
-  select(-and_up) %>%
+  dplyr::select(-and_up) %>%
   distinct() %>%
   print()
 
@@ -236,16 +236,16 @@ ads3940_fixed <- fix1 %>%
     values_to = "value"
   ) %>%
   group_by(unique_id, and_up) %>%
-  summarize(
-    min = min(value, na.rm = TRUE),
-    max = max(value, na.rm = TRUE) * and_up,  # multiple
+  dplyr::summarize(
+    min = base::min(value, na.rm = TRUE),
+    max = base::max(value, na.rm = TRUE) * and_up,  # multiple
     mid = (min + max) / 2,
     mid = ifelse(is.nan(mid), NA, mid)
   ) %>%
   mutate_at(vars(min:mid), ~ifelse(is.infinite(.), 0, .)) %>%
   mutate_at(vars(min, max), ~ifelse(min == 0 & max == 0, NA, .)) %>%
   ungroup() %>%
-  select(-and_up) %>%
+  dplyr::select(-and_up) %>%
   distinct() %>%
   print()
 
@@ -257,13 +257,13 @@ ads3940_fixed <- fix1 %>%
 
 ## bind text
 ads_text <- bind_rows(ads37, ads3940) %>%
-  select(-ads_type) %>%
+  dplyr::select(-ads_type) %>%
   print()
 
 
 # make final
 ads_income <- bind_rows(ads37_fixed, ads3940_fixed) %>%
-  select(unique_id, min, mid, max) %>%
+  dplyr::select(unique_id, min, mid, max) %>%
   dplyr::rename(
     min_inc = min,
     mid_inc = mid,
@@ -272,6 +272,8 @@ ads_income <- bind_rows(ads37_fixed, ads3940_fixed) %>%
   # add text
   left_join(ads_text, by = "unique_id") %>%
   dplyr::rename(inc_occ_txt = fam_inc) %>%
+  # fix cases of under 200
+  mutate(mid_inc = ifelse(mid_inc < 200, NA, mid_inc)) %>%
   print()
 
 

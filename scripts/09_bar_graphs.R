@@ -133,7 +133,7 @@ pfb
 ##-----------------------------------
 
 ## Create new folder and export
-#dir.create("DATA_DOWNLOAD/BAR_GRAPHS")
+dir.create("DATA_DOWNLOAD/BAR_GRAPHS")
 
 
 ## Save out as TIFFs
@@ -225,7 +225,7 @@ df <- read_csv("DATA_DOWNLOAD/TABLES/ADS_FINAL.csv") %>%
 ## create table
 ##----------------------------
 
-df1 <- df %>% 
+df1 <- df %>%
   # remove one strange case
   filter(HOLC_GRADE != "E" & !is.na(HOLC_ID)) %>%
   # select for mentions of specific nationality/ethnicity groupings
@@ -251,7 +251,7 @@ df1 <- df %>%
   group_by(HOLC_GRADE, REGION) %>%
   summarize_at(
      vars(`E. Asian/PI`:Total),
-     ~sum(., na.rm = TRUE)
+     ~base::sum(., na.rm = TRUE)
   ) %>%
   # make data long
   pivot_longer(
@@ -261,10 +261,10 @@ df1 <- df %>%
   ) %>%
   # calculate by nationality
   group_by(nationality) %>%
-  mutate(nat_sum = sum(nhoods)) %>%
+  mutate(nat_sum = base::sum(nhoods)) %>%
   # organize into correct format & calculate
   group_by(nationality, HOLC_GRADE, nat_sum) %>%
-  summarize(p_nat_sum = sum(nhoods) / nat_sum * 100) %>%
+  dplyr::summarize(p_nat_sum = base::sum(nhoods) / nat_sum * 100) %>%
   arrange(nationality, HOLC_GRADE) %>%
   distinct() %>%
   print()
@@ -318,11 +318,11 @@ g1 <- df_graph %>%
   theme_bw() +
   # adjust text
   theme(
-    axis.title = element_text(size = 13.5, face = "bold"),
-    axis.text = element_text(size = 11),
+    axis.title = element_text(size = 15.5, face = "bold"),
+    axis.text = element_text(size = 13.5),
     axis.text.x = element_text(angle = 45, vjust = 1.15, hjust = 1.1),
-    legend.title = element_text(size = 13.5),
-    legend.text = element_text(size = 11)
+    legend.title = element_text(size = 15.5),
+    legend.text = element_text(size = 13.5)
   )
   
 
@@ -330,7 +330,7 @@ g1  # display graph
 
 
 ## Save out
-tiff("DATA_DOWNLOAD/BAR_GRAPHS/fb_graph.tif", width = 990, height = 720)
+tiff("DATA_DOWNLOAD/BAR_GRAPHS/fb_graph.tif", width = 825, height = 600)
 print(g1)
 dev.off()
 
@@ -343,7 +343,7 @@ dev.off()
 ## Look at N values
 df_order <- df_graph %>% 
   ungroup() %>%
-  select(nationality, nat_sum) %>%
+  dplyr::select(nationality, nat_sum) %>%
   distinct() %>%
   arrange(-nat_sum) %>%
   dplyr::rename(group = 1, n = nat_sum) %>%
@@ -427,11 +427,11 @@ blk_graph <- df %>%
   ) %>%
   # Collect variables
   group_by(black, HOLC_GRADE) %>% 
-  summarize(n = dplyr::n()) %>%
+  dplyr::summarize(n = dplyr::n()) %>%
   ungroup() %>%
   # calc. percentages
   group_by(black) %>%
-  mutate(p_total = n / sum(n) * 100) %>%
+  mutate(p_total = n / base::sum(n) * 100) %>%
   print()
 
 
@@ -468,7 +468,7 @@ g3  # display graph
 ## Get summary of breakdown (N)
 blk_graph %>%
   group_by(black) %>%
-  summarize(n = sum(n)) %>%
+  dplyr::summarize(n = base::sum(n)) %>%
   print()
 
 
@@ -482,11 +482,11 @@ occ_graph <- df %>%
   # remove Other/NA
   #filter(OCC_CLASS != "Other_NA") %>%
   group_by(HOLC_GRADE, OCC_CLASS) %>%
-  summarize(n = dplyr::n()) %>%
+  dplyr::summarize(n = dplyr::n()) %>%
   ungroup() %>%
   # calc. percentages
   group_by(HOLC_GRADE) %>%
-  mutate(p_total = n / sum(n) * 100) %>%
+  mutate(p_total = n / base::sum(n) * 100) %>%
   mutate(
     OCC_CLASS =
       factor(
@@ -511,7 +511,7 @@ g_occ <- occ_graph %>%
   #   ) +
   scale_fill_manual(
     labels = c("\"Upper\"", "Up-\nMid.", "Mid./\nMix", "Low-\nMid.", "\"Lower\"", "Other/\nNA"),
-    values = c("#018571", "#80cdc1", "#f5f5f5", "#dfc27d", "#a6611a", "grey")
+    values = c("#018571", "#80cdc1", "#f5f5f5", "#dfc27d", "#a6611a", "grey70")
   ) +
   # set limits for y axis
   scale_y_continuous(limits = c(0, 101), expand = c(0, 0)) +
@@ -526,10 +526,10 @@ g_occ <- occ_graph %>%
   # adjust text
   # adjust text
   theme(
-    axis.title = element_text(size = 12),
-    axis.text = element_text(size = 11),
+    axis.title = element_text(size = 13),
+    axis.text = element_text(size = 11.5),
     legend.title = element_blank(),
-    legend.text = element_text(size = 10),
+    legend.text = element_text(size = 10.5),
     legend.key.width = unit(1.3, "cm"),
     legend.key.height = unit(0.5, "cm"),
     legend.position = "bottom"
@@ -549,11 +549,11 @@ repair_graph <- df %>%
   # remove Other/NA
   #filter(REPAIR != "Other_NA") %>%
   group_by(HOLC_GRADE, REPAIR) %>%
-  summarize(n = dplyr::n()) %>%
+  dplyr::summarize(n = dplyr::n()) %>%
   ungroup() %>%
   # calc. percentages
   group_by(HOLC_GRADE) %>%
-  mutate(p_total = n / sum(n) * 100) %>%
+  mutate(p_total = n / base::sum(n) * 100) %>%
   mutate(
     REPAIR =
       factor(
@@ -578,7 +578,7 @@ g_rep <- repair_graph %>%
   # ) +
   scale_fill_manual(
     labels = c("Good", "Fair-\nGood", "Fair", "Fair-\nPoor", "Poor", "Other/\nNA"),
-    values = c("#018571", "#80cdc1", "#f5f5f5", "#dfc27d", "#a6611a", "grey")
+    values = c("#018571", "#80cdc1", "#f5f5f5", "#dfc27d", "#a6611a", "grey70")
   ) +
   # set limits for y axis
   scale_y_continuous(limits = c(0, 101), expand = c(0, 0)) +
@@ -592,10 +592,10 @@ g_rep <- repair_graph %>%
   theme_bw() +
   # adjust text
   theme(
-    axis.title = element_text(size = 12),
-    axis.text = element_text(size = 11),
+    axis.title = element_text(size = 12.5),
+    axis.text = element_text(size = 11.5),
     legend.title = element_blank(),
-    legend.text = element_text(size = 10),
+    legend.text = element_text(size = 10.5),
     legend.key.width = unit(1.3, "cm"),
     legend.key.height = unit(0.5, "cm"),
     legend.position = "bottom"
@@ -616,11 +616,11 @@ mort_graph <- df %>%
   # remove Other/NA
   #filter(MORT_AV != "Other_NA") %>%
   group_by(HOLC_GRADE, MORT_AV) %>%
-  summarize(n = dplyr::n()) %>%
+  dplyr::summarize(n = dplyr::n()) %>%
   ungroup() %>%
   # calc. percentages
   group_by(HOLC_GRADE) %>%
-  mutate(p_total = n / sum(n) * 100) %>%
+  mutate(p_total = n / base::sum(n) * 100) %>%
   mutate(
     MORT_AV =
       factor(
@@ -645,7 +645,7 @@ g_mort <- mort_graph %>%
   # ) +
   scale_fill_manual(
     labels = c("Ample", "Ltd.-\nAmple", "Ltd./\nCond.", "Ltd.-\nRestr.", "Restr.", "Other/\nNA"),
-    values = c("#018571", "#80cdc1", "#f5f5f5", "#dfc27d", "#a6611a", "grey")
+    values = c("#018571", "#80cdc1", "#f5f5f5", "#dfc27d", "#a6611a", "grey70")
   ) +
   # set limits for y axis
   scale_y_continuous(limits = c(0, 101), expand = c(0, 0)) +
@@ -659,10 +659,10 @@ g_mort <- mort_graph %>%
   theme_bw() +
   # adjust text
   theme(
-    axis.title = element_text(size = 12),
-    axis.text = element_text(size = 11),
+    axis.title = element_text(size = 12.5),
+    axis.text = element_text(size = 11.5),
     legend.title = element_blank(),
-    legend.text = element_text(size = 10),
+    legend.text = element_text(size = 10.5),
     legend.key.width = unit(1.3, "cm"),
     legend.key.height = unit(0.5, "cm"),
     legend.position = "bottom"

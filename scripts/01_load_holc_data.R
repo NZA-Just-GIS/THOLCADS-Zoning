@@ -11,7 +11,7 @@
 source("scripts/00_preamble.R")
 
 ## Create DATA_DOWNLOAD folder
-#dir.create("DATA_DOWNLOAD")
+dir.create("DATA_DOWNLOAD")
 
 
 #################################################################################
@@ -46,7 +46,7 @@ df <- holc_json %>%
     unique_id = str_replace(unique_id, " and ", ""),  # remove "and"s
     unique_id = str_replace_all(unique_id, "[[:space:]]", "")  # remove all spaces
     ) %>%
-  select(-neighborhood_id) %>%
+  dplyr::select(-neighborhood_id) %>%
   # remove NAs
   drop_na(holc_id) %>%
   # remove missing data
@@ -92,7 +92,7 @@ ads_prep <- df %>%
   unnest(cols = split) %>%
   # separate sections from comments
   separate(split, c("section", "comment"), "\": ") %>%
-  select(-name) %>%
+  dplyr::select(-name) %>%
   print()
 
 
@@ -108,7 +108,7 @@ ads_org <- ads_prep %>%
   ) %>%
   arrange(unique_id, section) %>%
   # clean up
-  select(-area_description_data) %>%
+  dplyr::select(-area_description_data) %>%
   mutate(
     sect_num = as.integer(str_extract(section, "[:digit:]+")),
     sect_alpha = str_extract(section, "[:alpha:]+")
@@ -142,7 +142,7 @@ ads_e37_prep <- ads_org %>%
     section = paste0(str_pad(sect_num, 2, pad = "0"), sect_alpha),
     section = str_replace(section, "NA", "")
       ) %>%
-  select(-sect_num, -sect_alpha) %>%
+  dplyr::select(-sect_num, -sect_alpha) %>%
   arrange(section) %>%
   print()
 
@@ -203,13 +203,13 @@ ads_e37 <- ads_e37_prep %>%
        )
     ) %>%
   # clean up & rearrange
-  select(state:ads_type, sect_name, comment) %>%
+  dplyr::select(state:ads_type, sect_name, comment) %>%
   # make wide for mutate function
   pivot_wider(
     names_from = sect_name,
     values_from = comment
     ) %>%
-  select(-`NA`) %>%
+  dplyr::select(-`NA`) %>%
   print()  # n = 2,068
 
 
@@ -236,7 +236,7 @@ ads_l37_prep <- ads_org %>%
     section = paste0(sect_num, sect_alpha),  # combine section number and alpha character (1a, 1b, etc)
     section = str_replace(section, "NA", "")  # remove NAs in cases w/ no alphas
   ) %>%
-  select(-sect_num, -sect_alpha) %>%
+  dplyr::select(-sect_num, -sect_alpha) %>%
   ## don't need this info
   filter(!section %in% c("6", "6.1", "6.2", "6.3")) %>%
   arrange(section) %>%
@@ -294,7 +294,7 @@ ads_l37 <- ads_l37_prep %>%
           )
       ) %>%
     # rearrange and drop section column
-    select(state:ads_type, sect_name, comment) %>%
+    dplyr::select(state:ads_type, sect_name, comment) %>%
     # trim whitespace
     mutate(comment = str_trim(comment, "both")) %>%
     # make wide to allow mutation of 'black' column
@@ -303,7 +303,7 @@ ads_l37 <- ads_l37_prep %>%
       values_from = comment
       ) %>%
     # remove errant column
-    select(-`NA`) %>%
+    dplyr::select(-`NA`) %>%
     print()
 
 
@@ -330,7 +330,7 @@ ads_x3940_prep <- ads_org %>%
     section = paste0(sect_num, sect_alpha),  # combine section number and alpha character (1a, 1b, etc)
     section = str_replace(section, "NA", "")  # remove NAs in cases w/ no alphas
   ) %>%
-  select(-sect_num, -sect_alpha) %>%
+  dplyr::select(-sect_num, -sect_alpha) %>%
   arrange(section) %>%
   print()
 
@@ -388,7 +388,7 @@ ads_3940 <- ads_x3940_prep %>%
         )
     ) %>%
   # rearrange and drop section column
-  select(state:ads_type, sect_name, comment) %>%
+  dplyr::select(state:ads_type, sect_name, comment) %>%
   # trim whitespace
   mutate(comment = str_trim(comment, "both")) %>%
   # make wide to allow mutation of 'black' column
@@ -397,7 +397,7 @@ ads_3940 <- ads_x3940_prep %>%
     values_from = comment
     ) %>%
   # remove errant column
-  select(-`NA`) %>%
+  dplyr::select(-`NA`) %>%
   print()
 
 
@@ -410,7 +410,7 @@ rm(ads_x3940_prep)
 #####################################################
 
 ## Add output TABLES folder
-#dir.create("DATA_DOWNLOAD/TABLES")
+dir.create("DATA_DOWNLOAD/TABLES")
 
 ## Create list of dataframes
 df_list <- list(
@@ -424,5 +424,4 @@ openxlsx::write.xlsx(
   df_list, 
   "DATA_DOWNLOAD/TABLES/ADS_organized.xlsx"
   )
-
 
