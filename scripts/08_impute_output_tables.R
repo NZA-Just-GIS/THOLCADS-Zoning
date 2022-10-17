@@ -12,7 +12,7 @@ source("scripts/00_preamble.R")
 packages(ggpubr)  # for ggdensity plot
 packages(olsrr)  # for alternative density plot
 packages(cowplot)  # for compbine residual plots
-
+require(dplyr)
 
 
 ##############################################

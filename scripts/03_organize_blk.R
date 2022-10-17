@@ -111,18 +111,18 @@ ads_pre_prep <- ads %>%
     var_num = ifelse(unique_id == "IN_Indianapolis_B13", 5, var_num),
     var_num = ifelse(unique_id == "NJ_AtlanticCity_B3", 0, var_num),
     var_num = ifelse(unique_id == "NJ_AtlanticCity_B6", 0, var_num),
-    var_num = ifelse(unique_id == "NJ_Camden_NJ_B13", 0, var_num)
+    var_num = ifelse(unique_id == "NJ_Camden_B13", 5, var_num)
   ) %>%
   print()
 
 ## View
 #ads_prep %>% filter(is.na(var_num)) %>% View()  # n = 113
 
-##-----------------------------------------------
-## Correct special cases in Chicago
-##-----------------------------------------------
+##-------------------------------------------------------------------------
+## Correct special cases in Chicago and other cities in file
+##-------------------------------------------------------------------------
 
-## Load Chicago fix data
+## Load fixed data
 chicago_fix <- read_csv("tables/chicago_fix.csv") %>%
   print()
 
@@ -175,7 +175,7 @@ few <- ads_prep %>%
       !str_detect(var, regex("very", ignore_case = TRUE)) &
       !is.na(var_num)
   ) %>%
-  group_by(region) %>%
+  group_by(region, holc_grade) %>%
   dplyr::summarize(
     c1 = mean(var_num, na.rm = TRUE),
     n = dplyr::n()
@@ -362,7 +362,6 @@ ads_null <- NULL
 for(i in unique(c("MW", "NE", "S", "W"))){
   for(j in unique(c("A", "B", "C", "D"))){
     
-    tryCatch({
       temp <- ads_prep %>%
         filter(is.na(var_num) & region == i & holc_grade == j) %>%
         mutate(
@@ -390,8 +389,6 @@ for(i in unique(c("MW", "NE", "S", "W"))){
         ) 
       
       ads_null <- bind_rows(ads_null, temp)
-      
-    }, error = function(e){})
     
   }
   
@@ -400,7 +397,7 @@ for(i in unique(c("MW", "NE", "S", "W"))){
 ads_null  # inspect
 
 ## check for null
-#ads_null %>% filter(is.na(var_num)) %>% View()
+ads_null %>% filter(is.na(var_num))
 
 
 ##--------------------------------------------------------

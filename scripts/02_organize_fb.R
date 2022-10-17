@@ -401,7 +401,6 @@ ads_null <- NULL
 for(i in unique(c("MW", "NE", "S", "W"))){
   for(j in unique(c("A", "B", "C", "D"))){
     
-    tryCatch({
     temp <- ads_prep %>%
       filter(is.na(var_num) & region == i & holc_grade == j) %>%
       mutate(
@@ -425,7 +424,7 @@ for(i in unique(c("MW", "NE", "S", "W"))){
               !str_detect(var, regex("some", ignore_case = TRUE)) &
               !str_detect(var, regex("small", ignore_case = TRUE)) &
               !str_detect(var, regex("negligible", ignore_case = TRUE)) &
-              !str_detect(var, regex("substantial", ignore_case = TRUE)) ~ yes$c1[yes$region == i],
+              !str_detect(var, regex("substantial", ignore_case = TRUE)) ~ yes$c1[yes$region == i & yes$holc_grade == j],
             is.na(var_num) & str_detect(var, regex("native|american", ignore_case = T)) ~ 0,
             is.na(var_num) & str_detect(var, regex("none few", ignore_case = T)) ~ 2,
             TRUE ~ var_num
@@ -437,7 +436,6 @@ for(i in unique(c("MW", "NE", "S", "W"))){
     ads_null <- bind_rows(ads_null, temp)
     ## Remaining NAs --> Name only nationality, provide no number (need interpolation w/ census data)
     
-    }, error = function(e){})
   }
   
 }
