@@ -152,16 +152,16 @@ OH,Youngstown,Youngstown,42,1,MW,10/1/1937,late37
 OK,Oklahoma City,Oklahoma City,90,0,S,none,none
 OK,Tulsa,Tulsa,21,0,S,none,none
 OR,Portland,Portland,92,0.97826087,W,10/1/1937,late37
-PA,Altoona,Altoona,30,1,NE,8/26/1937,early37
+PA,Altoona,Altoona,30,1,MW,8/26/1937,early37
 PA,Bethlehem,Bethlehem,23,0,NE,none,none
 PA,Chester,Chester,21,0,NE,none,none
-PA,Erie,Erie,47,1,NE,8/26/1937,early37
+PA,Erie,Erie,47,1,MW,8/26/1937,early37
 PA,Harrisburg,Harrisburg,48,0,NE,none,none
-PA,Johnstown,Johnstown,35,1,NE,8/26/1937,early37
+PA,Johnstown,Johnstown,35,1,MW,8/26/1937,early37
 PA,Lancaster,Lancaster,33,0,NE,none,none
-PA,New Castle,New Castle,26,1,NE,8/26/1937,early37
+PA,New Castle,New Castle,26,1,MW,8/26/1937,early37
 PA,Philadelphia,Philly-Camden,82,0.975609756,NE,2/3/1937,early37
-PA,Pittsburgh,Pittsburgh,114,1,NE,8/26/1937,early37
+PA,Pittsburgh,Pittsburgh,114,1,MW,8/26/1937,early37
 PA,Wilkes-Barre,Wilkes-Barre,22,0,NE,none,none
 PA,York,York,27,1,NE,unique,unique
 RI,Pawtucket & Central Falls,Providence Co.,17,0,NE,none,none
