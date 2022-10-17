@@ -19,7 +19,7 @@ If users wish to run the code in the `scripts` folder, they should delete the `D
 The codebook for the .csv and .xlsx output tables is provided in the `scripts` folder and in the associated writeup available at [Open Science Framework](https://osf.io/qytj8/).
 
 # Correspondence
-For any issues with these scripts, please [create an issue](https://github.com/snmarkley1/HOLC_ADS/issues).
+If you run into any problems with this repository, please [create an issue](https://github.com/snmarkley1/HOLC_ADS/issues).
 
 ## License
 The data collected and presented are licensed under the [Creative Commons Attribution 4.0 International license](https://creativecommons.org/licenses/by/4.0/), and the underlying code used to format, analyze, and display that content is licensed under the [MIT license](http://opensource.org/licenses/mit-license.php).
