@@ -29,6 +29,7 @@ IL_Chicago_B128,0,0,
 IL_Chicago_B129,0,0,
 IL_Chicago_B130,0,0,
 IL_Chicago_B131,0,0,
+IL_Chicago_B36,0,0,
 IL_Chicago__B63,0,0,
 IL_Chicago_C167,0,25,Bohemian and mixed
 IL_Chicago_C168,0,60,Bohemian
@@ -206,9 +207,10 @@ IL_Chicago_D98,0,75,Polish - Lithuanian - Italian
 IL_Chicago_D99,0,20,Polish
 IL_Aurora_C5,0,5.41,Few
 NY_Queens_D35,0,37,Scandanavian
-OR_Portland_D4,85,25,"25 125 Japanese, 30 Chinese, 35 Filipinos"
-OR_Portland_D6,150,20,"20 85 Chinese, 60 Filipinos, 100 Japanese"
-OR_Portland_D8,30,35,"35 Orientals 750 Chinese, 250 Japanese, 35 Filipinos"
+OR_Portland_D4,11.18,25,"25 125 Japanese, 30 Chinese, 35 Filipinos"
+OR_Portland_D5,23.8,25,Italian - 60 Chinese 20 Japanese 25 Filipinos
+OR_Portland_D6,12.24,20,"20 85 Chinese, 60 Filipinos, 100 Japanese"
+OR_Portland_D8,1.01,35,"35 Orientals 750 Chinese, 250 Japanese, 35 Filipinos"
 WA_Tacoma_D6,1,10,Mixed South. European
 CA_LosAngeles_D22,10,50,Mexican
 CA_LosAngeles_D27,2,110,Mexicans & Japanese
