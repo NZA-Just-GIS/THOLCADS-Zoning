@@ -28,7 +28,7 @@ Data housed in this folder are produced partially or wholly from manual processe
 - `others_fix.csv` - contains corrected entries for the repair (**repair**) and mortgage availability (**mort_av_buy**) variables, as well as for two other variables not used in this data&mdash;sales demand and the trend of desirability&mdash;for 94 neighborhoods that were read incorrectly by the OCR process.
 
 # Correspondence
-For any issues with these scripts, please [create an issue](https://github.com/[removed]/HIST_HU_URB/issues).
+For any issues with these tables, please [create an issue](https://github.com/[removed]/HIST_HU_URB/issues).
 
 ## License
 The data collected and presented are licensed under the [Creative Commons Attribution 4.0 International license](https://creativecommons.org/licenses/by/4.0/), and the underlying code used to format, analyze, and display that content is licensed under the [MIT license](http://opensource.org/licenses/mit-license.php).
