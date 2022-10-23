@@ -109,7 +109,7 @@ HOLC <- holc_join %>%
 
 
 ## Set HOLC colors
-palette <- c("#4daf4a", "#377eb8", "#F1C40F", "#C0392B")
+palette <- c("#4daf4a", "#377eb8", "#F1C40F", "#C0392B", "gray60")
 
 
 ## Create interactive map
