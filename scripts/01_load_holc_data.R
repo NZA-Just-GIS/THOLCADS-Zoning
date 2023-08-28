@@ -28,7 +28,7 @@ dir.create("DATA_DOWNLOAD")
 #downloader::download(url = u, destfile = "tables/holc_json.GeoJSON")  # save locally in tables folder
 
 ## For once data is saved locally
-holc_json <- rgdal::readOGR("tables/holc_json.GeoJSON")  # import
+holc_json <- st_read("tables/holc_json.GeoJSON")  # import
 summary(holc_json)  # inspect
 
 
