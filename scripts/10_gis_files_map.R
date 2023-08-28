@@ -19,7 +19,7 @@ source("scripts/00_preamble.R")
 ##  GeoJSON Import
 ##-----------------------------------------------------
 
-holc_json <- rgdal::readOGR("tables/holc_json.GeoJSON")  # import
+holc_json <- st_read("tables/holc_json.GeoJSON")  # import
 summary(holc_json)  # inspect
 
 
@@ -137,7 +137,9 @@ mapviewOptions(fgb = FALSE)
     zcol = "N'hood Grade",  # data to display
     col.regions = palette,  # colors to display
     lwd = 1.5  # line width
- )
+ )@map %>% 
+   # set zoom on NYC
+   setView(lng = -73.98743, lat = 40.7743, zoom = 10)
  
 ## Save out as HTML
  mapshot(
