@@ -22,7 +22,7 @@ for(i in seq(1:3)){
   )
   
   # occupation (occupation)
-  if(temp$ads_type == "x3940"){
+  if(i == 3){
     
     ads3940 <- temp %>%
       dplyr::select(unique_id, ads_type, occupation) %>%

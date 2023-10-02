@@ -113,14 +113,16 @@ palette <- c("#4daf4a", "#377eb8", "#F1C40F", "#C0392B", "gray60")
 
 
 ## Create interactive map
-mapview(
+map1 <- mapview(
   HOLC,  # geo file
   alpha.regions = 0.5,  # polygon transparency
   zcol = "N'hood Grade",  # data to display
   col.regions = palette,  # colors to display
-  lwd = 1.5  # line width
+  lwd = 1.5,  # line width
+  zoom = 5
   )
 
+map1@map %>% setView(lng = -73.98743, lat = 40.7743, zoom = 10)
 
 
 ##----------------------------------------------------

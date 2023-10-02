@@ -26,7 +26,7 @@ for(i in seq(1,3)){
   )
   
   # occupation (occupation)
-  if(temp$ads_type == "early37"){
+  if(i == 1){
     
     temp1 <- temp %>%
       dplyr::select(unique_id, ads_type, inh_type) %>%

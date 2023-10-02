@@ -40,6 +40,6 @@ packages(openxlsx)  # for reading/writing files as Excel workbooks
 packages(mapview)
 packages(strex)  # for str_after_nth command
 packages(downloader)
-packages(leaflet)  # for setView
+packages(leaflet)
 require(dplyr)
 

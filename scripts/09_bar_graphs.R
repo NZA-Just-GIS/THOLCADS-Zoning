@@ -210,6 +210,11 @@ print(prow2)
 dev.off()
 
 
+png("DATA_DOWNLOAD/BAR_GRAPHS/fourplots.png", width = 800, height = 600)
+print(prow2)
+dev.off()
+
+
 ##############################################################
 ##  Make Bar Graph for % FB Nationality Breakdowns
 ##############################################################
@@ -335,6 +340,11 @@ print(g1)
 dev.off()
 
 
+png("DATA_DOWNLOAD/BAR_GRAPHS/fb_graph.png", width = 825, height = 600)
+print(g1)
+dev.off()
+
+
 
 ##-----------------------------------------------------
 ## Second graph -- order by # of neighborhoods
@@ -455,10 +465,10 @@ g3 <- blk_graph %>%
   # adjust text
   theme(
     axis.title = element_text(size = 13.5),
-    axis.text = element_text(size = 11),
+    axis.text = element_text(size = 11.5),
     axis.text.x = element_text(angle = 45, vjust = 1.15, hjust = 1.1),
     legend.title = element_text(size = 13.5),
-    legend.text = element_text(size = 11)
+    legend.text = element_text(size = 11.5)
   )
 
 
@@ -470,6 +480,11 @@ blk_graph %>%
   group_by(black) %>%
   dplyr::summarize(n = base::sum(n)) %>%
   print()
+
+png("DATA_DOWNLOAD/BAR_GRAPHS/blk_graph.png", width = 750, height = 500)
+print(g3)
+dev.off()
+
 
 
 ##--------------------------------------------------------------
@@ -724,6 +739,10 @@ print(qual_charts)
 dev.off()
 
 
+## Save out as a PNG
+png("DATA_DOWNLOAD/BAR_GRAPHS/qual_charts.png", width = 900, height = 450)
+print(qual_charts)
+dev.off()
 
 
 ## Save out as individual TIFFs

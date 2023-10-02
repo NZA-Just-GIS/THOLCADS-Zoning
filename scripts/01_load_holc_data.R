@@ -425,3 +425,72 @@ openxlsx::write.xlsx(
   "DATA_DOWNLOAD/TABLES/ADS_organized.xlsx"
   )
 
+
+
+############################################################
+##----------------------------------------------------------
+##
+##    Word cloud!!
+##
+##----------------------------------------------------------
+############################################################
+
+
+## load word cloud packages
+packages(wordcloud)
+packages(RColorBrewer)
+packages(wordcloud2)
+packages(tm)
+
+d_text <- NULL
+for(i in 1:length(df_list)){
+  
+  temp <- df_list[[i]] %>%
+    filter(holc_grade == "C") %>%
+    dplyr::select(remarks)
+  
+  d_text <- rbind(d_text, temp)
+  
+}
+
+docs <- Corpus(VectorSource(d_text))
+
+docs <- docs %>%
+  tm_map(tolower) %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stripWhitespace) %>%
+  tm_map(removeWords, stopwords("english"))
+
+#docs <- tm_map(docs, content_transformer(tolower))
+#docs <- tm_map(docs, removeWords, stopwords("english"))
+
+dtm <- TermDocumentMatrix(docs) 
+matrix <- as.matrix(dtm) 
+words <- sort(rowSums(matrix), decreasing = TRUE) 
+
+df <- data.frame(word = names(words), freq = words) %>%
+  filter(!word %in% c(
+    "area", "section", "houses", "homes", "house", "home", "ago", "somewhat",
+    "part", "along", "areas", "will", "per", "number", "many", "although", "grade"
+  )
+  )
+
+set.seed(1000)
+
+wordcloud(
+  words = df$word,
+  freq = df$freq, min.freq = 60,
+  max.words = 70,
+  random.order = FALSE,
+  rot.per = 0.35,
+  #colors = "#C0392B",  # red
+  colors = "#F1C40F",  # yellow
+  #colors = "#377eb8", # blue
+  #colors = "#4daf4a",  # green
+  scale = c(3.5, 0.18)
+)
+
+
+#wordcloud2(data = df, size = 1.6, color = "random-dark")
+
