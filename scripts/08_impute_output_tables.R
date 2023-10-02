@@ -121,6 +121,11 @@ df_clean <- df %>%
   # fix age --> all zeros become 0.5
   mutate(MID_AGE = ifelse(MID_AGE < 0.5, 0.5, MID_AGE)) %>%
   distinct() %>%
+  # fix NA Black (NA = 0)
+  mutate(
+    P_BLACK = ifelse(is.na(P_BLACK), 0, P_BLACK),
+    P_FB = ifelse(is.na(P_FB) & is.na(FB_GROUP), 0, P_FB)
+  ) %>%
   glimpse()
 
 
@@ -169,6 +174,7 @@ summary(reg1)
 ggdensity(residuals(reg1))
 
 
+
 ## remove outlier residuals
 df_clean3 <- df_clean2 %>%
   mutate(
@@ -178,6 +184,7 @@ df_clean3 <- df_clean2 %>%
   ) %>%
   filter(outs == 0) %>%
   print()
+
 
 
 ## regression 2 --> removed residual outliers
@@ -372,7 +379,7 @@ df_clean1 <- df_clean %>%
 
 ## remove residual outliers
 reg_age <- lm(
-  log(MID_INC) ~
+  log(MID_AGE) ~
     STATE +
     OCC_CLASS +
     HOLC_GRADE +
