@@ -21,7 +21,7 @@ The codebook for the .csv and .xlsx output tables is provided in the `scripts` f
 # Correspondence
 If you run into any problems with this repository, please [create an issue](https://github.com/snmarkley1/HOLC_ADS/issues).
 
-## Acknowledgment
+## Acknowledgments
 I would like to extend thanks to the Leventhal Map & Education Center at the Boston Public Library for featuring this dataset on [their website](https://data.leventhalmap.org/#/catalog/dkyajewyh). Additioannly, I thank Jacob Faber for pointing out some errors with the Building Age variable, which were corrected on October 2, 2023.
 
 ## License
