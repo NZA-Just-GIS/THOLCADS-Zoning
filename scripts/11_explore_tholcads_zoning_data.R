@@ -103,14 +103,50 @@ stage1_det_inf <- classify_stage1(ADS_combo$det_inf)
 stage1_remarks <- classify_stage1(ADS_combo$remarks)
 
 ## Adds columns needed for analysis
-stage1_fav_inf$city <- ADS_combo$city
-stage1_fav_inf$metro <- ADS_combo$metro
-stage1_fav_inf$holc_grade <- ADS_combo$holc_grade
+#for loop that loops through the 3 newly created data frames and adds city, metro, and holc grade columns
+stage1_list <- list(stage1_fav_inf, stage1_det_inf, stage1_remarks)
+
+# Iterate over the list using an index to modify the original data frames
+for (i in seq_along(stage1_list)) {
+  stage1_list[[i]]$city       <- ADS_combo$city
+  stage1_list[[i]]$metro      <- ADS_combo$metro
+  stage1_list[[i]]$holc_grade <- ADS_combo$holc_grade
+}
+
+# Assign back the modified data frames
+stage1_fav_inf  <- stage1_list[[1]]
+stage1_det_inf  <- stage1_list[[2]]
+stage1_remarks  <- stage1_list[[3]]
 
 ## Apply second round classification 
-zoning_texts <- stage1_fav_inf[stage1_fav_inf$predicted_class == "zoning", ]
-stage2_results <- classify_stage2(zoning_texts$text)
-zoning_texts$zoning_subtype <- stage2_results$zoning_subtype
+apply_stage2 <- function(stage1_df) {
+  zoning_texts <- stage1_df[stage1_df$predicted_class == "zoning", ]
+  if (nrow(zoning_texts) > 0) {
+    stage2_results <- classify_stage2(zoning_texts$text)
+    zoning_texts$zoning_subtype <- stage2_results$zoning_subtype
+    stage1_df[stage1_df$predicted_class == "zoning", "zoning_subtype"] <- zoning_texts$zoning_subtype
+  }
+  return(stage1_df)
+}
+
+stage2_fav_inf <- apply_stage2(stage1_fav_inf)
+stage2_det_inf <- apply_stage2(stage1_det_inf)
+stage2_remarks  <- apply_stage2(stage1_remarks)
+
+#for loop that loops through the 3 newly created data frames and adds city, metro, and holc grade columns
+stage2_list <- list(stage2_fav_inf, stage2_det_inf, stage2_remarks)
+
+# Iterate over the list using an index to modify the original data frames
+for (i in seq_along(stage2_list)) {
+  stage2_list[[i]]$city       <- ADS_combo$city
+  stage2_list[[i]]$metro      <- ADS_combo$metro
+  stage2_list[[i]]$holc_grade <- ADS_combo$holc_grade
+}
+
+# Assign back the modified data frames
+stage2_fav_inf  <- stage2_list[[1]]
+stage2_det_inf  <- stage2_list[[2]]
+stage2_remarks  <- stage2_list[[3]]
 
 
 ## Looks at subgroups and generates counts
@@ -128,36 +164,45 @@ records_with_zoning <- data.frame(
   remarks_zoning = sum(stage1_remarks$predicted_class == "zoning")
 )
 
+# Filter the stage1 data frames based on zoning mentions
+stage1_fav_inf_zoning <- stage1_fav_inf[stage1_fav_inf$predicted_class == "zoning", ]
+stage1_det_inf_zoning <- stage1_det_inf[stage1_det_inf$predicted_class == "zoning", ]
+stage1_remarks_zoning <- stage1_remarks[stage1_remarks$predicted_class == "zoning", ]
+
+# Add the corresponding zoning_subtype columns from stage2 data frames
+stage1_fav_inf_zoning$zoning_subtype <- stage2_fav_inf$zoning_subtype[match(stage1_fav_inf_zoning$text, stage2_fav_inf$text)]
+stage1_det_inf_zoning$zoning_subtype <- stage2_det_inf$zoning_subtype[match(stage1_det_inf_zoning$text, stage2_det_inf$text)]
+stage1_remarks_zoning$zoning_subtype <- stage2_remarks$zoning_subtype[match(stage1_remarks_zoning$text, stage2_remarks$text)]
+
+# Combine the data frames
+zoning_rows <- dplyr::bind_rows(
+  stage1_fav_inf_zoning,
+  stage1_det_inf_zoning,
+  stage1_remarks_zoning
+)
+
+
 ## Creates summary statistics based on city, metro and holc grade.
-# Currently its just copy and paste but this can probably be written as a for loop
+#Currently its just copy and paste but this can probably be written as a for loop
 # City summary
-city_summary <- zoning_texts |>
+city_summary <- zoning_rows |>
   group_by(city) |>
   summarise(
     total_zoning = n(),
-    increasing = sum(zoning_subtype == "increasing zoning restrictions"),
-    decreasing = sum(zoning_subtype == "decreasing/excluding zoning restrictions"),
-    stating = sum(zoning_subtype == "stating zoning restrictions")
+    increasing   = sum(zoning_subtype == "increasing zoning restrictions", na.rm = TRUE),
+    decreasing   = sum(zoning_subtype == "decreasing/excluding zoning restrictions", na.rm = TRUE),
+    stating      = sum(zoning_subtype == "stating zoning restrictions", na.rm = TRUE)
   )
 
-# Metro summary
-metro_summary <- zoning_texts |>
-  group_by(metro) |>
-  summarise(
-    total_zoning = n(),
-    increasing = sum(zoning_subtype == "increasing zoning restrictions"),
-    decreasing = sum(zoning_subtype == "decreasing/excluding zoning restrictions"),
-    stating = sum(zoning_subtype == "stating zoning restrictions")
-  )
 
 # HOLC grade summary
 holc_summary <- zoning_texts |>
   group_by(holc_grade) |>
   summarise(
     total_zoning = n(),
-    increasing = sum(zoning_subtype == "increasing zoning restrictions"),
-    decreasing = sum(zoning_subtype == "decreasing/excluding zoning restrictions"),
-    stating = sum(zoning_subtype == "stating zoning restrictions")
+    increasing   = sum(zoning_subtype == "increasing zoning restrictions", na.rm = TRUE),
+    decreasing   = sum(zoning_subtype == "decreasing/excluding zoning restrictions", na.rm = TRUE),
+    stating      = sum(zoning_subtype == "stating zoning restrictions", na.rm = TRUE)
   )
 
 
@@ -181,14 +226,15 @@ detailed_results <- data.frame(
   remarks_zoning_score = stage1_remarks$zoning_score
 )
 
+
 # Save all results to Excel
 write_xlsx(list(
   "Detailed_Classifications" = detailed_results,
   "Records_with_Zoning" = records_with_zoning,
   "City_Summary" = city_summary,
-  "Metro_Summary" = metro_summary,
+  # "Metro_Summary" = metro_summary,
   "HOLC_Summary" = holc_summary
-), "zoning_analysis_results4.xlsx")
+), "zoning_analysis_results5.xlsx")
 
 ## Create and save Word document
 doc <- read_docx()
@@ -208,7 +254,7 @@ doc <- doc |>
   body_add_table(holc_summary,  style = "table_template")
 
 # Save Word document
-print(doc, target = "zoning_analysis_results4.docx")
+print(doc, target = "zoning_analysis_results5.docx")
 
 #End timer
 end_time <- Sys.time()
